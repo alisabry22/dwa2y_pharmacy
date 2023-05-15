@@ -1,0 +1,98 @@
+{
+  "project_info": {
+    "project_number": "104216248112",
+    "project_id": "dwa2y-3cb9f",
+    "storage_bucket": "dwa2y-3cb9f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:104216248112:android:f9dcb013a188856af6d2f5",
+        "android_client_info": {
+          "package_name": "com.example.dwa2y"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "104216248112-aemfpouq12hfuaerrfdr4o913bsq0g8m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.dwa2y",
+            "certificate_hash": "74f76f69664de992ba7b55cb6702219ca50926d8"
+          }
+        },
+        {
+          "client_id": "104216248112-fh724kd19ng0nremfelndvfiql9rmsvr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.dwa2y",
+            "certificate_hash": "5fe235e3cced239f80346bb0fc0871e1a0ce2207"
+          }
+        },
+        {
+          "client_id": "104216248112-faehjr2sftlgi0farl1c7rc7pdhg9spl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEUhNhAlTVL6DjXYrSuaHAQLW1ftm1h1U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "104216248112-faehjr2sftlgi0farl1c7rc7pdhg9spl.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "104216248112-9flikiicaclj101hmqt5ealfv1gorsni.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.dwa2y"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:104216248112:android:18251dc833a0bd58f6d2f5",
+        "android_client_info": {
+          "package_name": "com.example.dwa2y_pharmacy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "104216248112-faehjr2sftlgi0farl1c7rc7pdhg9spl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEUhNhAlTVL6DjXYrSuaHAQLW1ftm1h1U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "104216248112-faehjr2sftlgi0farl1c7rc7pdhg9spl.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "104216248112-9flikiicaclj101hmqt5ealfv1gorsni.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.dwa2y"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
