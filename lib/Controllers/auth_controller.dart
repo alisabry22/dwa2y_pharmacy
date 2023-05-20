@@ -1,26 +1,31 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dwa2y_pharmacy/Controllers/home_controller.dart';
+import 'package:dwa2y_pharmacy/Controllers/notification_controller.dart';
 import 'package:dwa2y_pharmacy/Models/address_model.dart';
 import 'package:dwa2y_pharmacy/Models/pharmacy_model.dart';
 import 'package:dwa2y_pharmacy/Screens/AuthScreens/login_screen.dart';
+import 'package:dwa2y_pharmacy/Utils/Constants/constants.dart';
 import 'package:dwa2y_pharmacy/dashboard.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../myaddress.dart';
 import 'location_controller.dart';
 
 class AuthController extends GetxController {
   late Rx<User?> currentUser;
   Rx<TextEditingController> emailController = TextEditingController().obs;
   Rx<TextEditingController> passwordController = TextEditingController().obs;
-
+  StreamSubscription? listener;
   //sign up attributes
 
   //TextEditing Controllers for Signup screen
@@ -35,12 +40,12 @@ class AuthController extends GetxController {
   RxBool obscurepassword = true.obs;
   Rx<PharmacyModel> currentLoggedInPharmacy =PharmacyModel(lat: 0.0, long: 0.0).obs;
   Rx<AddressModel> addressModel = AddressModel(
-          addressTitle: "",
+          street: "",
           googleAddress: "",
           lat: 0.0,
           long: 0.0,
-          phone: "",
-          label: "")
+          nearby: "",
+          apartmentNumber: "")
       .obs;
   /////////////////////////////////////
   late SharedPreferences sharedprefs;
@@ -55,11 +60,26 @@ class AuthController extends GetxController {
     currentUser = Rx<User?>(FirebaseAuth.instance.currentUser);
     currentUser.bindStream(FirebaseAuth.instance.authStateChanges());
     ever(currentUser, _routeUser);
-    getCurrentLoggedInUserData();
     sharedprefs = await SharedPreferences.getInstance();
   }
 
- 
+   Future showAddressDialog()async{
+      await Get.defaultDialog(
+        barrierDismissible: false,
+        title: "Add First Address",
+        content: const Text("You Need To Add Your first Address "),
+        confirm: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+             backgroundColor: Constants.btnColor,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10)),
+          ),
+          onPressed: (){
+          Get.off(()=>const  MyAddresses());
+         
+        }, child: Text("Add Address",style: GoogleFonts.poppins(fontSize:16,color: Colors.white),)),
+      );
+     }
 
   _routeUser(User? user) async{
     if (user != null) {
@@ -67,6 +87,8 @@ class AuthController extends GetxController {
       await FirebaseFirestore.instance.collection("pharmacies").doc(user.uid).get().then((value) {
         currentLoggedInPharmacy.value=PharmacyModel.fromDocumentSnapshot(value);
       });
+      getCurrentLoggedInUserData();
+     await Get.find<NotificationController>().getToken();
     } else {
       Get.offAll(() => LoginScreen());
     }
@@ -100,7 +122,7 @@ class AuthController extends GetxController {
 
   //log in
   Future signInMethod() async {
-    showDialog();
+    showLoadingDialog();
     try {
       final usercredintial = await FirebaseAuth.instance
           .signInWithEmailAndPassword(
@@ -127,19 +149,19 @@ class AuthController extends GetxController {
       username: usernameController.value.text,
       phone: phoneController.value.text,
       countrycode: countrycode.value,
-      token: "",
-
+      token:"",
       profileImageLink: photolink,
       email: emailController.value.text.trim(),
       lat: locationController.lat.value,
       long: locationController.long.value,
       createdAt: DateTime.now().toLocal().toString(),
       updatedAt: DateTime.now().toLocal().toString(),
-      addresses: [],
+      
     );
-    Get.back();
+   
     final jsonMap = currentLoggedInPharmacy.value.pharmacyModeltoJson();
     await usersCollection.doc(userId).set(jsonMap);
+     await Get.find<NotificationController>().getToken();
   }
 
   //upload profile image to Firebase Storage
@@ -158,9 +180,10 @@ class AuthController extends GetxController {
 
   //save in firebasefirestore
   Future saveWholeDataInDatabase() async {
-    showDialog();
+    showLoadingDialog();
     String photourl = await uploadImageToDatabase();
     await saveDataInFirebase(photourl);
+    Get.back();
     //clear text fields
     usernameController.value.clear();
     emailController.value.clear();
@@ -171,7 +194,7 @@ class AuthController extends GetxController {
   }
 
   //loading dialog
-  void showDialog() {
+  void showLoadingDialog() {
     Get.dialog(
       Dialog(
         child: Padding(
@@ -192,16 +215,18 @@ class AuthController extends GetxController {
   }
 
   Future logout() async {
-    Get.delete<HomeController>();
+    if(listener!=null){
+      await listener!.cancel();
+    }
+   await Get.delete<HomeController>();
     await FirebaseAuth.instance.signOut();
   }
 
   getCurrentLoggedInUserData()async{
 
     if(currentUser.value!=null){
-    FirebaseFirestore.instance.collection("pharmacies").doc(currentUser.value!.uid).snapshots().listen((event) {
+  listener=  FirebaseFirestore.instance.collection("pharmacies").doc(currentUser.value!.uid).snapshots().listen((event) {
         if(event.exists){
-
           currentLoggedInPharmacy.value=PharmacyModel.fromDocumentSnapshot(event);
           currentLoggedInPharmacy.refresh();
 
@@ -209,4 +234,22 @@ class AuthController extends GetxController {
       });
     }
   }
+   Future <bool> checkLocationNotEmpty()async{
+      //get Current Location
+
+             final locationController = Get.find<LocationController>();
+             await locationController.checkLocationServices();
+             log(locationController.lat.value.toString());
+    if(locationController.lat.value!=0.0&& locationController.long.value!=0.0){
+      return true;
+  
+      }else {
+            return false;
+      }
+      
+  
+  
+   
+  
+}
 }

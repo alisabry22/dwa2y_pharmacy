@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dwa2y_pharmacy/Models/prescription_model.dart';
+import 'package:dwa2y_pharmacy/Models/user_model.dart';
 
 import 'package:dwa2y_pharmacy/order_details.dart';
 import 'package:flutter/material.dart';
@@ -51,13 +52,12 @@ class Notifications extends GetView<NotificationController> {
                               child: SizedBox(
                                 child: InkWell(
                                   onTap: ()async{
-                              
-                                  await controller.getUserCreatedOrder(order.userMadeOrder!);
-                                    Get.to(()=>OrderDetails(orderid: order.orderid!, usercreatedOrder: controller.userCreatedOrder.value,order: order,));
+                                 await controller.getUserCreatedOrder(order.userMadeOrder!);
+                                    Get.to(()=>OrderDetails(orderid: order.orderid!, usercreatedOrder: controller.userCreatedOrder.value));
                                   },
                                   child: Ink(
                                     child: ListTile(
-                                      leading: CircleAvatar(backgroundImage: CachedNetworkImageProvider(order.pickedImages![0]),),
+                                      leading:order.pickedImages!=null&&order.pickedImages!.isNotEmpty? CircleAvatar(backgroundImage: CachedNetworkImageProvider(order.pickedImages![0]),):const CircleAvatar(backgroundImage:  AssetImage("assets/images/patient.png"),),
                                       title: const Text("Order Request"),
                                       trailing: const Text("Tap To View"),
                                     ),

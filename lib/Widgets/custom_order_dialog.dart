@@ -1,4 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dwa2y_pharmacy/Utils/Constants/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
@@ -22,176 +24,249 @@ class CustomOrderDialog extends GetView<NotificationController> {
       required this.userCreatedOrder});
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
-      content: StreamBuilder(
-        stream: controller.listenToOrder(controller.orderId.value),
-        builder: (context, snapshot) {
-          if(snapshot.hasData){
-           PrescriptionOrder order=PrescriptionOrder.fromDocumentSnapshot(snapshot.data!);
-            return SingleChildScrollView(
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height * 0.5,
-            width: MediaQuery.of(context).size.width * 0.6,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const CircleAvatar(
-                  child: Center(
-                      child: Icon(
-                    Icons.delivery_dining,
-                    size: 35,
-                  )),
-                ),
-                Text(
-                  "New Order For You",
-                  style: GoogleFonts.poppins(
-                      color: Colors.black, fontWeight: FontWeight.w500),
-                ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.1,
-                  width: MediaQuery.of(context).size.width * 0.4,
-                  child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        return Material(
-                          child: InkWell(
-                            splashColor: Colors.grey,
-                            onTap: () {
-                              Get.to(() => EnlargePhoto(
-                                tag: index.toString(),
-                                  photoUrl:
-                                      prescriptionOrder.pickedImages![index]));
-                            },
-                            child: Ink(
-                              child: SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.2,
-                                height: MediaQuery.of(context).size.height * 0.2,
-                                child: Hero(
-                                  tag: index.toString(),
-                                  child: CachedNetworkImage(
-                                    imageUrl:
-                                        prescriptionOrder.pickedImages![index],
-                                    fit: BoxFit.cover,
+    return StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+      stream:  controller.listenToOrder(controller.orderId.value),
+      builder: (context, snapshot) {
+        if(snapshot.connectionState==ConnectionState.waiting){
+          return Container();
+        }else if (snapshot.connectionState==ConnectionState.active){
+          if(snapshot.hasData && snapshot.data!.exists){
+            PrescriptionOrder order=PrescriptionOrder.fromDocumentSnapshot(snapshot.data!);
+                  return AlertDialog(
+          
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          content: 
+        
+                 SingleChildScrollView(
+                  reverse: true,
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height * 0.7,
+                width: MediaQuery.of(context).size.width * 0.6,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const CircleAvatar(
+                      child: Center(
+                          child: Icon(
+                        Icons.delivery_dining,
+                        size: 35,
+                      )),
+                    ),
+                    Text(
+                      "New Order For You",
+                      style: GoogleFonts.poppins(
+                          color: Colors.black, fontWeight: FontWeight.w500),
+                    ),
+                  prescriptionOrder.pickedImages!=null && prescriptionOrder.pickedImages!.isNotEmpty?  SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.1,
+                      width: MediaQuery.of(context).size.width * 0.4,
+                      child: ListView.separated(
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            return Material(
+                              child: InkWell(
+                                splashColor: Colors.grey,
+                                onTap: () {
+                                  Get.to(() => EnlargePhoto(
+                                    tag: index.toString(),
+                                      photoUrl:
+                                          prescriptionOrder.pickedImages![index]));
+                                },
+                                child: Ink(
+                                  child: SizedBox(
+                                    width: MediaQuery.of(context).size.width * 0.2,
+                                    height: MediaQuery.of(context).size.height * 0.15,
+                                    child: Hero(
+                                      tag: index.toString(),
+                                      child: CachedNetworkImage(
+                                        imageUrl:prescriptionOrder.pickedImages![index],
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ),
-                        );
-                      },
-                      separatorBuilder: (context, index) {
-                        return const SizedBox(
-                          width: 10,
-                        );
-                      },
-                      itemCount: prescriptionOrder.pickedImages!.length),
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    const Icon(
-                      FontAwesomeIcons.locationDot,
-                      color: Colors.blue,
+                            );
+                          },
+                          separatorBuilder: (context, index) {
+                            return const SizedBox(
+                              width: 10,
+                            );
+                          },
+                          itemCount: prescriptionOrder.pickedImages!.length)
+                    ):Container(),
+                    const SizedBox(
+                      height: 10,
                     ),
-                    Expanded(
-                      child: Text(
-                        " ${userCreatedOrder.addresses![userCreatedOrder.defaultAddressIndex!].addressTitle} ",
-                                        softWrap: true,
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                          prescriptionOrder.text!=null && prescriptionOrder.text!.isNotEmpty? SizedBox(
+                            width: MediaQuery.of(context).size.width*0.6,
+                            height: MediaQuery.of(context).size.height*0.1,
+                         
+                            child: Text(
+                              "Required Medicine: ${prescriptionOrder.text} ",
+                                              softWrap: true,
+                                              style: GoogleFonts.poppins(fontSize: 14,color: Constants.textColor),
+                                              
+                            ),
+                          ):Container(),
+                                 const SizedBox(
+                      height: 15,
+                    ),
+                      Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        const Icon(
+                          FontAwesomeIcons.locationDot,
+                          color: Colors.blue,
+                        ),
+                        Expanded(
+                          child: Text(
+                            " ${prescriptionOrder.userAddress!.street} ",
+                                            softWrap: true,
+                          ),
+                        ),
+                      ],
+                    ),
+                      ],
+                    ),
+    
+                 
+                     
+    
+                  
+                    Text(
+                      "Phone Number: ${userCreatedOrder.phone!}",
+                      style: GoogleFonts.openSans(fontWeight: FontWeight.w500),
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    CustomTextField(
+                      keyboardType: TextInputType.number,
+                        hintText: "Offer him a price",
+          
+                        validator: (p0) {
+                          return null;
+                        },
+                        controller: controller.priceController.value),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    CustomTextField(
+                        hintText: "Notes (like free delivery)",
+          
+                        validator: (p0) {
+                          return null;
+                        },
+                        controller: controller.notestextController.value),
+                         const SizedBox(
+                      height: 20,
+                    ),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Row(
+                        children: [
+                          CustomElevatedButton(
+                              width: 100,
+                              height: 50,
+                              onPressed: () async {
+                                if(order.orderStatus=="Waiting For Delivery"){
+                                     Get.back();
+                                 Get.snackbar("Too Late", "Maybe user got another offer from some one else",snackPosition: SnackPosition.BOTTOM,duration: const Duration(milliseconds: 30));
+                               
+                                }else{
+                                  if (controller.priceController.value.text.isNotEmpty ) {
+          
+                                      //send notification back to user with customized price
+                                  await controller.sendNotificationback(
+                                      controller.orderId.value,
+                                      userCreatedOrder.token!,
+                                      controller.priceController.value.text.trim(),
+                                      FirebaseAuth.instance.currentUser!.uid,
+                                      controller
+                                          .currentLoggedInPharmacy.value.username!,"Offer For Your Order","${controller.currentLoggedInPharmacy.value.username} offers you ${controller.priceController.value}");
+                                  await controller.addtoNotification(
+                                      controller.orderId.value,
+                                      userCreatedOrder.token!,
+                                      userCreatedOrder.userid!,
+                                      controller.priceController.value.text.trim(),
+                                      FirebaseAuth.instance.currentUser!.uid,
+                                      controller
+                                          .currentLoggedInPharmacy.value.username!);
+                                          
+                                Get.back();
+                                }else{
+                                  Get.snackbar("Offer Him Price", "Please Offer Him price for Prescription",snackPosition: SnackPosition.BOTTOM);
+                                }
+                                }
+                                
+          
+                              },
+                              text: "Accept"),
+                          const Spacer(),
+                          CustomElevatedButton(
+                              width: 100,
+                              height: 50,
+                              onPressed: () async {
+                                await controller.sendRejectNotification(controller.orderId.value,  userCreatedOrder.token!,FirebaseAuth.instance.currentUser!.uid,controller
+                                          .currentLoggedInPharmacy.value.username!,"Order Rejected","${controller
+                                          .currentLoggedInPharmacy.value.username!}, rejected Your Order");
+                                await controller.onRejectOrder(controller.orderId.value);
+                                Get.back();
+                              },
+                              text: "Reject"),
+                        ],
                       ),
                     ),
                   ],
                 ),
-                Text(
-                  "Phone Number: ${userCreatedOrder.addresses![userCreatedOrder.defaultAddressIndex!].phone.toString()}",
-                  style: GoogleFonts.openSans(fontWeight: FontWeight.w500),
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                CustomTextField(
-                    hintText: "Offer him a price",
-      
-                    validator: (p0) {
-                      return null;
-                    },
-                    controller: controller.priceController.value),
-                const SizedBox(
-                  height: 20,
-                ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Row(
-                    children: [
-                      CustomElevatedButton(
-                          width: 100,
-                          height: 50,
-                          onPressed: () async {
-                            if(order.orderStatus=="Waiting For Delivery"){
-                                 Get.back();
-                             Get.snackbar("Too Late", "Maybe user got another offer from some one else",snackPosition: SnackPosition.BOTTOM,duration: const Duration(milliseconds: 30));
-                           
-                            }else{
-                              if (controller.priceController.value.text.isNotEmpty ) {
-      
-                                  //send notification back to user with customized price
-                              await controller.sendNotificationback(
-                                  controller.orderId.value,
-                                  userCreatedOrder.token!,
-                                  controller.priceController.value.text.trim(),
-                                  FirebaseAuth.instance.currentUser!.uid,
-                                  controller
-                                      .currentLoggedInPharmacy.value.username!,"Offer For Your Order","${controller.currentLoggedInPharmacy.value.username} offers you ${controller.priceController.value}");
-                              await controller.addtoNotification(
-                                  controller.orderId.value,
-                                  userCreatedOrder.token!,
-                                  userCreatedOrder.userid!,
-                                  controller.priceController.value.text.trim(),
-                                  FirebaseAuth.instance.currentUser!.uid,
-                                  controller
-                                      .currentLoggedInPharmacy.value.username!);
-                                      
-                            Get.back();
-                            }else{
-                              Get.snackbar("Offer Him Price", "Please Offer Him price for Prescription",snackPosition: SnackPosition.BOTTOM);
-                            }
-                            }
-                            
-      
-                          },
-                          text: "Accept"),
-                      const Spacer(),
-                      CustomElevatedButton(
-                          width: 100,
-                          height: 50,
-                          onPressed: () async {
-                            await controller.sendRejectNotification(controller.orderId.value,  userCreatedOrder.token!,FirebaseAuth.instance.currentUser!.uid,controller
-                                      .currentLoggedInPharmacy.value.username!,"Order Rejected","${controller
-                                      .currentLoggedInPharmacy.value.username!}, rejected Your Order");
-                            await controller.onRejectOrder(controller.orderId.value);
-                            Get.back();
-                          },
-                          text: "Reject"),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
+              ),
+            )
         );
+          }
+          
+
+          else 
+        {
+    
+          if(Get.isDialogOpen!){
+
+            Get.back();
+             return Container();
           }else{
             return Container();
           }
-        },
-          
-      ),
-    );
+         
+        }
+        }
+  
+        else 
+        {
+
+          if(Get.isDialogOpen!){
+                
+
+            Get.back();
+             return Container();
+          }else{
+            return Container();
+          }
+         
+        }
+       
+              
+            },
+              
+          );
+        
+      }
+    
   }
-}
+

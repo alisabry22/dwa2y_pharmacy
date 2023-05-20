@@ -38,7 +38,7 @@ class Dashboard extends GetView<DashboardController> {
       },
       screens: const [
         HomeScreen(),
-        MyProducts(),
+
         MyOrders(),
         MyAccountPage(),
       ],
@@ -46,33 +46,18 @@ class Dashboard extends GetView<DashboardController> {
         PersistentBottomNavBarItem(
             icon: const Icon(Icons.home),
             title: "Home",
-            textStyle: GoogleFonts.poppins(fontSize: 12)),
-             PersistentBottomNavBarItem(
-            icon: const Icon(FontAwesomeIcons.productHunt),
-            textStyle: GoogleFonts.poppins(fontSize: 12),
-            title: "My Products"),
+            textStyle: GoogleFonts.poppins(fontSize: 10)),
+   
         PersistentBottomNavBarItem(
      
         
-                                  icon:const Icon(
-                                                    FontAwesomeIcons.cartShopping,
-                                                    
-                                                  
-                                                    shadows: [
-                                                      Shadow(
-                                                          color: Colors.grey,
-                                                          blurRadius: 10)
-                                                    ],
-                                                  ),
-                                
-          
-                     
-            
+                                  icon:const Icon(FontAwesomeIcons.cartPlus,  ),
+
             title: "Orders",
-            textStyle: GoogleFonts.poppins(fontSize: 12)),
+            textStyle: GoogleFonts.poppins(fontSize: 10)),
         PersistentBottomNavBarItem(
-            icon: const Icon(FontAwesomeIcons.solidUser),
-            textStyle: GoogleFonts.poppins(fontSize: 12),
+            icon: const Icon(FontAwesomeIcons.user),
+            textStyle: GoogleFonts.poppins(fontSize: 10),
             title: "MyAccount"),
             
             

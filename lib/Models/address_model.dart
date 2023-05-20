@@ -1,36 +1,42 @@
 class AddressModel{
-  String? addressTitle;
-  String? phone;
+  String? street;
+  String? floor;
+  String? nearby;
+  String? apartmentNumber;
   String ?googleAddress;
 
-String ? label;
   double? lat,long;
 
   
   AddressModel({
-     this.addressTitle,
-     this.phone,
+     this.street,
+     this.apartmentNumber,
+     this.nearby,
+     this.floor,
+     
       this.googleAddress,
-      this.label,
+
      this.lat,
      this.long,
   });
    factory AddressModel.fromJson(Map<String, dynamic> json) {
     return AddressModel(
-        addressTitle: json["AddressTitle"] ?? "",
-        phone: json["Phone"] ?? "",
+        street: json["street"] ?? "",
+        floor: json["floor"] ?? "",
         googleAddress: json["googleAddress"],
-        label: json["label"],
+        nearby: json["nearby"]??"",
+        apartmentNumber: json["apartmentNumber"]??"",
         lat: json["lat"],
         long: json["long"],
         );
   }
 
  Map<String,dynamic> toJson()=>{
-  "AddressTitle":addressTitle,
-  "Phone":phone,
-  "label":label,
+  "street":street,
+  "nearby":nearby,
+  "apartmentNumber":apartmentNumber,
   "googleAddress":googleAddress,
+  "floor":floor,
   "lat":lat,
   "long":long,
    };

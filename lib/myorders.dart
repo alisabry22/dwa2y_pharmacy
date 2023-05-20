@@ -59,8 +59,7 @@ class MyOrders extends GetView<OrderController> {
                                     UserModel usercreatedOrder=UserModel(lat: 0.0, long: 0.0);
                                  usercreatedOrder=   await controller.getUserCreatedOrder(order.userMadeOrder!);
                                  
-                                  await  controller.getOrderDetails(order.orderid!);
-                                    Get.to(()=>OrderDetails(orderid: order.orderid!, usercreatedOrder:usercreatedOrder ,order: order,));
+                                    Get.to(()=>OrderDetails(orderid: order.orderid!, usercreatedOrder:usercreatedOrder ));
                                   },
                                   child: Ink(
                                     child: SizedBox(
@@ -82,11 +81,11 @@ class MyOrders extends GetView<OrderController> {
                                           ),
                                           subtitle: Text("Tap to Accept or refuse",style: GoogleFonts.lora(fontSize:12,fontWeight: FontWeight.w400 )),
                                           trailing: Text(order.orderStatus!),
-                                          leading: CircleAvatar(
-                                              backgroundImage:
-                                                  CachedNetworkImageProvider(
+                                          leading:   order.pickedImages!=null && order.pickedImages!.isNotEmpty? CircleAvatar(
+                                      
+                                                 backgroundImage: CachedNetworkImageProvider(
                                                       order.pickedImages!
-                                                          .first)),
+                                                          .first)):Container(width: 5,),
                                         ),
                                       ),
                                     ),
@@ -102,8 +101,7 @@ class MyOrders extends GetView<OrderController> {
                                     UserModel usercreatedOrder=UserModel(lat: 0.0, long: 0.0);
                                  usercreatedOrder=   await controller.getUserCreatedOrder(order.userMadeOrder!);
                                     log(usercreatedOrder.toString());
-                                    await controller.getOrderDetails(order.orderid!);
-                                    Get.to(()=>OrderDetails(orderid: order.orderid!, usercreatedOrder:usercreatedOrder,order: order, ));
+                                    Get.to(()=>OrderDetails(orderid: order.orderid!, usercreatedOrder:usercreatedOrder));
                                   },
                                   child: Ink(
                                     child: SizedBox(
@@ -125,11 +123,11 @@ class MyOrders extends GetView<OrderController> {
                                           ),
                                           trailing: Text(order.orderStatus!),
                                           subtitle: Text("Tap to View Details",style: GoogleFonts.lora(fontSize:10,fontWeight: FontWeight.w400 ),),
-                                          leading: CircleAvatar(
+                                          leading:order.pickedImages!=null &&order.pickedImages!.isNotEmpty? CircleAvatar(
                                               backgroundImage:
                                                   CachedNetworkImageProvider(
                                                       order.pickedImages!
-                                                          .first)),
+                                                          .first)):Container(width: 5,),
                                         ),
                                       ),
                                     ),
@@ -144,8 +142,7 @@ class MyOrders extends GetView<OrderController> {
                                     UserModel usercreatedOrder=UserModel(lat: 0.0, long: 0.0);
                                  usercreatedOrder=   await controller.getUserCreatedOrder(order.userMadeOrder!);
                                  
-                                  await  controller.getOrderDetails(order.orderid!);
-                                    Get.to(()=>OrderDetails(orderid: order.orderid!, usercreatedOrder:usercreatedOrder,order: order, ));
+                                    Get.to(()=>OrderDetails(orderid: order.orderid!, usercreatedOrder:usercreatedOrder ));
                                   },
                                   child: Ink(
                                     child: SizedBox(
@@ -166,11 +163,11 @@ class MyOrders extends GetView<OrderController> {
                                                 color: Colors.black),
                                           ),
                                           trailing: Text(order.orderStatus!),
-                                          leading: CircleAvatar(
+                                          leading:order.pickedImages!=null && order.pickedImages!.isNotEmpty? CircleAvatar(
                                               backgroundImage:
                                                   CachedNetworkImageProvider(
                                                       order.pickedImages!
-                                                          .first)),
+                                                          .first)): Container(width: 5,),
                                         ),
                                       ),
                                     ),

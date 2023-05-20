@@ -22,7 +22,7 @@ class MyAccountController extends GetxController{
   @override
   void onInit() {
     currentLoggedInPharmacy.value = accountController.currentLoggedInPharmacy.value;
-    if (currentLoggedInPharmacy.value.addresses != null) {
+    if (currentLoggedInPharmacy.value.address != null) {
       accountController.currentLoggedInPharmacy.listen((p0) {
 
         currentLoggedInPharmacy.value = p0;

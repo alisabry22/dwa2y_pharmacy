@@ -11,6 +11,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
 
 import '../Models/placeautocomplete_prediction.dart';
+import '../Widgets/custom_elevated_button.dart';
 
 class GoogleMapServicers extends GetxController {
   final locationController=Get.find<LocationController>();
@@ -21,6 +22,7 @@ class GoogleMapServicers extends GetxController {
   GoogleMapController? mapController;
   RxString fullAddress="".obs;
     RxList<PlaceAutoCompletePrediction> placePredictions=RxList.empty();
+    
 
   RxDouble zoomvalue=14.402209281921387.obs;
     late Position positionSetting;
@@ -149,9 +151,21 @@ class GoogleMapServicers extends GetxController {
 
     Future getCurrentLocation()async {
       
-    positionSetting = await Geolocator.getCurrentPosition(desiredAccuracy:LocationAccuracy.best );
-    latitude.value=positionSetting.latitude;
-    longitude.value=positionSetting.longitude;
+    try {
+  positionSetting = await Geolocator.getCurrentPosition(desiredAccuracy:LocationAccuracy.best );
+  latitude.value=positionSetting.latitude;
+  longitude.value=positionSetting.longitude;
+} on Exception catch (e) {
+          await Get.defaultDialog(
+      title: "Error",
+      content: Text("$e"),
+      actions: [
+        CustomElevatedButton(width: 120, height: 60, onPressed: (){
+          Get.back();
+        }, text: "Ok"),
+      ]
+    );
+}
   updateFirebaseLocation();
   updateCameraPosition();
 

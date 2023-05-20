@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
+import '../../Controllers/location_controller.dart';
 import '../../Utils/Constants/constants.dart';
 import '../../Widgets/custom_elevated_button.dart';
 import '../../Widgets/custom_text_field.dart';
@@ -191,11 +192,16 @@ class RegisterScreen extends GetView<AuthController> {
                             height: height * 0.4,
                             onPressed: () async {
                               if (formKey.currentState!.validate()) {
-                                final response = await controller
+                                print("haha");
+                                bool locationEnabled=await controller.checkLocationNotEmpty();
+                                print(locationEnabled);
+                                if(locationEnabled){
+                                  print("Location Enabled $locationEnabled");
+                                  final response = await controller
                                     .signUpWithEmailandPassword();
                                 if (response[0] == true) {
                                   await controller.saveWholeDataInDatabase();
-                                  
+                                 await controller. showAddressDialog();
                                 } else {
                                   Get.snackbar(
                                       response[1]
@@ -205,6 +211,13 @@ class RegisterScreen extends GetView<AuthController> {
                                           .toString()
                                           .replaceAll("-", " "),
                                       snackPosition: SnackPosition.BOTTOM);
+                                }
+                                
+                                } else {
+                                  //show dialog to inform user that he is not able to sign up before turnning on gps
+                                   
+                                   await Get.find<LocationController>().checkLocationServices();
+                                  
                                 }
                                 //sign up
         

@@ -24,12 +24,12 @@ class CustomListTile extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return ListTile(
+      
       onTap:onTap,
       horizontalTitleGap: 0.0,
       leading:leading,
       title:Text(title,style: GoogleFonts.poppins( fontSize: 16, color: Constants.textColor,fontWeight: FontWeight.w400), ),
       trailing: trailing,
-      subtitle: Text(subtitile,style: GoogleFonts.poppins(color:Constants.textColor,fontSize: 14),),
     );
   }
 }

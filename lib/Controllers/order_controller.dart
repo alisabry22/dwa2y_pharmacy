@@ -14,8 +14,9 @@ import '../Models/prescription_model.dart';
 class OrderController extends GetxController{
   Rx<PrescriptionOrder>orderDetails=PrescriptionOrder().obs;
   Rx<TextEditingController>priceController=TextEditingController().obs;
+  Rx<TextEditingController>notesText=TextEditingController().obs;
   Rx<PharmacyModel> currentPharmacy=Get.find<AuthController>().currentLoggedInPharmacy.value.obs;
- 
+  RxBool delivered=false.obs;
 
 
 @override
@@ -44,13 +45,8 @@ class OrderController extends GetxController{
         });
 }
 
-Future getOrderDetails(String orderid)async{
-  log("get order details calledd");
-  await FirebaseFirestore.instance.collection("Orders").doc(orderid).get().then((value) {
-    if(value.exists){
-      orderDetails.value=PrescriptionOrder.fromDocumentSnapshot(value);
-    }
-  });
+Stream<DocumentSnapshot<Map<String, dynamic>>> getOrderDetails(String orderid){
+  return  FirebaseFirestore.instance.collection("Orders").doc(orderid).snapshots();
 }
 
 Future changeOrderStatusToDelivered(String orderid)async{

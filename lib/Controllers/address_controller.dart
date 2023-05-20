@@ -11,12 +11,9 @@ import 'location_controller.dart';
 
 class AddressController extends GetxController{
 
-  Rx<TextEditingController> addressTitle=TextEditingController().obs;
-  Rx<TextEditingController> phone=TextEditingController().obs;
-  Rx<TextEditingController> firstname=TextEditingController().obs;
-  Rx<TextEditingController>  lastname=TextEditingController().obs;
-  RxString label="Home".obs;
-  RxInt selectedButton=0.obs;
+  Rx<TextEditingController> street=TextEditingController().obs;
+  Rx<TextEditingController>  nearby=TextEditingController().obs;
+
 
   final  addAddresKey=GlobalKey<FormState>();
 
@@ -28,18 +25,20 @@ Future saveAddress()async{
   String fullAddress="${placemarks.first.administrativeArea!} ${placemarks.first.subAdministrativeArea!} ${placemarks.first.locality!} ${placemarks.first.name!} ${placemarks.first.street!}";
   var data={
     "googleAddress":fullAddress,
-    "AddressTitle":addressTitle.value.text.trim(),
-    "Phone":phone.value.text.trim(),
+    "street":street.value.text.trim(),
+    "nearby":nearby.value.text.isNotEmpty?nearby.value.text.trim():"",
+    "floor":"",
+    "apartment":"",
     "lat":Get.find<LocationController>().lat.value,
     "long":Get.find<LocationController>().long.value,
-    "label":label.value,
+  
   };
-  await FirebaseFirestore.instance.collection("pharmacies").doc(FirebaseAuth.instance.currentUser!.uid).update({"address":FieldValue.arrayUnion([data])});
+  await FirebaseFirestore.instance.collection("pharmacies").doc(FirebaseAuth.instance.currentUser!.uid).update({"address":data});
 }
 
-Future removeAddress( AddressModel data)async{
+Future removeAddress( )async{
  
-  await FirebaseFirestore.instance.collection("pharmacies").doc(FirebaseAuth.instance.currentUser!.uid).update({"address":FieldValue.arrayRemove([data.toJson()])});
+  await FirebaseFirestore.instance.collection("pharmacies").doc(FirebaseAuth.instance.currentUser!.uid).update({"address":FieldValue.delete()});
 
 }
 

@@ -10,7 +10,6 @@ import 'package:get/get.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 
-import 'Models/product_model.dart';
 import 'Utils/Constants/constants.dart';
 
 class HomeScreen extends GetView<HomeController> {
@@ -103,113 +102,16 @@ class HomeScreen extends GetView<HomeController> {
                       ],
                     ),
                     //Top Customers with you 
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("Top Discounts",style: GoogleFonts.poppins(fontSize: 18, color: Constants.textColor),),
-                         TextButton(onPressed: (){
-                Get.to(()=>const MyProducts());
-              }, child: Text("See All",style: GoogleFonts.poppins(fontWeight: FontWeight.w500),)),
-                      ],
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height*0.29,
-                      child: StreamBuilder(
-                        stream: controller.getTopProducts(),
-                        builder: (context, snapshot) {
-                          if(snapshot.connectionState==ConnectionState.active){
-                            if(snapshot.hasData){
-                              if(snapshot.data!.docs.isNotEmpty){
-                                return  ListView.separated(
-                                  scrollDirection: Axis.horizontal,
-                                  itemBuilder: (context, index) {
-                                      ProductModel productModel =
-                                  ProductModel.fromDocumentSnapshot(
-                                      snapshot.data!.docs[index]);
-                              return InkWell(
-                                splashColor: Colors.grey,
-                                onTap: (){
-                                  Get.to(()=>EditProduct(productModel: productModel));
-                                },
-                                child: Ink(
-                                  child: SizedBox(
-                                    height: MediaQuery.of(context).size.height * 0.2,
-                                    width: MediaQuery.of(context).size.width * 0.4,
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          width:
-                                              MediaQuery.of(context).size.width * 0.3,
-                                          height: MediaQuery.of(context).size.height *  0.19,
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(12),
-                                            image: DecorationImage(
-                                                fit: BoxFit.cover,
-                                                image: CachedNetworkImageProvider(
-                                                    productModel.productImage!)),
-                                          ),
-                                        ),
-                                        Text("${productModel.productName}",
-                                            overflow: TextOverflow.ellipsis,
-                                            style: GoogleFonts.poppins(
-                                                fontSize: 16,
-                                                color: Constants.textColor)),
-                                        productModel.afterDiscount != 0
-                                            ? Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                    " ${productModel.afterDiscount} L.E ",
-                                                    style: GoogleFonts.poppins(
-                                                        fontSize: 16,
-                                                        color: Constants.textColor)),
-                                                         Row(
-                                                           children: [
-                                                             Text(
-                                                    " ${productModel.productPrice}",
-                                                    
-                                                    style: GoogleFonts.poppins(
-                                                        decoration: TextDecoration.lineThrough,
-                                                        fontSize: 16,
-                                                        color:  Colors.grey),),
-                                                       const SizedBox(width: 10),
-                                                         Text(
-                                                    "${productModel.discountPercent}%OFF",
-                                                    style: GoogleFonts.poppins(
-                                                        fontSize: 16,
-                                                        color: Colors.grey)),
-                                                           ],
-                                                         ),
-                                              ],
-                                            )
-                                            : Text(
-                                                " ${productModel.productPrice} L.E ",
-                                                style: GoogleFonts.poppins(
-                                                    fontSize: 14,
-                                                    color: Constants.textColor)),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
-                      separatorBuilder: (context, index) {
-                        return  const SizedBox(width: 10,);
-                      }, itemCount: snapshot.data!.docs.length);
-                              }return  Center(
-                                child: Text("Add Some Products with Discount to get customers",style: GoogleFonts.poppins(color: Constants.textColor),),
-                              );
-                            }else{
-                            return Center(
-                                child: Text("Add Some Products with Discount to get customers",style: GoogleFonts.poppins(color: Constants.textColor),),
-                              );
-                          }
-                          }else{
-                            return const Center(child: CircularProgressIndicator(),);
-                          }
-                      },),
-                    ),
+              //       Row(
+              //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //         children: [
+              //           Text("Top Discounts",style: GoogleFonts.poppins(fontSize: 18, color: Constants.textColor),),
+              //            TextButton(onPressed: (){
+              //   Get.to(()=>const MyProducts());
+              // }, child: Text("See All",style: GoogleFonts.poppins(fontWeight: FontWeight.w500),)),
+              //         ],
+              //       ),
+                  
                    
 
                   ]),

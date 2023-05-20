@@ -39,19 +39,19 @@ getCurrentLoggedPharmacy()async{
   Future  countIncludedOrders()async{
   
 log(currentpharmacy.value.userid!);
- await    FirebaseFirestore.instance.collection("Orders").where("Pharmacies",arrayContains:currentpharmacy.value.userid ).where("Acceptedby",isEqualTo: currentpharmacy.value.userid).get().then((value) {
+ await    FirebaseFirestore.instance.collection("Orders").where("Pharmacies",arrayContains:currentpharmacy.value.userid ).where("OrderStatus",isEqualTo: "Pending").get().then((value) {
       if(value.docs.isNotEmpty){
         badgeCounter.value=value.docs.length;
-
+      print(badgeCounter.value);
       }
       
     });
 
   }
 
-  Stream<QuerySnapshot<Map<String, dynamic>>> getTopProducts(){
-     return FirebaseFirestore.instance.collection("Products").where("pharmacyId",isEqualTo: currentpharmacy.value.userid).orderBy("discountPercent",descending: true).snapshots();
-  }
+  // Stream<QuerySnapshot<Map<String, dynamic>>> getTopProducts(){
+  //    return FirebaseFirestore.instance.collection("Products").where("pharmacyId",isEqualTo: currentpharmacy.value.userid).orderBy("discountPercent",descending: true).snapshots();
+  // }
 
  
 

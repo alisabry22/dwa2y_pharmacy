@@ -44,6 +44,7 @@ class CustomBottomSheet extends StatelessWidget {
                     height: 60,
                     onPressed: () async{
                       await Get.find<OrderController>().getOrderDetails(orderid);
+                      Get.back();
                       Get.off(() => const MyOrders());
                       
                     },

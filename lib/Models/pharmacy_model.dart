@@ -11,7 +11,7 @@ class PharmacyModel {
       email,
       userid,token;
   final double lat, long;
-  List<AddressModel>? addresses;
+  AddressModel? address;
 
   PharmacyModel({
     this.username,
@@ -25,7 +25,7 @@ class PharmacyModel {
     this.token,
     required this.lat,
     required this.long,
-    this.addresses,
+    this.address,
   });
 
   factory PharmacyModel.fromDocumentSnapshot(DocumentSnapshot doc) {
@@ -34,7 +34,7 @@ class PharmacyModel {
       long:doc.data().toString().contains("long")?doc.get("long"):0.0,
       username:doc.data().toString().contains("username")? doc.get("username"):"",
       userid: doc.id,
-      addresses:doc.data().toString().contains("address")?doc.get("address").map<AddressModel>((m)=>AddressModel.fromJson(m)).toList():<AddressModel>[],
+      address:doc.data().toString().contains("address")?AddressModel.fromJson(doc.get("address")):AddressModel(),
       countrycode: doc.data().toString().contains("lat")?doc.get("countryCode"):"EG",
       phone: doc.data().toString().contains("lat")?doc.get("phone"):"",
       profileImageLink:doc.data().toString().contains("lat")? doc.get("profileImageLink"):"",
@@ -54,7 +54,7 @@ class PharmacyModel {
         "long":long,
         "createdAt": createdAt,
         "updatedAt": updatedAt,
-        "address":addresses!.map((e) => e.toJson()),
+  
 
         "email":email
       };

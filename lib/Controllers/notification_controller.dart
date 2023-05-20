@@ -24,6 +24,7 @@ class NotificationController extends GetxController {
   Rx<PrescriptionOrder> order = PrescriptionOrder().obs;
   Rx<UserModel> userCreatedOrder = UserModel(lat: 0.0, long: 0.0).obs;
   Rx<TextEditingController> priceController = TextEditingController().obs;
+  Rx<TextEditingController> notestextController=TextEditingController().obs;
   Rx<PharmacyModel> currentLoggedInPharmacy =PharmacyModel(lat: 0.0, long: 0.0).obs;
   
         
@@ -40,7 +41,7 @@ class NotificationController extends GetxController {
       provisional: true,
       sound: true,
     );
-    getToken();
+   await getToken();
 
     //listen to current user changes
     accountController.currentLoggedInPharmacy.listen((p0) {
@@ -48,24 +49,35 @@ class NotificationController extends GetxController {
     });
    
     FirebaseMessaging.onMessage.listen((event) async {
-      orderId.value = event.data['order_id'];
-      if (event.data['pharmacy_id'] != null && event.data['pharmacy_id'] == currentLoggedInPharmacy.value.userid) {
-        //means that the user accepted order and waiting for you to contact him
-                   Get.find<HomeController>().badgeCounter.value++;
+         orderId.value = event.data['order_id'];
+      //customer requests order
+         log(event.data.toString());
 
-        contactCustomer(event.data);
-        await FlutterRingtonePlayer.playNotification();
-      } else {
-           Get.find<HomeController>().badgeCounter.value++;
+      if(event.data["status"]=="done"){
+              Get.find<HomeController>().badgeCounter.value++;
         await getOrderData(event.data['order_id']);
-        await FlutterRingtonePlayer.playNotification();
-
+         FlutterRingtonePlayer.playNotification();
        await Get.dialog(
           
           CustomOrderDialog(
             prescriptionOrder: order.value,
             userCreatedOrder: userCreatedOrder.value),barrierDismissible: false);
       }
+       //means that the user accepted order and waiting for you to contact him
+      else if (event.data["status"]=="Waiting For Delivery"){
+      
+     
+       
+                   Get.find<HomeController>().badgeCounter.value++;
+
+        contactCustomer(event.data);
+         FlutterRingtonePlayer.playNotification();
+      
+      }
+      //customer rejects order
+      else {
+        Get.snackbar("Order Rejected", "${event.data["CustomerName"]} Rejected Your Offer",snackPosition: SnackPosition.TOP,duration: const Duration(seconds: 2),backgroundColor: Colors.grey);
+      } 
     });
   }
 
@@ -163,12 +175,12 @@ class NotificationController extends GetxController {
             'pharmacyId': pharmacyId,
             'pharmacyname': pharmacyName,
           },
-          'notification': {
-            'order_id': orderid,
-            'price': price,
-            'title':title,
-            'body':body,
-          },
+          // 'notification': {
+          //   'order_id': orderid,
+          //   'price': price,
+          //   'title':title,
+          //   'body':body,
+          // },
           'to': token,
         }),
       );
@@ -194,11 +206,11 @@ class NotificationController extends GetxController {
             'pharmacyId': pharmacyId,
             'pharmacyname': pharmacyName,
           },
-          'notification': {
-            'order_id': orderid,
-            'title':title,
-            'body':body,
-          },
+          // 'notification': {
+          //   'order_id': orderid,
+          //   'title':title,
+          //   'body':body,
+          // },
           'to': token,
         }),
       );
@@ -216,16 +228,46 @@ class NotificationController extends GetxController {
       "pharmacyName": pharmacyName,
       "pharmacytoken": currentLoggedInPharmacy.value.token,
       "patient_token": patientToken,
+      "notes":notestextController.value.text.isNotEmpty?notestextController.value.text.trim():"",
     };
     await FirebaseFirestore.instance
         .collection("Notifications")
         .doc()
         .set(data);
+
+        //delete me from order because when i get here then i already offered customer 
+        List<String> pharmaciesbefore = [];
+    List<String> pharmaciesafter = [];
+
+    if (FirebaseAuth.instance.currentUser != null) {
+      //read all array and then delete me
+      await FirebaseFirestore.instance
+          .collection("Orders")
+          .doc(orderid)
+          .get()
+          .then((value) {
+        if (value.exists) {
+          pharmaciesbefore = (value.get("Pharmacies") as List).map((e) => e as String).toList() ;
+        }
+      });
+      //if iam last pharmacy and i reject order update status to rejected to inform user
+    
+       for (var element in pharmaciesbefore) {
+        if (element!=FirebaseAuth.instance.currentUser!.uid) {
+          pharmaciesafter.add(element);
+        }
+      
+  }
+       //write it back to firebase firestore
+      await FirebaseFirestore.instance
+          .collection("Orders")
+          .doc(orderid)
+          .update({"Pharmacies": pharmaciesafter});
+    }
   }
 
   //listen to orders that iam included in 
    Stream<QuerySnapshot<Map<String, dynamic>>> getOrders(){
-
   return  FirebaseFirestore.instance.collection("Orders").where("Pharmacies",arrayContains:FirebaseAuth.instance.currentUser!.uid ).where("OrderStatus",isEqualTo: "Pending").snapshots();
   }
 

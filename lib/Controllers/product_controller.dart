@@ -5,7 +5,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dwa2y_pharmacy/Controllers/home_controller.dart';
 import 'package:dwa2y_pharmacy/Models/product_model.dart';
 import 'package:dwa2y_pharmacy/Utils/Constants/constants.dart';
-import 'package:dwa2y_pharmacy/myproducts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -29,58 +28,58 @@ RxString valueToUpdate="".obs;
   Stream<DocumentSnapshot<Map<String, dynamic>>> getCurrentDocument(String productId){
     return FirebaseFirestore.instance.collection("Products").doc(productId).snapshots();
   }
-  Stream<QuerySnapshot<Map<String, dynamic>>> getAllProducts(){
+  // Stream<QuerySnapshot<Map<String, dynamic>>> getAllProducts(){
     
-         return  FirebaseFirestore.instance.collection("Products").where('pharmacyId',isEqualTo: FirebaseAuth.instance.currentUser!.uid).snapshots();
+  //        return  FirebaseFirestore.instance.collection("Products").where('pharmacyId',isEqualTo: FirebaseAuth.instance.currentUser!.uid).snapshots();
 
     
   
     
-  }
-  Future addProduct( )async{
+  // }
+  // Future addProduct( )async{
      
   
     
-    if(productName.value.text.isNotEmpty && productPrice.value.text.isNotEmpty &&productImagePicked.value.isNotEmpty){
-       showCircleLoading();
-        int equation=0;
-        int afterDiscount=0;
-         ProductModel productModel=ProductModel();
+  //   if(productName.value.text.isNotEmpty && productPrice.value.text.isNotEmpty &&productImagePicked.value.isNotEmpty){
+  //      showCircleLoading();
+  //       int equation=0;
+  //       int afterDiscount=0;
+  //        ProductModel productModel=ProductModel();
          
-      final String url=await uploadattachmentToDatabase();
-      if(discountPercent.value.text.isNotEmpty){
-       equation=int.parse(productPrice.value.text)*int.parse(discountPercent.value.text);
-       equation=equation~/100;
-       afterDiscount=int.parse(productPrice.value.text.trim())-equation;
-      }
-        productModel=ProductModel(
-      productName: productName.value.text.trim(),
-      pharmacyName: accountController.currentpharmacy.value.username,
-      productCategory: productCategory.value,
-      productPrice: int.parse(productPrice.value.text.trim()),
-      productImage: url,
-      discountPercent:discountPercent.value.text.isNotEmpty?int.parse(discountPercent.value.text.trim()):0,
-      afterDiscount: afterDiscount,
-      pharmacyId: accountController.currentpharmacy.value.userid,
+  //     final String url=await uploadattachmentToDatabase();
+  //     if(discountPercent.value.text.isNotEmpty){
+  //      equation=int.parse(productPrice.value.text)*int.parse(discountPercent.value.text);
+  //      equation=equation~/100;
+  //      afterDiscount=int.parse(productPrice.value.text.trim())-equation;
+  //     }
+  //       productModel=ProductModel(
+  //     productName: productName.value.text.trim(),
+  //     pharmacyName: accountController.currentpharmacy.value.username,
+  //     productCategory: productCategory.value,
+  //     productPrice: int.parse(productPrice.value.text.trim()),
+  //     productImage: url,
+  //     discountPercent:discountPercent.value.text.isNotEmpty?int.parse(discountPercent.value.text.trim()):0,
+  //     afterDiscount: afterDiscount,
+  //     pharmacyId: accountController.currentpharmacy.value.userid,
     
-    );
-     await FirebaseFirestore.instance.collection("Products").add(productModel.toMap());
-    Get.back();
-     Get.off(()=>const MyProducts());
-       productName.value.text="";
-     productImagePicked.value="";
-     productPrice.value.text="";
-     return  Get.snackbar("Great", "Succssefully Added Product",snackPosition: SnackPosition.BOTTOM,backgroundColor: Colors.grey);
+  //   );
+  //    await FirebaseFirestore.instance.collection("Products").add(productModel.toMap());
+  //   Get.back();
+  //    Get.off(()=>const MyProducts());
+  //      productName.value.text="";
+  //    productImagePicked.value="";
+  //    productPrice.value.text="";
+  //    return  Get.snackbar("Great", "Succssefully Added Product",snackPosition: SnackPosition.BOTTOM,backgroundColor: Colors.grey);
 
    
      
-    }else{
-     return Get.snackbar("fill fields", "Please Fill All Required Fields",snackPosition: SnackPosition.BOTTOM,backgroundColor: Colors.grey);
+  //   }else{
+  //    return Get.snackbar("fill fields", "Please Fill All Required Fields",snackPosition: SnackPosition.BOTTOM,backgroundColor: Colors.grey);
       
-    }
+  //   }
    
    
-  }
+  // }
   Future removeProduct(List<String> productId)async{
     for(int i=0 ; i<productId.length ; i++){
           await FirebaseFirestore.instance.collection("Products").doc(productId[i]).delete();

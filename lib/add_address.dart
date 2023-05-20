@@ -113,130 +113,16 @@ class AddAddress extends GetView<AddressController> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CustomAddressField(controller: controller.addressTitle.value, hintText: "Enter Full Address"),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Text(
-                      "PERSONAL INFORMATION",
-                      style: GoogleFonts.poppins(
-                          color: Colors.grey, fontWeight: FontWeight.w500),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                   CustomAddressField(keyboardType: TextInputType.phone,controller: controller.phone.value, hintText: "Phone Number"),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                 
+                   CustomAddressField(controller: controller.street.value, hintText: "Street Name"),
+                   const SizedBox(height: 30,),
+                    CustomAddressField(controller: controller.nearby.value, hintText: "Near to "),
                   ],
                 ),
               ),
-              Text(
-                "Address Label (Optional) ",
-                style: GoogleFonts.poppins(
-                    color: Constants.textColor, fontWeight: FontWeight.w500),
-              ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.5,
-                child: GetX<AddressController>(
-                  builder: (controller) {
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        ElevatedButton(
-                            style: controller.selectedButton.value == 1
-                                ? ElevatedButton.styleFrom(
-                                    backgroundColor: Constants.btnColor,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
-                                  )
-                                : ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.white,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15),
-                                      side:
-                                          const BorderSide(color: Colors.black),
-                                    ),
-                                  ),
-                            onPressed: () {
-                              controller.selectedButton.value = 1;
-                              controller.label.value = "Home";
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Icon(
-                                  FontAwesomeIcons.house,
-                                  size: 14,
-                                  color: controller.selectedButton.value == 1
-                                      ? Colors.white
-                                      : Colors.black,
-                                ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  "Home",
-                                  style: controller.selectedButton.value == 1
-                                      ? GoogleFonts.poppins(color: Colors.white)
-                                      : GoogleFonts.poppins(
-                                          color: Colors.black),
-                                ),
-                              ],
-                            )),
-                        ElevatedButton(
-                            style: controller.selectedButton.value == 2
-                                ? ElevatedButton.styleFrom(
-                                    backgroundColor: Constants.btnColor,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
-                                  )
-                                : ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.white,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15),
-                                      side:
-                                          const BorderSide(color: Colors.black),
-                                    ),
-                                  ),
-                            onPressed: () {
-                              controller.selectedButton.value = 2;
-                              controller.label.value = "Work";
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Icon(
-                                  FontAwesomeIcons.house,
-                                  size: 14,
-                                  color: controller.selectedButton.value == 2
-                                      ? Colors.white
-                                      : Colors.black,
-                                ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  "Work",
-                                  style: controller.selectedButton.value == 2
-                                      ? GoogleFonts.poppins(color: Colors.white)
-                                      : GoogleFonts.poppins(
-                                          color: Colors.black),
-                                ),
-                              ],
-                            )),
-                      ],
-                    );
-                  },
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
+               const SizedBox(height: 30,),
+            
+              
+              
               CustomElevatedButton(
                   width: MediaQuery.of(context).size.width,
                   height: 120,
