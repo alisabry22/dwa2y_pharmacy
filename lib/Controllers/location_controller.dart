@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -15,12 +14,7 @@ class LocationController extends GetxController {
   RxDouble long = 0.0.obs;
   RxDouble lat = 0.0.obs;
  
-  @override
-  void onInit() {
-    // TODO: implement onInit
-    super.onInit();
-    checkLocationServices();
-  }
+
   
 
   Future checkLocationServices() async {

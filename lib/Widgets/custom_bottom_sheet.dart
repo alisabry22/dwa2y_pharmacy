@@ -1,6 +1,7 @@
 import 'package:dwa2y_pharmacy/Controllers/order_controller.dart';
 import 'package:dwa2y_pharmacy/Models/user_model.dart';
 import 'package:dwa2y_pharmacy/Utils/Constants/constants.dart';
+import 'package:dwa2y_pharmacy/home_screen.dart';
 import 'package:dwa2y_pharmacy/myorders.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -43,9 +44,10 @@ class CustomBottomSheet extends StatelessWidget {
                     width: MediaQuery.of(context).size.width * 0.6,
                     height: 60,
                     onPressed: () async{
-                      await Get.find<OrderController>().getOrderDetails(orderid);
+                      Get.find<OrderController>().getOrderDetails(orderid);
                       Get.back();
-                      Get.off(() => const MyOrders());
+                      Get.to(()=>const HomeScreen());
+                      Get.to(() => const MyOrders());
                       
                     },
                     text: "View Order Details"))

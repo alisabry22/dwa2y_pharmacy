@@ -49,9 +49,9 @@ log(currentpharmacy.value.userid!);
 
   }
 
-  // Stream<QuerySnapshot<Map<String, dynamic>>> getTopProducts(){
-  //    return FirebaseFirestore.instance.collection("Products").where("pharmacyId",isEqualTo: currentpharmacy.value.userid).orderBy("discountPercent",descending: true).snapshots();
-  // }
+  Stream<QuerySnapshot<Map<String, dynamic>>> getTopProducts(){
+     return FirebaseFirestore.instance.collection("Products").where("pharmacyId",isEqualTo: currentpharmacy.value.userid).orderBy("discountPercent",descending: true).snapshots();
+  }
 
  
 
