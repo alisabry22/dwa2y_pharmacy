@@ -12,6 +12,7 @@ import 'home_controller.dart';
 class ChatController extends GetxController{
   Rx<PharmacyModel> currentpharmacy=Get.find<HomeController>().currentpharmacy.value.obs;
   Rx<TextEditingController> messageController=TextEditingController().obs;
+    ScrollController scrollController=ScrollController();
 
   @override
   void onInit() {

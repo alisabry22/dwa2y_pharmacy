@@ -33,115 +33,107 @@ class ChatScreen extends GetView<ChatController> {
           ],
         ),
       ),
-      body: Stack(
+      body: Column(
         children: [
-          StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-              stream: controller.getChatMessages(chatid),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.active) {
-                  if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
-                    print(snapshot.data!.docs[0].data());
-                    return ListView.separated(
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) {
-                            if(snapshot.data!.docs.length==index){
-                            return Container(height: 100,);
-                          }
-                          ChatMessage message = ChatMessage.fromJson(
-                              snapshot.data!.docs[index].data());
-                              if(message.sender==FirebaseAuth.instance.currentUser!.uid){
-                                return BubbleNormal(
-                            text: message.message,
-                            color: message.sender ==
-                                    FirebaseAuth.instance.currentUser!.uid
-                                ? Color(0xff4062BB)
-                                : Colors.grey,
-                            isSender: message.sender ==
-                                    FirebaseAuth.instance.currentUser!.uid
-                                ? false
-                                : true,
-                                tail: true,
-                                textStyle:TextStyle(color:message.sender ==
-                                    FirebaseAuth.instance.currentUser!.uid?Colors.white:Colors.black ) ,
+          Expanded(
+            child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                stream: controller.getChatMessages(chatid),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.active) {
+                    if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
+                 
+                    
+                      return ListView.separated(
+                          shrinkWrap: true,
+                          reverse: true,
+                          itemBuilder: (context, index) {
+                          
+                            ChatMessage message = ChatMessage.fromJson(
+                                snapshot.data!.docs[index].data());
                                 
-                          );
-                              }else{
-                                  return BubbleNormal(
-                            text: message.message,
-                            color: message.sender ==
-                                    FirebaseAuth.instance.currentUser!.uid
-                                ? Color(0xff4062BB)
-                                : Colors.grey,
-                            isSender: message.sender ==
-                                    FirebaseAuth.instance.currentUser!.uid
-                                ? false
-                                : true,
-                                tail: true,
-                                textStyle:TextStyle(color:message.sender ==
-                                    FirebaseAuth.instance.currentUser!.uid?Colors.white:Colors.black ) ,
+                                  return Column(
+                                    children: [
+                                      BubbleNormal(
+                              text: message.message,
+                              color: message.sender ==
+                                          FirebaseAuth.instance.currentUser!.uid
+                                      ? Color(0xff4062BB)
+                                      : Colors.grey,
+                              isSender: message.sender ==
+                                          FirebaseAuth.instance.currentUser!.uid
+                                      ? false
+                                      : true,
+                                      tail: true,
+                                      textStyle:TextStyle(color:message.sender ==
+                                          FirebaseAuth.instance.currentUser!.uid?Colors.white:Colors.black ) ,
+                                      
+                            ),
+                            Text(message.sentat.toString().substring(11,16)),
+                                    ],
+                                  );
                                 
-                          );
-                              }
-                           
-                        },
-                        separatorBuilder: (context, index) {
-                          return SizedBox(
-                            height: 15,
-                          );
-                        },
-                        itemCount: snapshot.data!.docs.length+1);
+                             
+                          },
+                          separatorBuilder: (context, index) {
+                            return SizedBox(
+                              height: 15,
+                            );
+                          },
+                          itemCount: snapshot.data!.docs.length+1);
+                    } else {
+                      return Expanded(
+                        child: Center(
+                          child: Text(
+                            "Start Your Chat With Him now",
+                            style: TextStyle(color: Colors.grey),
+                          ),
+                        ),
+                      );
+                    }
+                  } else if (snapshot.connectionState ==ConnectionState.waiting) {
+                    return Center(child: CircularProgressIndicator());
                   } else {
                     return Expanded(
-                      child: Text(
-                        "Start Your Chat With Him now",
-                        style: TextStyle(color: Colors.grey),
+                      child: Center(
+                        child: Text(
+                          "Start Your Chat With Him now",
+                          style: TextStyle(color: Colors.grey),
+                        ),
                       ),
                     );
                   }
-                } else if (snapshot.connectionState ==ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
-                } else {
-                  return Expanded(
-                    child: Text(
-                      "Start Your Chat With Him now",
-                      style: TextStyle(color: Colors.grey),
-                    ),
-                  );
-                }
-              }),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: MessageBar(
-              onSend: (value) async {
-                ChatMessage message = ChatMessage(
-                    sender: FirebaseAuth.instance.currentUser!.uid,
-                    receiver: customer.userid!,
-                    message: value,
-                    sentat: DateTime.now().toString());
-                await controller.sendMessage(message,chatid );
-              },
-              actions: [
-                InkWell(
+                }),
+          ),
+          MessageBar(
+            onSend: (value) async {
+              ChatMessage message = ChatMessage(
+                  sender: FirebaseAuth.instance.currentUser!.uid,
+                  receiver: customer.userid!,
+                  message: value,
+                  sentat: DateTime.now());
+              await controller.sendMessage(message,chatid );
+            },
+            actions: [
+              InkWell(
+                child: Icon(
+                  Icons.add,
+                  color: Colors.black,
+                  size: 24,
+                ),
+                onTap: () {},
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 8, right: 8),
+                child: InkWell(
                   child: Icon(
-                    Icons.add,
-                    color: Colors.black,
+                    Icons.camera_alt,
+                    color: Colors.green,
                     size: 24,
                   ),
                   onTap: () {},
                 ),
-                Padding(
-                  padding: EdgeInsets.only(left: 8, right: 8),
-                  child: InkWell(
-                    child: Icon(
-                      Icons.camera_alt,
-                      color: Colors.green,
-                      size: 24,
-                    ),
-                    onTap: () {},
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ],
       ),

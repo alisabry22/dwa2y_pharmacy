@@ -58,21 +58,22 @@ void showFlutterNotification(RemoteMessage message) {
   if (message.data.isNotEmpty ) {
     print(message.data);
       if(message.data["status"]=="done"){
-        flutterLocalNotificationsPlugin.show(message.hashCode, "Order Request", "${message.data["CustomerName"]} requests medicine from you offer him price", NotificationDetails(android:AndroidNotificationDetails(
+        print("Order Request".tr);
+        flutterLocalNotificationsPlugin.show(message.hashCode, "Order Request".tr, "${message.data["CustomerName"]} ${"Please Offer Him price for Prescription".tr}", NotificationDetails(android:AndroidNotificationDetails(
       channel.id,
       channel.name,
       channelDescription: channel.description,
       icon: '@mipmap/ic_launcher',
     ) ));
       }else if (message.data["status"]=="Waiting For Delivery"){
-flutterLocalNotificationsPlugin.show(message.hashCode, "Offer Accepted", "${message.data["CustomerName"]} Accepted Your Offer Deliver it now!!", NotificationDetails(android:AndroidNotificationDetails(
+flutterLocalNotificationsPlugin.show(message.hashCode, "Offer Accepted".tr, "${message.data["CustomerName"]} ${"Accepted Your Offer Deliver it now!!".tr}", NotificationDetails(android:AndroidNotificationDetails(
       channel.id,
       channel.name,
       channelDescription: channel.description,
       icon: '@mipmap/ic_launcher',
     ) ));
       }else{
-flutterLocalNotificationsPlugin.show(message.hashCode, "Order Rejected", "${message.data["CustomerName"]} Rejected Your Offer", NotificationDetails(android:AndroidNotificationDetails(
+flutterLocalNotificationsPlugin.show(message.hashCode, "Offer Rejected".tr, "${message.data["CustomerName"]} ${"Rejected Your Offer".tr}", NotificationDetails(android:AndroidNotificationDetails(
       channel.id,
       channel.name,
       channelDescription: channel.description,

@@ -49,7 +49,7 @@ class AllChats extends GetView<ChatController> {
                             ),
                             title: Text(chatModel.sendername!,style: TextStyle(fontSize:14 ),),
                             subtitle: Text(chatModel.lastmessage!,style: TextStyle(fontSize:12,color: Colors.grey )),
-                            trailing: Text(chatModel.sentat!.substring(11,16),style: TextStyle(fontSize:12,color: Colors.grey ),),
+                            trailing: Text(chatModel.sentat!.toString().substring(11,16),style: TextStyle(fontSize:12,color: Colors.grey ),),
                           ),
                         ),
                       ),

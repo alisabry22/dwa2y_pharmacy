@@ -177,6 +177,7 @@ class Languages extends Translations{
   "Customer Name:":"أسم العميل :",
   "accepted your offer":"وافق علي العرض ",
   "Please Offer Him price for Prescription":"من فضلك أعرض عليه سعر ",
+  "Offer Accepted":"تم قبول عرضك ",
   //permission
   "GPS permission Request":"أذن الحصول علي ال GPS",
   "Location permission is Required for better using of app":"من فضلك قم بتفيل ال gps ",
@@ -193,6 +194,8 @@ class Languages extends Translations{
   "View Order Details":"شاهد الاوردر المطلوب",
   "Order Request":"طلب دواء",
   "Tap To View":"اضغط لتري الطلب ",
+    "Offer Rejected":"تم رفض العرض",
+  "Accepted Your Offer Deliver it now!!":"وافق علي عرضك سارع بتوصيل الأوردر الأن",
   //order from pharmacy
   "Make Order":"طلب دواء",
   "click on (Add Photos) to add Some Prescriptions of your medicine":"أضغط علي (إضافة الروشتة ) لكي ترفق الروشته الخاصه بك",
@@ -420,7 +423,11 @@ class Languages extends Translations{
   "accepted your offer":"accepted your offer",
   "View Order Details":"View Order Details",
   "Please Offer Him price for Prescription":"Please Offer Him price for Prescription",
+  "Offer Accepted": "Offer Accepted",
+  "Offer Rejected":"Offer Rejected",
+  "Accepted Your Offer Deliver it now!!":"Accepted Your Offer Deliver it now!!",
   "Update":"Update",
+  
      //snackbars
      "Error":"Error",
      "Please type in medicine":"Please type in medicine",

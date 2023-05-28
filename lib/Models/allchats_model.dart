@@ -6,7 +6,7 @@ class AllChatsModel {
   String? receiverId;
   String? sendername;
   String? receivername;
-  String? sentat;
+  DateTime? sentat;
   String? receiverProfileImage;
     String? senderProfileImage;
     String? chatId;
@@ -32,7 +32,7 @@ class AllChatsModel {
         sendername:  doc.get("sendername")!=null?doc.get("sendername"):"",
         receivername: doc.get("receivername")!=null?doc.get("receivername"):"",
        receiverProfileImage: doc.get("receiverProfileImage")!=null?doc.get("receiverProfileImage"):"",
-       sentat: doc.get("sentat")!=null?doc.get("sentat"):"",
+       sentat: doc.get("sentat")!=null?doc.get("sentat").toDate():"",
        lastmessage: doc.get("lastmessage")!=null?doc.get("lastmessage"):"",
 
     );
