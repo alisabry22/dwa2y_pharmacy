@@ -10,6 +10,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../Controllers/localization_controller.dart';
+
 class LoginScreen extends StatelessWidget {
    LoginScreen({super.key});
   final formKey = GlobalKey<FormState>();
@@ -28,10 +30,41 @@ class LoginScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                 Text(
-                  "Pharmacy App",
-                  style: GoogleFonts.firaSans(
-                      color:const  Color.fromARGB(255, 3, 72, 128),
+                GetX<LanguageController>(
+                        builder: (controller) {
+                          
+                          return    Align(
+                            alignment:controller.locale.value==const Locale('en')? Alignment.topRight:Alignment.topLeft,
+                            child: TextButton(
+                                                
+                              onPressed: ()async {
+                                if(controller.locale.value==const Locale('ar')){
+                                 await controller.changeLanguage('en');
+                                }else{
+                                  await controller.changeLanguage('ar');
+                                }
+                              },
+                              child:controller.locale.value==const Locale('ar')?   Text(
+                                  "English",
+                                    style: GoogleFonts.poppins(decoration: TextDecoration.underline,fontSize: 16,fontWeight: FontWeight.bold)):          Text(
+                                  "العربية",
+                                    style: GoogleFonts.poppins(decoration: TextDecoration.underline,fontSize: 16,fontWeight: FontWeight.bold))
+                                
+                                
+                                  
+                                 
+                            
+                                  
+                              
+                                ),
+                          );
+                        },
+                     
+                      ),
+                  Text(
+                  "Pharmacy App".tr,
+                  style: const TextStyle(
+                      color:Color.fromARGB(255, 3, 72, 128),
                       fontSize: 20,
                       fontWeight: FontWeight.bold),
                 ),
@@ -60,13 +93,13 @@ class LoginScreen extends StatelessWidget {
                         children: [
                           CustomTextField(
                             prefixIcon: const Icon(FontAwesomeIcons.envelope,size: 20,color: Colors.grey,),
-                              hintText: "Email",
+                              hintText: "email".tr,
                               
                               validator: (p0) {
                                   if(p0!=null &&p0.isNotEmpty ){
                                   return null;
                                 }else{
-                                  return "please type right email";
+                                  return "please enter Email".tr;
                                 }
                               },
                               controller: controller.emailController.value),
@@ -79,12 +112,12 @@ class LoginScreen extends StatelessWidget {
                                 Icons.lock,
                                 color: Colors.grey,
                               ),
-                              hintText: "Password",
+                              hintText: "password".tr,
                               validator: (p0) {
                                 if(p0!=null &&p0.isNotEmpty ){
                                   return null;
                                 }else{
-                                  return "please type right password";
+                                  return "Please enter correct password".tr;
                                 }
                               },
                               controller: controller.passwordController.value),
@@ -110,7 +143,7 @@ class LoginScreen extends StatelessWidget {
                         
                           }
                               },
-                              text: "Login"),
+                              text: "login".tr),
                         
                         Align(
                       alignment: Alignment.bottomRight,
@@ -118,8 +151,8 @@ class LoginScreen extends StatelessWidget {
                         child: TextButton(
                           onHover: (value) {},
                           child: Text(
-                            "Forgot Password?",
-                            style: GoogleFonts.firaSans(
+                            "Forgot Password?".tr,
+                            style: const TextStyle(
                               fontSize: 16,
                               color: Constants.btnColor,
                               decoration: TextDecoration.underline,
@@ -135,8 +168,8 @@ class LoginScreen extends StatelessWidget {
                           Align(
                             alignment: Alignment.bottomCenter,
                             child: Text(
-                              "Don't Have Account?",
-                              style: GoogleFonts.firaSans(
+                              "Don't Have Account?".tr,
+                              style: const TextStyle(
                                   fontSize: 14,
                                   color: Colors.grey,
                                   fontWeight: FontWeight.w500),
@@ -147,8 +180,8 @@ class LoginScreen extends StatelessWidget {
                                 Get.to(()=> RegisterScreen());
                               },
                               child: Text(
-                                "Sign up",
-                                style: GoogleFonts.openSans(
+                                "sign up".tr,
+                                style: const TextStyle(
                                   color: Constants.btnColor,
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,                                 

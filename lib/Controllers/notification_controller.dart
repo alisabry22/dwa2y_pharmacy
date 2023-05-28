@@ -76,7 +76,7 @@ class NotificationController extends GetxController {
       }
       //customer rejects order
       else {
-        Get.snackbar("Order Rejected", "${event.data["CustomerName"]} Rejected Your Offer",snackPosition: SnackPosition.TOP,duration: const Duration(seconds: 2),backgroundColor: Colors.grey);
+        Get.snackbar("Rejected your Order".tr, "${event.data["CustomerName"]} Rejected Your Offer".tr,snackPosition: SnackPosition.TOP,duration: const Duration(seconds: 2),backgroundColor: Colors.grey);
       } 
     });
   }
@@ -264,6 +264,7 @@ class NotificationController extends GetxController {
           .doc(orderid)
           .update({"Pharmacies": pharmaciesafter});
     }
+    priceController.value.text="";
   }
 
   //listen to orders that iam included in 

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 
 import '../Utils/Constants/constants.dart';
@@ -33,8 +32,8 @@ class CustomElevatedButton extends StatelessWidget {
 
         child: Text(
           text,
-          style: GoogleFonts.openSans(
-              fontSize: 16,
+          style: const TextStyle(
+              fontSize: 14,
               color: Colors.white,
               fontWeight: FontWeight.bold),
         ));

@@ -5,12 +5,8 @@ import 'package:badges/badges.dart' as badges;
 import 'package:dwa2y_pharmacy/Models/product_model.dart';
 import 'package:dwa2y_pharmacy/myproducts.dart';
 import 'package:dwa2y_pharmacy/notification_page.dart';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import 'package:google_fonts/google_fonts.dart';
-
 import 'Utils/Constants/constants.dart';
 
 class HomeScreen extends GetView<HomeController> {
@@ -40,29 +36,36 @@ class HomeScreen extends GetView<HomeController> {
                               children: [
                                 Row(
                                   children: [
-                                    CircleAvatar(
-                                      radius: 30,
-                                      backgroundImage: controller
-                                                      .currentpharmacy
-                                                      .value
-                                                      .profileImageLink !=
-                                                  null &&
-                                              controller.currentpharmacy.value
-                                                  .profileImageLink!.isNotEmpty
-                                          ? CachedNetworkImageProvider(
-                                              controller.currentpharmacy.value
-                                                  .profileImageLink!)
-                                          : const AssetImage(
-                                                  "assets/images/patient.png")
-                                              as ImageProvider,
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Material(
+                                        child: Ink(
+                                          child: CircleAvatar(
+                                            radius: 30,
+                                            backgroundImage: controller
+                                                            .currentpharmacy
+                                                            .value
+                                                            .profileImageLink !=
+                                                        null &&
+                                                    controller.currentpharmacy.value
+                                                        .profileImageLink!.isNotEmpty
+                                                ? CachedNetworkImageProvider(
+                                                    controller.currentpharmacy.value
+                                                        .profileImageLink!)
+                                                : const AssetImage(
+                                                        "assets/images/patient.png")
+                                                    as ImageProvider,
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                     const SizedBox(
                                       width: 5,
                                     ),
                                     Text(
-                                      "Hello, ${controller.currentpharmacy.value.username}!",
-                                      style: GoogleFonts.poppins(
-                                          fontSize: 20,
+                                      "${"Hello,".tr} ${controller.currentpharmacy.value.username}!",
+                                      style: const TextStyle(
+                                          fontSize: 16,
                                           color: Constants.textColor,
                                           fontWeight: FontWeight.w500),
                                     ),
@@ -109,147 +112,153 @@ class HomeScreen extends GetView<HomeController> {
                           ],
                         ),
                         //Top Customers with you
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "My Products",
-                              style: GoogleFonts.poppins(
-                                  fontSize: 18, color: Constants.textColor),
-                            ),
-                            TextButton(
-                                onPressed: () {
-                                  Get.to(() => const MyProducts());
-                                },
-                                child: Container(
-                                  width: 50,
-                                  height: 40,
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xffeaf4ff),
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      "see All",
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 11,
-                                        color:  Colors.black),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                               Text(
+                                "My Products".tr,
+                                style: const TextStyle(
+                                    fontSize: 18, color: Constants.textColor),
+                              ),
+                              TextButton(
+                                  onPressed: () {
+                                    Get.to(() => const MyProducts());
+                                  },
+                                  child: Container(
+                                    width: 50,
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xffeaf4ff),
+                                      borderRadius: BorderRadius.circular(15),
                                     ),
-                                  ),
-                                )),
-                          ],
+                                    child:  Center(
+                                      child: Text(
+                                        "See All".tr,
+                                        style: const TextStyle(
+                                          fontSize: 11,
+                                          color:  Colors.black),
+                                      ),
+                                    ),
+                                  )),
+                            ],
+                          ),
                         ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.3,
-                          child: StreamBuilder<
-                                  QuerySnapshot<Map<String, dynamic>>>(
-                              stream: controller.getTopProducts(),
-                              builder: (context, snapshot) {
-                                if (snapshot.connectionState ==
-                                    ConnectionState.active) {
-                                  if (snapshot.hasData &&
-                                      snapshot.data!.docs.isNotEmpty) {
-                                    return ListView.separated(
-                                        scrollDirection: Axis.horizontal,
-                                        itemBuilder: (context, index) {
-                                          ProductModel product =
-                                              ProductModel.fromDocumentSnapshot(
-                                                  snapshot.data!.docs[index]);
-
-                                          return SizedBox(
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.2,
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.45,
-                                            child: Card(
-                                              elevation: 5,
-                                              shadowColor: Colors.grey,
-                                          
-                                              color: Colors.white,
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(6.0),
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Container(
-                                                      height:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .height *
-                                                              0.2,
-                                                      decoration: BoxDecoration(
-                                                       
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(15),
-                                                        image: DecorationImage(
-                                                            fit: BoxFit.cover,
-                                                            image: CachedNetworkImageProvider(
-                                                                product
-                                                                    .productImage!)),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.3,
+                            child: StreamBuilder<
+                                    QuerySnapshot<Map<String, dynamic>>>(
+                                stream: controller.getTopProducts(),
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.active) {
+                                    if (snapshot.hasData &&
+                                        snapshot.data!.docs.isNotEmpty) {
+                                      return ListView.separated(
+                                          scrollDirection: Axis.horizontal,
+                                          itemBuilder: (context, index) {
+                                            ProductModel product =
+                                                ProductModel.fromDocumentSnapshot(
+                                                    snapshot.data!.docs[index]);
+                        
+                                            return SizedBox(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.2,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.45,
+                                              child: Card(
+                                                elevation: 5,
+                                                shadowColor: Colors.grey,
+                                            
+                                                color: Colors.white,
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(6.0),
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment.start,
+                                                    children: [
+                                                      Container(
+                                                        height:
+                                                            MediaQuery.of(context)
+                                                                    .size
+                                                                    .height *
+                                                                0.2,
+                                                        decoration: BoxDecoration(
+                                                         
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(15),
+                                                          image: DecorationImage(
+                                                              fit: BoxFit.cover,
+                                                              image: CachedNetworkImageProvider(
+                                                                  product
+                                                                      .productImage!)),
+                                                        ),
                                                       ),
-                                                    ),
-                                                    Text(
-                                                      "${product.productName}",
-                                                      style:
-                                                          GoogleFonts.poppins(
-                                                              color: Constants
-                                                                  .textColor),
-                                                    ),
-                                                   product.discountPercent!=null && product.discountPercent!=0?  RichText(
-                                                        text:
-                                                            TextSpan(
-                                                              style: GoogleFonts.poppins(color: Constants.textColor,fontWeight: FontWeight.bold),
-
-                                                              children: [
-                                                      TextSpan(
+                                                      Text(
+                                                        "${product.productName}",
+                                                        style:
+                                                            const TextStyle(
+                                                                color: Constants
+                                                                    .textColor),
+                                                      ),
+                                                     product.discountPercent!=null && product.discountPercent!=0?  RichText(
                                                           text:
-                                                              "${product.afterDiscount}L.E"),
-                                                              const WidgetSpan(child: SizedBox(width: 10,)),
-                                                      TextSpan(
-                                                          text:
-                                                              "${product.productPrice}",
-                                                              style: GoogleFonts.poppins(decoration: TextDecoration.lineThrough,color: Colors.grey)
-                                                              ),
-                                                    ])):Text("${product.productPrice}L.E",style:GoogleFonts.poppins(color: Constants.textColor,fontWeight: FontWeight.bold) ,),
-                                                  ],
+                                                              TextSpan(
+                                                                style: const TextStyle(color: Constants.textColor,fontWeight: FontWeight.bold),
+                        
+                                                                children: [
+                                                        TextSpan(
+                                                            text:
+                                                                "${product.afterDiscount}${"L.E".tr}"),
+                                                                const WidgetSpan(child: SizedBox(width: 10,)),
+                                                        TextSpan(
+                                                            text:
+                                                                "${product.productPrice}",
+                                                                style: const TextStyle(decoration: TextDecoration.lineThrough,color: Colors.grey)
+                                                                ),
+                                                      ])):Text("${product.productPrice}${"L.E".tr}",style:const TextStyle(color: Constants.textColor,fontWeight: FontWeight.bold) ,),
+                                                    ],
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                          );
-                                        },
-                                        separatorBuilder: (context, index) {
-                                          return const SizedBox(
-                                            width: 10,
-                                          );
-                                        },
-                                        itemCount: snapshot.data!.docs.length);
-                                  } else {
+                                            );
+                                          },
+                                          separatorBuilder: (context, index) {
+                                            return const SizedBox(
+                                              width: 10,
+                                            );
+                                          },
+                                          itemCount: snapshot.data!.docs.length);
+                                    } else {
+                                      return  Center(
+                                        child: Text("Please Add More Products".tr),
+                                      );
+                                    }
+                                  } else if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
                                     return const Center(
-                                      child: Text("Please Add More Products"),
+                                        child: CircularProgressIndicator(
+                                      strokeWidth: 1,
+                                      color: Colors.grey,
+                                    ));
+                                  } else {
+                                    return  Center(
+                                      child: Text("Please Add More Products".tr),
                                     );
                                   }
-                                } else if (snapshot.connectionState ==
-                                    ConnectionState.waiting) {
-                                  return const Center(
-                                      child: CircularProgressIndicator(
-                                    strokeWidth: 1,
-                                    color: Colors.grey,
-                                  ));
-                                } else {
-                                  return const Center(
-                                    child: Text("Please Add More Products"),
-                                  );
-                                }
-                              }),
+                                }),
+                          ),
                         )
                       ]),
                 );

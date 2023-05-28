@@ -26,6 +26,11 @@ class HomeController extends GetxController{
    await countIncludedOrders();
   }
 
+ 
+
+  
+  
+
 getCurrentLoggedPharmacy()async{
   if(FirebaseAuth.instance.currentUser!=null){
       await FirebaseFirestore.instance.collection('pharmacies').doc(FirebaseAuth.instance.currentUser!.uid).get().then((value) {

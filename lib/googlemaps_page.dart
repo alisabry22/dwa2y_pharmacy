@@ -17,7 +17,7 @@ class GoogleMapsPage extends GetView<HomeController> {
       appBar: AppBar(
         title: Text(
           "$username's Loction",
-          style: GoogleFonts.poppins(color: Constants.textColor),
+          style: const TextStyle(color: Constants.textColor),
         ),
         iconTheme: const IconThemeData(color:Constants.textColor),
         elevation: 0,

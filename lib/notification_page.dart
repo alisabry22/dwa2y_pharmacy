@@ -1,12 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dwa2y_pharmacy/Models/prescription_model.dart';
-import 'package:dwa2y_pharmacy/Models/user_model.dart';
 
 import 'package:dwa2y_pharmacy/order_details.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:google_fonts/google_fonts.dart';
 import '../../Controllers/notification_controller.dart';
 import 'Utils/Constants/constants.dart';
 
@@ -19,9 +17,9 @@ class Notifications extends GetView<NotificationController> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        title: Text(
-          "Notifications ",
-          style: GoogleFonts.poppins(color: Constants.textColor, fontSize: 18),
+        title:  Text(
+          "Notifications".tr,
+          style: const TextStyle(color: Constants.textColor, fontSize: 18),
         ),
         iconTheme: const IconThemeData(color: Constants.textColor),
       ),
@@ -58,8 +56,8 @@ class Notifications extends GetView<NotificationController> {
                                   child: Ink(
                                     child: ListTile(
                                       leading:order.pickedImages!=null&&order.pickedImages!.isNotEmpty? CircleAvatar(backgroundImage: CachedNetworkImageProvider(order.pickedImages![0]),):const CircleAvatar(backgroundImage:  AssetImage("assets/images/patient.png"),),
-                                      title: const Text("Order Request"),
-                                      trailing: const Text("Tap To View"),
+                                      title:  Text("Order Request".tr),
+                                      trailing:  Text("Tap To View".tr),
                                     ),
                                   ),
                                 ),

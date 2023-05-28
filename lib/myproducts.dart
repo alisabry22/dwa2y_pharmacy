@@ -7,7 +7,6 @@ import 'package:dwa2y_pharmacy/edit_product.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class MyProducts extends GetView<ProductController> {
   const MyProducts({super.key});
@@ -26,9 +25,9 @@ class MyProducts extends GetView<ProductController> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text(
-            "My Products",
-            style: GoogleFonts.poppins(
+          title:  Text(
+            "My Products".tr,
+            style: const TextStyle(
                 color: Constants.textColor,
                 fontSize: 16,
                 fontWeight: FontWeight.w500),
@@ -69,7 +68,7 @@ class MyProducts extends GetView<ProductController> {
                           onPressed: () {
                             Get.to(() => const AddProduct());
                           },
-                          child: const Text("Add Product")),
+                          child:  Text("Add Product".tr)),
                     ),
             ),
           ],
@@ -158,7 +157,7 @@ class MyProducts extends GetView<ProductController> {
                                                   Center(
                                                       child: Text(
                                                     "${productModel.productName}",
-                                                    style: GoogleFonts.poppins(
+                                                    style: const TextStyle(
                                                         color:
                                                             Constants.textColor,
                                                         fontSize: 16,
@@ -171,8 +170,8 @@ class MyProducts extends GetView<ProductController> {
                                                                   .afterDiscount !=
                                                               0
                                                           ? Text(
-                                                              "Price : ${productModel.afterDiscount}",
-                                                              style: GoogleFonts.poppins(
+                                                              "${"Price".tr} : ${productModel.afterDiscount}",
+                                                              style: const TextStyle(
                                                                   color: Constants
                                                                       .textColor,
                                                                   fontSize: 16,
@@ -181,8 +180,8 @@ class MyProducts extends GetView<ProductController> {
                                                                           .w500),
                                                             )
                                                           : Text(
-                                                              "Price : ${productModel.productPrice}",
-                                                              style: GoogleFonts.poppins(
+                                                              "${"Price".tr} : ${productModel.productPrice}",
+                                                              style: const TextStyle(
                                                                   color: Constants
                                                                       .textColor,
                                                                   fontSize: 16,
@@ -210,7 +209,7 @@ class MyProducts extends GetView<ProductController> {
                                                         child: Text(
                                                           "${productModel.discountPercent}% OFF",
                                                           style:
-                                                          GoogleFonts.poppins(
+                                                          const TextStyle(
                                                               color: Constants
                                                                   .textColor,
                                                                   
@@ -245,19 +244,19 @@ class MyProducts extends GetView<ProductController> {
                     ),
                   );
                 } else {
-                  return Center(
+                  return const Center(
                     child: Text(
                       "Try To Add Some Products ",
-                      style: GoogleFonts.poppins(
+                      style: TextStyle(
                           fontWeight: FontWeight.w500, fontSize: 16),
                     ),
                   );
                 }
               } else {
-                return Center(
+                return const Center(
                   child: Text(
                     "Try To Add Some Products ",
-                    style: GoogleFonts.poppins(
+                    style: TextStyle(
                         fontWeight: FontWeight.w500, fontSize: 16),
                   ),
                 );
@@ -268,10 +267,10 @@ class MyProducts extends GetView<ProductController> {
               );
             } else {
 
-              return Center(
+              return const Center(
                 child: Text(
                   "Try To Add Some Products ",
-                  style: GoogleFonts.poppins(
+                  style: TextStyle(
                       fontWeight: FontWeight.w500, fontSize: 16),
                 ),
               );

@@ -6,7 +6,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../Controllers/notification_controller.dart';
 import '../full_photo.dart';
@@ -55,9 +54,9 @@ class CustomOrderDialog extends GetView<NotificationController> {
                         size: 35,
                       )),
                     ),
-                    Text(
-                      "New Order For You",
-                      style: GoogleFonts.poppins(
+                     Text(
+                      "New Order For You".tr,
+                      style: const TextStyle(
                           color: Colors.black, fontWeight: FontWeight.w500),
                     ),
                   prescriptionOrder.pickedImages!=null && prescriptionOrder.pickedImages!.isNotEmpty?  SizedBox(
@@ -110,9 +109,9 @@ class CustomOrderDialog extends GetView<NotificationController> {
                             height: MediaQuery.of(context).size.height*0.1,
                          
                             child: Text(
-                              "Required Medicine: ${prescriptionOrder.text} ",
+                              "${"Medicine".tr} ${prescriptionOrder.text} ",
                                               softWrap: true,
-                                              style: GoogleFonts.poppins(fontSize: 14,color: Constants.textColor),
+                                              style: const TextStyle(fontSize: 14,color: Constants.textColor),
                                               
                             ),
                           ):Container(),
@@ -142,15 +141,15 @@ class CustomOrderDialog extends GetView<NotificationController> {
     
                   
                     Text(
-                      "Phone Number: ${userCreatedOrder.phone!}",
-                      style: GoogleFonts.openSans(fontWeight: FontWeight.w500),
+                      "${"phone".tr} ${userCreatedOrder.phone!}",
+                      style: const TextStyle(fontWeight: FontWeight.w500),
                     ),
                     const SizedBox(
                       height: 15,
                     ),
                     CustomTextField(
                       keyboardType: TextInputType.number,
-                        hintText: "Offer him a price",
+                        hintText: "Offer him a price".tr,
           
                         validator: (p0) {
                           return null;
@@ -160,7 +159,7 @@ class CustomOrderDialog extends GetView<NotificationController> {
                       height: 20,
                     ),
                     CustomTextField(
-                        hintText: "Notes (like free delivery)",
+                        hintText: " NOTE :".tr ,
           
                         validator: (p0) {
                           return null;
@@ -179,7 +178,7 @@ class CustomOrderDialog extends GetView<NotificationController> {
                               onPressed: () async {
                                 if(order.orderStatus=="Waiting For Delivery"){
                                      Get.back();
-                                 Get.snackbar("Too Late", "Maybe user got another offer from some one else",snackPosition: SnackPosition.BOTTOM,duration: const Duration(milliseconds: 30));
+                                 Get.snackbar("Too Late".tr, "Customer Accepted Another Pharmacy Offer".tr,snackPosition: SnackPosition.BOTTOM,duration: const Duration(milliseconds: 30));
                                
                                 }else{
                                   if (controller.priceController.value.text.isNotEmpty ) {
@@ -203,25 +202,25 @@ class CustomOrderDialog extends GetView<NotificationController> {
                                           
                                 Get.back();
                                 }else{
-                                  Get.snackbar("Offer Him Price", "Please Offer Him price for Prescription",snackPosition: SnackPosition.BOTTOM);
+                                  Get.snackbar("Offer him a price".tr, "Please Offer Him price for Prescription".tr,snackPosition: SnackPosition.BOTTOM);
                                 }
                                 }
                                 
           
                               },
-                              text: "Accept"),
+                              text: "Accept".tr),
                           const Spacer(),
                           CustomElevatedButton(
                               width: 100,
                               height: 50,
                               onPressed: () async {
                                 await controller.sendRejectNotification(controller.orderId.value,  userCreatedOrder.token!,FirebaseAuth.instance.currentUser!.uid,controller
-                                          .currentLoggedInPharmacy.value.username!,"Order Rejected","${controller
-                                          .currentLoggedInPharmacy.value.username!}, rejected Your Order");
+                                          .currentLoggedInPharmacy.value.username!,"Rejected your Order".tr,"${controller
+                                          .currentLoggedInPharmacy.value.username!}, Rejected your Order".tr);
                                 await controller.onRejectOrder(controller.orderId.value);
                                 Get.back();
                               },
-                              text: "Reject"),
+                              text: "Reject".tr),
                         ],
                       ),
                     ),

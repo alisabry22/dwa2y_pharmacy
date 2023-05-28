@@ -1,15 +1,14 @@
 import 'package:dwa2y_pharmacy/Controllers/dashboard_controller.dart';
 import 'package:dwa2y_pharmacy/Controllers/home_controller.dart';
+import 'package:dwa2y_pharmacy/Screens/ChatsPages/allchats.dart';
 import 'package:dwa2y_pharmacy/Screens/MyAccountScreens/myaccount.dart';
 import 'package:dwa2y_pharmacy/home_screen.dart';
 import 'package:dwa2y_pharmacy/myorders.dart';
-import 'package:dwa2y_pharmacy/myproducts.dart';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
-import 'package:google_fonts/google_fonts.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 class Dashboard extends GetView<DashboardController> {
@@ -36,29 +35,33 @@ class Dashboard extends GetView<DashboardController> {
           Get.find<HomeController>().badgeCounter.value=0;
         }
       },
-      screens: const [
+      screens:  [
         HomeScreen(),
-
+        AllChats(),
         MyOrders(),
         MyAccountPage(),
       ],
       items: [
         PersistentBottomNavBarItem(
             icon: const Icon(Icons.home),
-            title: "Home",
-            textStyle: GoogleFonts.poppins(fontSize: 10)),
+            title: "Home ".tr,
+            textStyle: const TextStyle(fontSize: 10)),
+             PersistentBottomNavBarItem(
+            icon: const Icon(Icons.home),
+            title: "Chats ".tr,
+            textStyle: const TextStyle(fontSize: 10)),
    
         PersistentBottomNavBarItem(
      
         
                                   icon:const Icon(FontAwesomeIcons.cartPlus,  ),
 
-            title: "Orders",
-            textStyle: GoogleFonts.poppins(fontSize: 10)),
+            title: "Orders".tr,
+            textStyle: const TextStyle(fontSize: 10)),
         PersistentBottomNavBarItem(
             icon: const Icon(FontAwesomeIcons.user),
-            textStyle: GoogleFonts.poppins(fontSize: 10),
-            title: "MyAccount"),
+            textStyle: const TextStyle(fontSize: 10),
+            title: "MyAccount".tr),
             
             
       ],

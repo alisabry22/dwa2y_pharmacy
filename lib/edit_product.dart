@@ -7,7 +7,6 @@ import 'package:dwa2y_pharmacy/Widgets/custom_update_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import 'Models/product_model.dart';
 import 'Widgets/custom_elevated_button.dart';
@@ -19,9 +18,9 @@ class EditProduct extends GetView<ProductController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          "Edit Product",
-          style: GoogleFonts.poppins(color: Constants.textColor, fontSize: 16),
+        title:  Text(
+          "Edit Product".tr,
+          style: const TextStyle(color: Constants.textColor, fontSize: 16),
         ),
         iconTheme: const IconThemeData(color: Constants.textColor),
         elevation: 0,
@@ -81,10 +80,10 @@ class EditProduct extends GetView<ProductController> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               CustomListTile(
-                                title: "Product Name",
+                                title: "Product Name".tr,
                                 onTap: () {
                                   Get.bottomSheet(
-                                    CustomUpdateFieldBottomSheet(title: "Product Name",controller: controller.productName.value, onPressed: ()async{
+                                    CustomUpdateFieldBottomSheet(title: "Product Name".tr,controller: controller.productName.value, onPressed: ()async{
                                           if(controller.productName.value.text.isNotEmpty){
                                           await controller.updateProductName(productModel.prodcutId!, controller.productName.value.text);
                                                   controller.productName.value.text="";
@@ -96,38 +95,38 @@ class EditProduct extends GetView<ProductController> {
                                 subtitile: returnedProduct.productName!,
                               ),
                               CustomListTile(
-                                  title: "Product Price",
+                                  title: "Product Price".tr,
                                   onTap: () {
                                        Get.bottomSheet(
-                                    CustomUpdateFieldBottomSheet(title: "Edit Price",textInputType: TextInputType.number,controller: controller.productPrice.value, onPressed: ()async{
+                                    CustomUpdateFieldBottomSheet(title: "Edit Price".tr,textInputType: TextInputType.number,controller: controller.productPrice.value, onPressed: ()async{
                                           if(controller.productPrice.value.text.isNotEmpty){
                                           await controller.updateProductPrice(productModel.prodcutId!,int.parse(controller.productPrice.value.text));
                                                   controller.productPrice.value.text="";
                                                   Get.back();
                                                 } 
-                                    }, hintText: "Price")
+                                    }, hintText: "Price".tr)
                                   );
                                   },
                                   subtitile: returnedProduct.productPrice!.toString()),
                               CustomListTile(
-                                  title: "Discount Percent",
+                                  title:"Discount Percentage (Optional)".tr,
                                   onTap: () async{
                                            Get.bottomSheet(
-                                    CustomUpdateFieldBottomSheet(title: "Discount Percentage",textInputType: TextInputType.number,controller: controller.discountPercent.value, onPressed: ()async{
+                                    CustomUpdateFieldBottomSheet(title:"Discount Percentage (Optional)".tr,textInputType: TextInputType.number,controller: controller.discountPercent.value, onPressed: ()async{
                                           if(controller.discountPercent.value.text.isNotEmpty){
                                           await controller.updateProductDiscount(productModel.prodcutId!,int.parse(controller.discountPercent.value.text),returnedProduct.productPrice!);
                                                   controller.discountPercent.value.text="";
                                                   Get.back();
                                                 } 
-                                    }, hintText: "Discount Percentage")
+                                    }, hintText: "Discount Percentage (Optional)".tr)
                                   );
                                   },
                                   subtitile: returnedProduct.discountPercent.toString()),
                               Row(
                                 children: [
-                                  Text(
-                                    "Product Category",
-                                    style: GoogleFonts.poppins(
+                                   Text(
+                                    "Product Category".tr,
+                                    style: const TextStyle(
                                         color: Constants.textColor,
                                         fontWeight: FontWeight.w500),
                                   ),
@@ -135,31 +134,36 @@ class EditProduct extends GetView<ProductController> {
                                     width: 15,
                                   ),
                                   Obx(()=> DropdownButton(
-                                        style: GoogleFonts.poppins(
+                                        style: const TextStyle(
                                             color: Constants.textColor,
                                             fontWeight: FontWeight.w500),
-                                        value: controller.productCategory.value,
+                                        value: controller.productCategory.value.tr,
                                         elevation: 8,
-                                        items: const [
-                                          DropdownMenuItem(
-                                            value: "Capsules",
-                                            child: Text("Capsules"),
+                                        items:  [
+                                            DropdownMenuItem(
+                                            value: "Capsules".tr,
+                                            child: Text("Capsules".tr,style: const TextStyle(fontSize: 16),),
+
                                           ),
                                           DropdownMenuItem(
-                                            value: "Syurp",
-                                            child: Text("Syurp"),
+                                value: "Baby".tr,
+                                child: Text("Baby".tr,style: const TextStyle(fontSize: 16),),
+                              ),
+                                             DropdownMenuItem(
+                                            value: "Syurp".tr,
+                                            child: Text("Syurp".tr,style: const TextStyle(fontSize: 16),),
                                           ),
-                                          DropdownMenuItem(
-                                            value: "Skin Care",
-                                            child: Text("Skin Care"),
-                                          ),
-                                          DropdownMenuItem(
-                                            value: "Other",
-                                            child: Text("Other"),
-                                          ),
+                                             DropdownMenuItem(
+                                value: "Cosmatics".tr,
+                                child: Text("Cosmatics".tr,style: const TextStyle(fontSize: 16),),
+                              ),
+                                           DropdownMenuItem(
+                                value: "Other".tr,
+                                child: Text("Other".tr,style: const TextStyle(fontSize: 16),),
+                              ),
                                         ],
                                         onChanged: (value) {
-                                          controller.productCategory.value = value!;
+                                          controller.productCategory.value = value!.tr;
                                         }),
                                   ),
                                 ],
@@ -175,7 +179,7 @@ class EditProduct extends GetView<ProductController> {
                                 await controller.updateProductCategory(returnedProduct.prodcutId!, controller.productCategory.value);
                                 Get.back();
                               },
-                              text: "Save"),
+                              text: "Save".tr),
                         ),
                       ],
                                      ),

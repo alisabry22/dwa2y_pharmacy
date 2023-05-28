@@ -1,6 +1,7 @@
 
 import 'package:dwa2y_pharmacy/Bindings/bindings.dart';
 import 'package:dwa2y_pharmacy/Screens/AuthScreens/auth_router.dart';
+import 'package:dwa2y_pharmacy/Utils/languages.dart';
 import 'package:dwa2y_pharmacy/dashboard.dart';
 import 'package:dwa2y_pharmacy/notification_page.dart';
 
@@ -9,6 +10,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'Controllers/localization_controller.dart';
 import 'firebase_options.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -17,6 +20,7 @@ late AndroidNotificationChannel channel;
 bool isFlutterLocalNotificationsInitialized = false;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await GetStorage.init();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message){
@@ -94,8 +98,16 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
+    LanguageController localeController=Get.put(LanguageController());
+    print(localeController.locale.value);
+        return GetMaterialApp(
+      locale: localeController.locale.value,
+      translations: Languages(),
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        useMaterial3: true,
+         fontFamily: localeController.locale.value==const Locale('ar')?'Alexandria':'Poppins',
+      ),
       initialBinding: Binding(),
       home: const AuthRouter(),
     );

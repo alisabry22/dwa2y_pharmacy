@@ -18,15 +18,15 @@ class LocationDialg extends StatelessWidget {
       
       child: Column(
         children: [
-          const Text(
-            "GPS permission Request",
-            style: TextStyle(
+           Text(
+            "GPS permission Request".tr,
+            style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 16,
             ),
           ),
         const  SizedBox(height: 20,),
-          const Text("Location permission is Required for better using of app",style: TextStyle(fontSize: 14),),
+           Text("Location permission is Required for better using of app".tr,style: const TextStyle(fontSize: 14),),
             const  SizedBox(height: 20,),
           Center(
               child: CustomElevatedButton(
@@ -38,7 +38,7 @@ class LocationDialg extends StatelessWidget {
 
               Get.back();
             },
-            text: "Turn On Gps",
+            text: "Turn On Gps".tr,
           )),
         ],
       ),

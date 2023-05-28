@@ -7,7 +7,6 @@ import 'package:dwa2y_pharmacy/Widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import 'Utils/Constants/constants.dart';
 
@@ -18,9 +17,9 @@ class AddProduct extends GetView<ProductController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          "Add Product",
-          style: GoogleFonts.poppins(color: Constants.textColor, fontSize: 16),
+        title:  Text(
+          "Add Product".tr,
+          style: const TextStyle(color: Constants.textColor, fontSize: 16),
         ),
         elevation: 1,
         backgroundColor: Colors.white,
@@ -60,7 +59,7 @@ class AddProduct extends GetView<ProductController> {
                                       controller.pickProductImage();
                                       Get.back();
                                     },
-                                    text: "Change"),
+                                    text: "Change".tr),
                                 CustomElevatedButton(
                                     width: 120,
                                     height: 50,
@@ -68,7 +67,7 @@ class AddProduct extends GetView<ProductController> {
                                       controller.productImagePicked.value = "";
                                       Get.back();
                                     },
-                                    text: "Delete"),
+                                    text: "Delete".tr),
                               ],
                             ),
                           ),
@@ -91,13 +90,13 @@ class AddProduct extends GetView<ProductController> {
                       child: Ink(
                         child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
+                            children:  [
                               const Icon(FontAwesomeIcons.photoFilm),
                               const SizedBox(
                                 height: 5,
                               ),
-                              Text("Add Product Image",
-                                  style: GoogleFonts.poppins(
+                              Text("Add Product Image".tr,
+                                  style: const TextStyle(
                                       color: Constants.textColor, fontSize: 16))
                             ]),
                       ),
@@ -111,7 +110,7 @@ class AddProduct extends GetView<ProductController> {
               child: Column(
                 children: [
                   CustomTextField(
-                      hintText: "Prodcut Name",
+                      hintText: "Product Name".tr,
                       validator: (p0) {
                         return p0;
                       },
@@ -120,7 +119,7 @@ class AddProduct extends GetView<ProductController> {
                     height: 15,
                   ),
                   CustomTextField(
-                      hintText: "Product Price",
+                      hintText: "Product Price".tr,
                       keyboardType: TextInputType.number,
                       validator: (p0) {
                         return p0;
@@ -128,9 +127,9 @@ class AddProduct extends GetView<ProductController> {
                       controller: controller.productPrice.value),
                   Row(
                     children: [
-                      Text(
-                        "Product Category",
-                        style: GoogleFonts.poppins(
+                       Text(
+                        "Product Category".tr,
+                        style: const TextStyle(
                             color: Constants.textColor,
                             fontWeight: FontWeight.w500),
                       ),
@@ -139,37 +138,43 @@ class AddProduct extends GetView<ProductController> {
                       ),
                       Obx(
                         () => DropdownButton(
-                            style: GoogleFonts.poppins(
+                            style: const TextStyle(
                                 color: Constants.textColor,
                                 fontWeight: FontWeight.w500),
-                            value: controller.productCategory.value,
+                            value: controller.productCategory.value.tr,
                             elevation: 8,
-                            items: const [
+                            items:  [
                               DropdownMenuItem(
-                                value: "Capsules",
-                                child: Text("Capsules"),
+
+                                value: "Capsules".tr,
+                                child: Text("Capsules".tr,style: const TextStyle(fontSize: 16),),
+                              ),
+                               DropdownMenuItem(
+                                value: "Baby".tr,
+                                child: Text("Baby".tr,style:const TextStyle(fontSize: 16)),
+                              ),
+
+                              DropdownMenuItem(
+                                value: "Syurp".tr,
+                                child: Text("Syurp".tr,style:const TextStyle(fontSize: 16)),
                               ),
                               DropdownMenuItem(
-                                value: "Syurp",
-                                child: Text("Syurp"),
+                                value: "Cosmatics".tr,
+                                child: Text("Cosmatics".tr,style:const TextStyle(fontSize: 16)),
                               ),
                               DropdownMenuItem(
-                                value: "Skin Care",
-                                child: Text("Skin Care"),
-                              ),
-                              DropdownMenuItem(
-                                value: "Other",
-                                child: Text("Other"),
+                                value: "Other".tr,
+                                child: Text("Other".tr,style:const TextStyle(fontSize: 16)),
                               ),
                             ],
                             onChanged: (value) {
-                              controller.productCategory.value = value!;
+                              controller.productCategory.value = value!.tr;
                             }),
                       ),
                     ],
                   ),
                   CustomTextField(
-                      hintText: "Discount Percentage (Optional)",
+                      hintText: "Discount Percentage (Optional)".tr,
                       keyboardType: TextInputType.number,
                       validator: (p0) {
                         return p0;
@@ -185,7 +190,7 @@ class AddProduct extends GetView<ProductController> {
                        await controller.addProduct();
                   
                       },
-                      text: "Add Product"),
+                      text: "Add Product".tr),
                 ],
               ),
             ),

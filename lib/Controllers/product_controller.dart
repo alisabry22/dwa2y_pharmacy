@@ -18,7 +18,7 @@ Rx<TextEditingController> productName=TextEditingController().obs;
 Rx<TextEditingController> productPrice=TextEditingController().obs;
 Rx<TextEditingController> discountPercent=TextEditingController().obs;
 final accountController=Get.find<HomeController>();
-RxString productCategory="Capsules".obs;
+RxString productCategory="Capsules".tr.obs;
 Rx<String> productImagePicked="".obs;
 Rx<ProductModel> product=ProductModel().obs;
 RxBool onLongPress=false.obs;
@@ -71,12 +71,12 @@ RxString valueToUpdate="".obs;
      productImagePicked.value="";
      productPrice.value.text="";
      discountPercent.value.text="";
-     return  Get.snackbar("Great", "Succssefully Added Product",snackPosition: SnackPosition.BOTTOM,backgroundColor: Colors.grey);
+     return  Get.snackbar("Great".tr, "Succssefully Added Product".tr,snackPosition: SnackPosition.BOTTOM,backgroundColor: Colors.grey);
 
    
      
     }else{
-     return Get.snackbar("fill fields", "Please Fill All Required Fields",snackPosition: SnackPosition.BOTTOM,backgroundColor: Colors.grey);
+     return Get.snackbar("fill fields".tr, "Please Fill All Required Fields".tr,snackPosition: SnackPosition.BOTTOM,backgroundColor: Colors.grey);
       
     }
    
@@ -155,7 +155,7 @@ RxString valueToUpdate="".obs;
           padding: const EdgeInsets.all(16.0),
           child: Row(
             mainAxisSize: MainAxisSize.min,
-            children: const [CircularProgressIndicator(color: Constants.btnColor,), SizedBox(width: 10,),Text("Loading...")],
+            children:  [const CircularProgressIndicator(color: Constants.btnColor,), const SizedBox(width: 10,),Text("Loading...".tr)],
           ),
         ),
       ),

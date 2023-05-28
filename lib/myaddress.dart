@@ -1,6 +1,5 @@
 
 
-import 'dart:developer';
 
 import 'package:dwa2y_pharmacy/Controllers/address_controller.dart';
 import 'package:dwa2y_pharmacy/Controllers/myaccount_controller.dart';
@@ -11,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
-import 'package:google_fonts/google_fonts.dart';
 
 import 'Widgets/custom_elevated_button.dart';
 
@@ -23,9 +21,9 @@ class MyAddresses extends GetView<MyAccountController> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: AppBar(
-        title: Text(
-          "My Address",
-          style: GoogleFonts.poppins(
+        title:  Text(
+          "My Address".tr,
+          style: const TextStyle(
               color: Constants.textColor,
               fontSize: 16,
               fontWeight: FontWeight.w500),
@@ -62,17 +60,13 @@ class MyAddresses extends GetView<MyAccountController> {
                                                 const SizedBox(
                                                   width: 5,
                                                 ),
-                                             controller.currentLoggedInPharmacy.value.address!.nearby!=null?   Text(
-                                                  controller
-                                                      .currentLoggedInPharmacy
-                                                      .value
-                                                      .address!
-                                                      .nearby!,
-                                                  style: GoogleFonts.poppins(
+                                               Text(
+                                                  "Work".tr,
+                                                  style: const TextStyle(
                                                       color: Colors.black,
                                                       fontWeight:
                                                           FontWeight.w600),
-                                                ):Container(),
+                                                ),
                                                 const SizedBox(
                                                   width: 8,
                                                 ),
@@ -88,10 +82,10 @@ class MyAddresses extends GetView<MyAccountController> {
                                                                   .fromARGB(
                                                               255, 10, 94, 168),
                                                         ),
-                                                        child: const Center(
+                                                        child:  Center(
                                                             child: Text(
-                                                          "Default",
-                                                          style: TextStyle(
+                                                          "Default".tr,
+                                                          style: const TextStyle(
                                                               color:
                                                                   Colors.white,
                                                               fontWeight:
@@ -108,16 +102,16 @@ class MyAddresses extends GetView<MyAccountController> {
                                                 TextButton(
                                                     onPressed: () {},
                                                     child: Row(
-                                                      children: [
+                                                      children:  [
                                                         const Icon(
                                                           Icons.edit,
                                                           color: Colors.grey,
                                                           size: 15,
                                                         ),
                                                         Text(
-                                                          "Edit",
+                                                          "Edit".tr,
                                                           style:
-                                                              GoogleFonts.poppins(
+                                                              const TextStyle(
                                                                   color:
                                                                       Colors.grey),
                                                         ),
@@ -127,31 +121,31 @@ class MyAddresses extends GetView<MyAccountController> {
                                                        TextButton(
                                                     onPressed: () {
                                                       Get.defaultDialog(
-                                                        title: "Delete Address",
-                                                        content: const Text("Are you sure you want to delete this address"),
+                                                        title: "Delete Address".tr,
+                                                        content:  Text("Are you sure you want to delete this address".tr),
                                                         actions: [
                                                           TextButton(onPressed: (){
                                                             Get.back();
-                                                          }, child: const Text("CANCEL")),
+                                                          }, child:  Text("Cancel".tr)),
                                                           TextButton(onPressed: ()async{
                                                            await Get.find<AddressController>().removeAddress();
                                                            Get.back();
-                                                          }, child:const  Text("OK")),
+                                                          }, child:  Text("Confirm".tr)),
                               
                                                         ],
                                                       );
                                                     },
                                                     child: Row(
-                                                      children: [
+                                                      children:  [
                                                         const Icon(
                                                           Icons.delete,
                                                           color: Colors.grey,
                                                           size: 15,
                                                         ),
                                                         Text(
-                                                          "Delete",
+                                                          "Delete".tr,
                                                           style:
-                                                              GoogleFonts.poppins(
+                                                              const TextStyle(
                                                                   color:
                                                                       Colors.grey),
                                                         ),
@@ -165,8 +159,8 @@ class MyAddresses extends GetView<MyAccountController> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text("Name",
-                                                style: GoogleFonts.poppins(
+                                             Text("Name".tr,
+                                                style: const TextStyle(
                                                     color: Colors.grey,
                                                     fontWeight:
                                                         FontWeight.w500)),
@@ -174,7 +168,7 @@ class MyAddresses extends GetView<MyAccountController> {
                                               padding: const EdgeInsets.only(
                                                   right: 150),
                                               child: Text(
-                                                "${controller.currentLoggedInPharmacy.value.username} ",style: GoogleFonts.poppins(
+                                                "${controller.currentLoggedInPharmacy.value.username} ",style: const TextStyle(
                                                     color: Colors.grey,
                                                     fontWeight:
                                                         FontWeight.w400),)
@@ -190,8 +184,8 @@ class MyAddresses extends GetView<MyAccountController> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text("Address",
-                                                style: GoogleFonts.poppins(
+                                             Text("Address".tr,
+                                                style: const TextStyle(
                                                   color: Colors.grey,
                                                   fontWeight: FontWeight.w500,
                                                 )),
@@ -201,11 +195,11 @@ class MyAddresses extends GetView<MyAccountController> {
                                             Expanded(
                                               child: Padding(
                                                 padding: const EdgeInsets.only(
-                                                    right: 60),
+                                                    right: 150),
                                                 child: Text(
                                                   "${controller.currentLoggedInPharmacy.value.address!.street}",
                                                   maxLines: 4,
-                                                  style: GoogleFonts.poppins(
+                                                  style: const TextStyle(
                                                       color: Colors.grey,
                                                       fontWeight:
                                                           FontWeight.w400),
@@ -221,17 +215,17 @@ class MyAddresses extends GetView<MyAccountController> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text("Mobile Number",
-                                                style: GoogleFonts.poppins(
+                                             Text("Nearby".tr,
+                                                style: const TextStyle(
                                                     color: Colors.grey,
                                                     fontWeight:
                                                         FontWeight.w300)),
                                             Padding(
                                               padding: const EdgeInsets.only(
-                                                  right: 80),
+                                                  right: 150),
                                               child: Text(
-                                                "${controller.currentLoggedInPharmacy.value.phone} ",
-                                                style: GoogleFonts.poppins(
+                                                "${controller.currentLoggedInPharmacy.value.address!.nearby} ",
+                                                style: const TextStyle(
                                                     color: Colors.grey,
                                                     fontWeight:
                                                         FontWeight.w500),
@@ -249,11 +243,11 @@ class MyAddresses extends GetView<MyAccountController> {
             }else{
              return   Column(
                         children: [
-                        const  Expanded(
+                          Expanded(
                             
                               child:  Center(
                                 child: Text(
-                                    "Try to Add your Default Address For Delivery"),
+                                    "Try to Add your Default Address For Delivery".tr),
                               )),
                               CustomElevatedButton(
                                 height: 120,
@@ -261,7 +255,7 @@ class MyAddresses extends GetView<MyAccountController> {
                                   Get.to(()=>const GoogleMapPage());
                                 },
                                 width: MediaQuery.of(context).size.width,
-                                text: "Add Address",
+                                text: "Add A New Address".tr,
                                                       ),
                         ],
                         );

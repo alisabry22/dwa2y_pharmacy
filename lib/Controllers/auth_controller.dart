@@ -201,12 +201,12 @@ class AuthController extends GetxController {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            children: const [
-              CircularProgressIndicator(),
-              SizedBox(
+            children:  [
+              const CircularProgressIndicator(),
+              const SizedBox(
                 height: 10,
               ),
-              Text("Loading...")
+              Text("Loading...".tr)
             ],
           ),
         ),

@@ -8,7 +8,6 @@ import 'package:dwa2y_pharmacy/order_details.dart';
 import 'package:dwa2y_pharmacy/Utils/Constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 
 class MyOrders extends GetView<OrderController> {
@@ -27,9 +26,9 @@ class MyOrders extends GetView<OrderController> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    "My Orders",
-                    style: GoogleFonts.poppins(
+                   Text(
+                    "Orders".tr,
+                    style: const TextStyle(
                         color: Constants.textColor,
                         fontSize: 18,
                         fontWeight: FontWeight.w500),
@@ -76,11 +75,12 @@ class MyOrders extends GetView<OrderController> {
                                         child: ListTile(
                                           title: Text(
                                             order.orderDate!,
-                                            style: GoogleFonts.poppins(
-                                                color: Colors.black),
+                                            style: const TextStyle(
+                                                color: Colors.black,fontSize: 16),
                                           ),
-                                          subtitle: Text("Tap to Accept or refuse",style: GoogleFonts.lora(fontSize:12,fontWeight: FontWeight.w400 )),
-                                          trailing: Text(order.orderStatus!),
+                                          subtitle:  Text("Tap to Accept or refuse".tr,style: const TextStyle(fontSize:12,fontWeight: FontWeight.w400 )),
+                                          trailing: Text(order.orderStatus!.tr, style:
+                                                          const TextStyle(fontSize: 14),),
                                           leading:   order.pickedImages!=null && order.pickedImages!.isNotEmpty? CircleAvatar(
                                       
                                                  backgroundImage: CachedNetworkImageProvider(
@@ -118,11 +118,10 @@ class MyOrders extends GetView<OrderController> {
                                         child: ListTile(
                                           title: Text(
                                             order.orderDate!,
-                                            style: GoogleFonts.poppins(
-                                                color: Colors.black),
+                                            style: const TextStyle(fontSize: 16)
                                           ),
-                                          trailing: Text(order.orderStatus!),
-                                          subtitle: Text("Tap to View Details",style: GoogleFonts.lora(fontSize:10,fontWeight: FontWeight.w400 ),),
+                                          trailing: Text(order.orderStatus!.tr,style: const TextStyle(fontSize: 14)),
+                                          subtitle:  Text("Tap to View Details".tr,style: const TextStyle(fontSize:12,fontWeight: FontWeight.w400 ),),
                                           leading:order.pickedImages!=null &&order.pickedImages!.isNotEmpty? CircleAvatar(
                                               backgroundImage:
                                                   CachedNetworkImageProvider(
@@ -159,10 +158,10 @@ class MyOrders extends GetView<OrderController> {
                                         child: ListTile(
                                           title: Text(
                                             order.orderDate!,
-                                            style: GoogleFonts.poppins(
-                                                color: Colors.black),
+                                            style:  
+                                              const TextStyle(fontSize: 16),
                                           ),
-                                          trailing: Text(order.orderStatus!),
+                                          trailing: Text(order.orderStatus!.tr,style: const TextStyle(fontSize: 14),),
                                           leading:order.pickedImages!=null && order.pickedImages!.isNotEmpty? CircleAvatar(
                                               backgroundImage:
                                                   CachedNetworkImageProvider(
@@ -190,9 +189,9 @@ class MyOrders extends GetView<OrderController> {
                         return  Expanded(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
+                            children:  [
                               Center(
-                              child: Text("Try to Get Some Orders",style: GoogleFonts.poppins(color: Constants.textColor,fontWeight: FontWeight.w500),),
+                              child: Text("Try to Get Some Orders".tr,style: const TextStyle(color: Constants.textColor,fontWeight: FontWeight.w500),),
                                               ),
                             ],
                           ),
@@ -204,9 +203,9 @@ class MyOrders extends GetView<OrderController> {
                         child: Column(
                              mainAxisAlignment: MainAxisAlignment.center,
                       
-                          children: [
+                          children:  [
                             Center(
-                              child: Text("Try to Get Some Orders",style: GoogleFonts.poppins(color: Constants.textColor,fontWeight: FontWeight.w500),),
+                              child: Text("Try to Get Some Orders".tr,style: const TextStyle(color: Constants.textColor,fontWeight: FontWeight.w500),),
                             ),
                           ],
                         ),
@@ -220,9 +219,9 @@ class MyOrders extends GetView<OrderController> {
                     return  Expanded(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
+                        children:  [
                           Center(
-                            child: Text("Try to Get Some Orders",style: GoogleFonts.poppins(color: Constants.textColor,fontWeight: FontWeight.w500)),
+                            child: Text("Try to Get Some Orders".tr,style: const TextStyle(color: Constants.textColor,fontWeight: FontWeight.w500)),
                           ),
                         ],
                       ),

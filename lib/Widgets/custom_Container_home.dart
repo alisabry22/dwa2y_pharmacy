@@ -1,5 +1,7 @@
+
+
+
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class CustomContainerHome extends StatelessWidget {
   const CustomContainerHome({super.key, 
@@ -16,7 +18,7 @@ final String title;
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        boxShadow:const  [
+        boxShadow:  const [
           BoxShadow(
             blurRadius: 10,
             blurStyle: BlurStyle.outer,
@@ -49,7 +51,7 @@ final String title;
             Text(
               title,
               style:
-                  GoogleFonts.poppins(color:const Color(0xff182747), fontSize: 16,fontWeight: FontWeight.w500),
+                  const TextStyle(color:Color(0xff182747), fontSize: 14,fontWeight: FontWeight.w500),
             )
           ],
         ),

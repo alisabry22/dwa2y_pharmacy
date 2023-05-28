@@ -1,10 +1,10 @@
 import 'dart:io';
 
 import 'package:dwa2y_pharmacy/Controllers/auth_controller.dart';
+import 'package:dwa2y_pharmacy/Screens/AuthScreens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../Controllers/location_controller.dart';
@@ -23,8 +23,8 @@ class RegisterScreen extends GetView<AuthController> {
     return Scaffold(
       backgroundColor:const Color(0xffffffff),
       appBar: AppBar(
-        title: Text("Create Account  ",
-            style: GoogleFonts.firaSans(
+        title: Text("CreateAccount".tr,
+            style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w400,
                 color: Colors.black)),
@@ -79,11 +79,11 @@ class RegisterScreen extends GetView<AuthController> {
                           height: 15,
                         ),
                         CustomTextField(
-                          hintText: "username",
+                          hintText: "username".tr,
                           controller: controller.usernameController.value,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return "Please Enter correct Username";
+                              return "Please Enter correct Username".tr;
                             }
                             return null;
                           },
@@ -92,10 +92,10 @@ class RegisterScreen extends GetView<AuthController> {
                           height: 20,
                         ),
                         CustomTextField(
-                            hintText: "Email",
+                            hintText: "email".tr,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return "please enter Email";
+                                return  "please enter Email".tr;
                               }
                               return null;
                             },
@@ -114,8 +114,8 @@ class RegisterScreen extends GetView<AuthController> {
                               cursorColor: Colors.grey,
                               decoration: InputDecoration(
                                 fillColor: Colors.white,
-                                hintText: "Phone",
-                                hintStyle:GoogleFonts.firaSans(color: Colors.grey),
+                                hintText: "phone".tr,
+                                hintStyle:const TextStyle(color: Colors.grey),
                                 enabledBorder: const UnderlineInputBorder(),
                                 focusedBorder: const UnderlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
                                 filled: true,
@@ -149,11 +149,11 @@ class RegisterScreen extends GetView<AuthController> {
                                     },
                                     child: const Icon(FontAwesomeIcons.lockOpen,
                                         color:Colors.grey)),
-                            hintText: "Password",
+                            hintText: "password".tr,
                             controller: controller.passwordController.value,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return "Please enter correct password";
+                                return "Please enter correct password".tr;
                               }
                               return null;
                             },
@@ -165,18 +165,18 @@ class RegisterScreen extends GetView<AuthController> {
                         GetX<AuthController>(
                           builder: (controller) {
                             return CustomTextField(
-                              hintText: "ConfirmPassword",
+                              hintText: "confirmpassword".tr,
                               obscureValue: controller.obscurepassword.value,
                               controller:
                                   controller.confirmPasswordController.value,
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return "Please enter correct password";
+                                  return "Please enter correct password".tr;
                                 } else {
                                   if (controller.passwordController.value.text
                                           .toString() !=
                                       value) {
-                                    return "passwords don't match";
+                                    return "passwords don't match".tr;
                                   }
                                   return null;
                                 }
@@ -192,11 +192,8 @@ class RegisterScreen extends GetView<AuthController> {
                             height: height * 0.4,
                             onPressed: () async {
                               if (formKey.currentState!.validate()) {
-                                print("haha");
                                 bool locationEnabled=await controller.checkLocationNotEmpty();
-                                print(locationEnabled);
                                 if(locationEnabled){
-                                  print("Location Enabled $locationEnabled");
                                   final response = await controller
                                     .signUpWithEmailandPassword();
                                 if (response[0] == true) {
@@ -223,20 +220,22 @@ class RegisterScreen extends GetView<AuthController> {
         
                               }
                             },
-                            text: "Sign up"),
+                            text: "sign up".tr),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(
-                              "Already Have an Account? ",
-                              style: GoogleFonts.openSans(
+                             Text(
+                              "Already Have an Account?".tr,
+                              style: const TextStyle(
                                   color: Colors.grey, fontSize: 14),
                             ),
                             TextButton(
-                                onPressed: () {},
-                                child: Text(
-                                  "Login",
-                                  style: GoogleFonts.openSans(
+                                onPressed: () {
+                                  Get.to(LoginScreen());
+                                },
+                                child:  Text(
+                                  "login".tr,
+                                  style: const TextStyle(
                                     color: Constants.btnColor,
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,

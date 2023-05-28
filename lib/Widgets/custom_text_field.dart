@@ -40,7 +40,7 @@ TextInputType? keyboardType;
         suffixIcon:suffixIcon ,
         hintText: hintText,
         prefixIcon: prefixIcon,
-        hintStyle: GoogleFonts.firaSans(color: Colors.grey),
+        hintStyle: const TextStyle(color: Colors.grey),
         enabledBorder:const  UnderlineInputBorder(
           borderSide: BorderSide(color: Colors.grey),
         ),

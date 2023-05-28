@@ -11,10 +11,8 @@ import 'package:dwa2y_pharmacy/full_photo.dart';
 import 'package:dwa2y_pharmacy/googlemaps_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class OrderDetails extends GetView<OrderController> {
@@ -32,8 +30,8 @@ class OrderDetails extends GetView<OrderController> {
     final height=MediaQuery.of(context).size.height;
         return Scaffold(
       appBar: AppBar(
-        title: Text("Order Details",
-            style: GoogleFonts.poppins(
+        title:  Text("Order Details".tr,
+            style: const TextStyle(
                 color: Constants.textColor,
                 fontSize: 14,
                 fontWeight: FontWeight.w500)),
@@ -120,13 +118,13 @@ class OrderDetails extends GetView<OrderController> {
                         children: [
                           order.text != null && order.text!.isNotEmpty
                               ? Text(
-                                  "Medicine Needed : ${order.text}",
-                                  style: GoogleFonts.poppins(fontSize: 14),
+                                  "${"Medicine Name".tr} ${order.text}",
+                                  style: const TextStyle(fontSize: 14),
                                 )
                               : Container(),
                           Text(
-                            "Order Date : ${order.orderDate}",
-                            style: GoogleFonts.poppins(fontSize: 14),
+                            "${"Order Date".tr} : ${order.orderDate}",
+                            style: const TextStyle(fontSize: 14),
                           ),
                           const SizedBox(
                             height: 10,
@@ -134,8 +132,8 @@ class OrderDetails extends GetView<OrderController> {
                           Row(
                             children: [
                               Text(
-                                "Customer Name : ${usercreatedOrder.username}",
-                                style: GoogleFonts.poppins(fontSize: 14),
+                                "${"Customer Name:".tr} ${usercreatedOrder.username}",
+                                style: const TextStyle(fontSize: 14),
                               ),
                               const Spacer(),
                               Padding(
@@ -154,6 +152,7 @@ class OrderDetails extends GetView<OrderController> {
                                           radius: 15,
                                           child: Icon(
                                             FontAwesomeIcons.phone,
+                                            color: Colors.white,
                                             size: 15,
                                           )),
                                     ),
@@ -180,9 +179,9 @@ class OrderDetails extends GetView<OrderController> {
                                     width:
                                         MediaQuery.of(context).size.width * 0.8,
                                     child: Text(
-                                      "Address : ${usercreatedOrder.addresses![usercreatedOrder.defaultAddressIndex!].street} ",
+                                      "${"Address".tr} : ${usercreatedOrder.addresses![usercreatedOrder.defaultAddressIndex!].street} ",
                                       softWrap: true,
-                                      style: GoogleFonts.poppins(
+                                      style: const TextStyle(
                                           fontWeight: FontWeight.w400,
                                           fontSize: 14),
                                     ),
@@ -199,21 +198,21 @@ class OrderDetails extends GetView<OrderController> {
                             height: 10,
                           ),
                           Text(
-                            "Serial : $orderid",
-                            style: GoogleFonts.poppins(
+                            "${"Order Number:".tr} $orderid",
+                            style: const TextStyle(
                                 fontWeight: FontWeight.w400, fontSize: 14),
                           ),
                           const SizedBox(
                             height: 10,
                           ),
-                          Text("Payment Method : ${order.paymentMethod}",
-                              style: GoogleFonts.poppins(
+                          Text("${"Payment Method :".tr} ${"In Cash".tr}",
+                              style: const TextStyle(
                                   fontWeight: FontWeight.w400, fontSize: 14)),
                                    const SizedBox(
                             height: 10,
                           ),
-                                  Text("Order Status :${order.orderStatus} ",
-                                  style: GoogleFonts.poppins(
+                                  Text("${"Order Status :".tr} ${order.orderStatus!.tr} ",
+                                  style: const TextStyle(
                                       fontWeight: FontWeight.w400,
                                       fontSize: 14)),
                                        const SizedBox(
@@ -222,8 +221,8 @@ class OrderDetails extends GetView<OrderController> {
                          
                           order.acceptedby != null &&
                                   order.acceptedby!.isNotEmpty
-                              ? Text("Price :${order.amount} ",
-                                  style: GoogleFonts.poppins(
+                              ? Text("${"Price :".tr} ${order.amount} ",
+                                  style: const TextStyle(
                                       fontWeight: FontWeight.w400,
                                       fontSize: 14))
                               : Container(),
@@ -235,7 +234,7 @@ class OrderDetails extends GetView<OrderController> {
                                       padding: const EdgeInsets.all(10.0),
                                       child: CustomTextField(
                                         keyboardType: TextInputType.number,
-                                          hintText: "Offer him a price",
+                                          hintText: "Offer him a price".tr,
                                           validator: (p0) {
                                             return null;
                                           },
@@ -245,7 +244,7 @@ class OrderDetails extends GetView<OrderController> {
                                      Padding(
                                        padding: const EdgeInsets.all(15.0),
                                        child: CustomTextField(
-                                                             hintText: "Notes (like free delivery)",
+                                                             hintText: " NOTE :".tr,
                                                
                                                              validator: (p0) {
                                                                return null;
@@ -257,12 +256,12 @@ class OrderDetails extends GetView<OrderController> {
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
                                         CustomElevatedButton(
-                                            width: 100,
+                                            width: 130,
                                             height: 50,
                                             onPressed: () async {
                                               if (order.orderStatus == "Waiting For Delivery") {
                                                 Get.back();
-                                                Get.snackbar("Too Late","Maybe user got another offer from some one else",
+                                                Get.snackbar("Too Late".tr,"Customer Accepted Another Pharmacy Offer".tr,
                                                     snackPosition:
                                                         SnackPosition.BOTTOM,
                                                     duration: const Duration(
@@ -287,8 +286,8 @@ class OrderDetails extends GetView<OrderController> {
                                                               .currentLoggedInPharmacy
                                                               .value
                                                               .username!,
-                                                          "Pharmacy Offer",
-                                                          "${notificationCont.currentLoggedInPharmacy.value.username} offer you ${controller.priceController.value.text.trim()} For Your Order Get back and accept");
+                                                          "Pharmacy Offer".tr,
+                                                          "${notificationCont.currentLoggedInPharmacy.value.username} ${"offers you".tr} ${controller.priceController.value.text.trim()} ${"New Offer For Your Order".tr}");
                                                   await notificationCont
                                                       .addtoNotification(
                                                     order.orderid!,
@@ -309,16 +308,16 @@ class OrderDetails extends GetView<OrderController> {
                                                   Get.back();
                                                 } else {
                                                   Get.snackbar(
-                                                      "Offer Him Price",
-                                                      "Please Offer Him price for Prescription",
+                                                      "Offer him a price".tr,
+                                                      "Please Offer Him price for Prescription".tr,
                                                       snackPosition:
                                                           SnackPosition.BOTTOM);
                                                 }
                                               }
                                             },
-                                            text: "Accept"),
+                                            text: "Accept".tr),
                                         CustomElevatedButton(
-                                            width: 100,
+                                            width: 130,
                                             height: 50,
                                             onPressed: () async {
                                               await notificationCont
@@ -329,14 +328,14 @@ class OrderDetails extends GetView<OrderController> {
                                                           .currentUser!.uid,
                                                       controller.currentPharmacy
                                                           .value.username!,
-                                                      "Order Rejected",
-                                                      "${controller.currentPharmacy.value.username!}, rejected Your Order");
+                                                      "Rejected your Order".tr,
+                                                      "${controller.currentPharmacy.value.username!}, ${"Rejected your Order".tr}");
                                               await notificationCont
                                                   .onRejectOrder(
                                                       order.orderid!);
                                               Get.back();
                                             },
-                                            text: "Reject"),
+                                            text: "Reject".tr),
                                       ],
                                     ),
                                   ],
@@ -362,7 +361,7 @@ class OrderDetails extends GetView<OrderController> {
                                                 .changeOrderStatusToDelivered(orderid);
                                                 order.orderStatus="Delivered";
                                           },
-                                          text: "Set to Delivered"),
+                                          text: "Set to Delivered".tr),
                                     
                                   )
                               

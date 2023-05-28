@@ -5,10 +5,8 @@ import 'package:dwa2y_pharmacy/Widgets/custom_address_text_field.dart';
 import 'package:dwa2y_pharmacy/googlemap_page.dart';
 
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
-import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'Utils/Constants/constants.dart';
 import 'Widgets/custom_elevated_button.dart';
@@ -22,9 +20,9 @@ class AddAddress extends GetView<AddressController> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text(
-          "Dwa2y",
-          style: GoogleFonts.poppins(
+        title:  Text(
+          "3lagy".tr,
+          style: const TextStyle(
               color: Constants.textColor,
               fontSize: 16,
               fontWeight: FontWeight.w500),
@@ -51,7 +49,7 @@ class AddAddress extends GetView<AddressController> {
                           width: MediaQuery.of(context).size.width * 0.5,
                           child: Text(
                             controller.fullAddress.value,
-                            style: GoogleFonts.poppins(),
+                            style: const TextStyle(),
                           )),
                       Stack(children: [
                         SizedBox(
@@ -79,10 +77,10 @@ class AddAddress extends GetView<AddressController> {
                                   child: Ink(
                                     child: Container(
                                       color: Colors.grey,
-                                      child: Center(
+                                      child:  Center(
                                           child: Text(
-                                        "Edit",
-                                        style: GoogleFonts.poppins(
+                                        "Edit".tr,
+                                        style: const TextStyle(
                                             fontWeight: FontWeight.w500,
                                             color: Constants.textColor),
                                       )),
@@ -100,9 +98,9 @@ class AddAddress extends GetView<AddressController> {
               const SizedBox(
                 height: 20,
               ),
-              Text(
-                "Additional Address Details",
-                style: GoogleFonts.poppins(
+               Text(
+                "Additional Address Details".tr,
+                style: const TextStyle(
                     color: Colors.grey, fontWeight: FontWeight.w300),
               ),
               const SizedBox(
@@ -113,9 +111,9 @@ class AddAddress extends GetView<AddressController> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                   CustomAddressField(controller: controller.street.value, hintText: "Street Name"),
+                   CustomAddressField(controller: controller.street.value, hintText: "Street Name".tr),
                    const SizedBox(height: 30,),
-                    CustomAddressField(controller: controller.nearby.value, hintText: "Near to "),
+                    CustomAddressField(controller: controller.nearby.value, hintText: "Near to".tr),
                   ],
                 ),
               ),
@@ -133,7 +131,7 @@ class AddAddress extends GetView<AddressController> {
                     }
                     
                   },
-                  text: "SAVE ADDRESS"),
+                  text: "SAVE ADDRESS".tr),
             ]),
           ),
         ),

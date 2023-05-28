@@ -25,15 +25,15 @@ class LocationController extends GetxController {
     if(!serviceEnabled){
     await  Get.defaultDialog(
       barrierDismissible: false,
-        title: "GPS Required",
-        content:const  Text("Please Enable GPS and try again"),
+        title: "GPS permission Request".tr,
+        content:  Text("Location permission is Required for better using of app".tr),
         actions: [
           CustomElevatedButton(width: 200, height: 100, onPressed: ()async{
             Location location=Location();
          await location.requestService();
   
           Get.back();
-          }, text: "Enable GPS"),
+          }, text: "Turn On Gps".tr),
         ],
       
       );
@@ -69,12 +69,12 @@ class LocationController extends GetxController {
         Get.back();
       }
     await Get.defaultDialog(
-      title: "GPS Error",
-      content:const Text("Please Enable Gps And try Again..."),
+      title: "GPS Error".tr,
+      content: Text("Please Enable Gps And try Again...".tr),
       actions: [
         CustomElevatedButton(width: 120, height: 60, onPressed: (){
           Get.back();
-        }, text: "Ok"),
+        }, text: "Ok".tr),
       ]
     );
     } 

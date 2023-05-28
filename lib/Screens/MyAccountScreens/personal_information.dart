@@ -3,7 +3,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../Controllers/myaccount_controller.dart';
 import '../../Utils/Constants/constants.dart';
@@ -19,9 +18,9 @@ class PersonalInformation extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: AppBar(
-        title: Text(
-          "Personal Information",
-          style: GoogleFonts.poppins(color: Constants.textColor, fontSize: 16),
+        title:  Text(
+          "Personal Information".tr,
+          style: const TextStyle(color: Constants.textColor, fontSize: 16),
         ),
         backgroundColor: Colors.white,
         elevation: 0,
@@ -55,7 +54,7 @@ class PersonalInformation extends StatelessWidget {
                         children: [
                           Obx(()=>(
                              CustomListTile(
-                              title: "Name",
+                              title: "Name".tr,
                               onTap: () {
                                 Get.defaultDialog(
                                   confirm: CustomElevatedButton(
@@ -65,16 +64,16 @@ class PersonalInformation extends StatelessWidget {
                                         await controller.updateUserName(controller.usernameController.value.text.trim());
                                         Get.back();
                                       },
-                                      text: "Confirm"),
+                                      text: "Confirm".tr),
                                   cancel: CustomElevatedButton(
                                       width: 120,
                                       height: 60,
                                       onPressed: () {
                                         Get.back();
                                       },
-                                      text: "Cancel"),
+                                      text: "Cancel".tr),
                                   content: CustomTextField(
-                                      hintText: "username",
+                                      hintText: "username".tr,
                                       validator: (p0) {
                                         return null;
                                       },
@@ -86,13 +85,13 @@ class PersonalInformation extends StatelessWidget {
                             )
                           )),
                           CustomListTile(
-                            title: "Email",
+                            title: "email".tr,
                             subtitile:
                                 controller.currentLoggedInPharmacy.value.email != null &&
                                         controller.currentLoggedInPharmacy.value.email!
                                             .isNotEmpty
                                     ? controller.currentLoggedInPharmacy.value.email!
-                                    : "Tap to Set",
+                                    : "Tap to Set".tr,
                             onTap: () {
                               Get.defaultDialog(
                                 confirm: CustomElevatedButton(
@@ -104,16 +103,16 @@ class PersonalInformation extends StatelessWidget {
                                           .trim());
                                       Get.back();
                                     },
-                                    text: "Confirm"),
+                                    text: "Confirm".tr),
                                 cancel: CustomElevatedButton(
                                     width: 120,
                                     height: 60,
                                     onPressed: () {
                                       Get.back();
                                     },
-                                    text: "Cancel"),
+                                    text: "Cancel".tr),
                                 content: CustomTextField(
-                                    hintText: "Email",
+                                    hintText: "email".tr,
                                     validator: (p0) {
                                       return null;
                                     },

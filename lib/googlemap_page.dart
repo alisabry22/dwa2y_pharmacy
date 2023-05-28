@@ -20,7 +20,7 @@ class GoogleMapPage extends GetView<GoogleMapServicers> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Dwa2y",style: GoogleFonts.poppins(fontWeight: FontWeight.w500,color: Constants.textColor),),
+          title:  Text("3lagy".tr.tr,style: const TextStyle(fontWeight: FontWeight.w500,color: Constants.textColor),),
           elevation: 0,
           backgroundColor: Colors.white,
           iconTheme:const IconThemeData(color: Constants.textColor),
@@ -143,8 +143,8 @@ class GoogleMapPage extends GetView<GoogleMapServicers> {
                             await controller.getCurrentLocation();
                           },
                           child: Row(
-                            children: [
-                              Text("Locate Me",style: GoogleFonts.poppins(fontSize:14,fontWeight: FontWeight.w500 ),),
+                            children:  [
+                              Text("Locate Me".tr,style: const TextStyle(fontSize:14,fontWeight: FontWeight.w500 ),),
                               const Icon(FontAwesomeIcons.locationDot,color: Colors.white,),
                             ],
                           )),
@@ -158,7 +158,7 @@ class GoogleMapPage extends GetView<GoogleMapServicers> {
                       controller.updateFirebaseLocation();
                       Get.off(()=>AddAddress());
                     },
-                    text: "CONFIRM LOCATION",
+                    text: "CONFIRM LOCATION".tr,
                     height: MediaQuery.of(context).size.height * 0.1,
                     width: MediaQuery.of(context).size.width ,
                   )),

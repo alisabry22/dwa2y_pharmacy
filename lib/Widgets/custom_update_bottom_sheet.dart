@@ -2,7 +2,7 @@ import 'package:dwa2y_pharmacy/Utils/Constants/constants.dart';
 import 'package:dwa2y_pharmacy/Widgets/custom_elevated_button.dart';
 import 'package:dwa2y_pharmacy/Widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:get/get.dart';
 
 class CustomUpdateFieldBottomSheet extends StatelessWidget {
  const  CustomUpdateFieldBottomSheet(
@@ -22,14 +22,14 @@ class CustomUpdateFieldBottomSheet extends StatelessWidget {
         child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(children: [
-               Text(title,style: GoogleFonts.poppins(color: Constants.textColor,fontWeight: FontWeight.w500),),
+               Text(title,style: const TextStyle(color: Constants.textColor,fontWeight: FontWeight.w500),),
               CustomTextField(
                 keyboardType: textInputType,
                   hintText: hintText,
                   validator: (p0) {return p0;},
                   controller: controller),
               CustomElevatedButton(
-                  width: 120, height: 50, onPressed: onPressed, text: "Update"),
+                  width: 120, height: 50, onPressed: onPressed, text: "Update".tr),
             ])));
   }
 }
