@@ -7,6 +7,7 @@ class UserModel {
  final double lat,long;
 List<AddressModel>? addresses;
 int? defaultAddressIndex;
+String? status;
 
   UserModel({
 
@@ -14,6 +15,7 @@ int? defaultAddressIndex;
      this.phone,
      this.countrycode,
      this.profileImageLink,
+     this.status,
      this.gender,
      this.birthday,
      this.email,
@@ -30,6 +32,8 @@ int? defaultAddressIndex;
     return UserModel(
       username:documentSnapshot.data().toString().contains("username")? documentSnapshot.get("username"):"",
       userid: documentSnapshot.id,
+     status:documentSnapshot.data().toString().contains("status")?documentSnapshot.get("status"):"",
+
       phone:documentSnapshot.data().toString().contains("phone")? documentSnapshot.get("phone"):"",
       token: documentSnapshot.data().toString().contains("token")?documentSnapshot.get("token"):"",
       createdAt:documentSnapshot.data().toString().contains("createdAt")? documentSnapshot.get("createdAt"):"",

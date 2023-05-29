@@ -33,7 +33,7 @@ class AllChats extends GetView<ChatController> {
                       child: InkWell(
                         onTap: ()async{
                     
-                          UserModel userModel=await controller.getUserDetails(chatModel.senderId!);
+                          UserModel userModel=await controller.getInitialUserDetails(chatModel.senderId!);
                          Get.to(()=>ChatScreen(customer: userModel,chatid: chatModel.chatId!,));
                         },
                         child: Ink(

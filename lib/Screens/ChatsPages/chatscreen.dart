@@ -9,13 +9,29 @@ import 'package:get/get.dart';
 import '../../Controllers/chat_controller.dart';
 import '../../Models/chatmodel.dart';
 import '../../Utils/Constants/constants.dart';
+import '../../Widgets/chat_bubble.dart';
 
-class ChatScreen extends GetView<ChatController> {
+class ChatScreen extends StatefulWidget{
   const ChatScreen({super.key, required this.customer,required this.chatid});
   final UserModel customer;
   final String chatid;
+
+  @override
+  State<ChatScreen> createState() => _ChatScreenState();
+}
+
+class _ChatScreenState extends State<ChatScreen> {
+  final controller=Get.find<ChatController>();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    controller.updateseenMessages();
+
+  }
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       appBar: AppBar(
         title: Column(
@@ -23,12 +39,14 @@ class ChatScreen extends GetView<ChatController> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              customer.username!,
+              widget.customer.username!,
               style: TextStyle(color: Constants.textColor, fontSize: 16),
             ),
-            Text(
-              "online",
-              style: TextStyle(color: Colors.grey, fontSize: 12),
+            Obx(()=>
+               Text(
+                controller.currentChatCustomer.value.status!=null?controller.currentChatCustomer.value.status=="online"?"online":"":"",
+                style: TextStyle(color: Colors.grey, fontSize: 12),
+              ),
             ),
           ],
         ),
@@ -37,11 +55,11 @@ class ChatScreen extends GetView<ChatController> {
         children: [
           Expanded(
             child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                stream: controller.getChatMessages(chatid),
+                stream: controller.getChatMessages(widget.chatid),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.active) {
                     if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
-                 
+                      controller.getCustomerStatusDetails(widget.customer.userid!);
                     
                       return ListView.separated(
                           shrinkWrap: true,
@@ -51,27 +69,32 @@ class ChatScreen extends GetView<ChatController> {
                             ChatMessage message = ChatMessage.fromJson(
                                 snapshot.data!.docs[index].data());
                                 
-                                  return Column(
-                                    children: [
-                                      BubbleNormal(
-                              text: message.message,
-                              color: message.sender ==
-                                          FirebaseAuth.instance.currentUser!.uid
-                                      ? Color(0xff4062BB)
-                                      : Colors.grey,
+                                  return ChatBubble(
+                                     delivered: message.delivered!=null?message.delivered!:false,
+
+                              seen: message.seen!=null?message.seen!:false,
                               isSender: message.sender ==
+                                      FirebaseAuth.instance.currentUser!.uid
+                                  ? false
+                                  : true,
+                              color: message.sender ==
+                                      FirebaseAuth.instance.currentUser!.uid
+                                  ? Color(0xff4062BB)
+                                  : Colors.grey.shade300,
+                              message: message.message,
+                              
+                              textStyle: TextStyle(
+                                  color: message.sender ==
                                           FirebaseAuth.instance.currentUser!.uid
-                                      ? false
-                                      : true,
-                                      tail: true,
-                                      textStyle:TextStyle(color:message.sender ==
-                                          FirebaseAuth.instance.currentUser!.uid?Colors.white:Colors.black ) ,
-                                      
-                            ),
-                            Text(message.sentat.toString().substring(11,16)),
-                                    ],
+                                      ? Colors.white
+                                      : Colors.black),
+                              sentat: int.parse(message.sentat
+                                          .toString()
+                                          .substring(11, 13)) >=
+                                      12
+                                  ? "${message.sentat.toString().substring(11, 16)}PM"
+                                  : "${message.sentat.toString().substring(11, 16)}AM",
                                   );
-                                
                              
                           },
                           separatorBuilder: (context, index) {
@@ -79,7 +102,7 @@ class ChatScreen extends GetView<ChatController> {
                               height: 15,
                             );
                           },
-                          itemCount: snapshot.data!.docs.length+1);
+                          itemCount: snapshot.data!.docs.length);
                     } else {
                       return Expanded(
                         child: Center(
@@ -108,10 +131,10 @@ class ChatScreen extends GetView<ChatController> {
             onSend: (value) async {
               ChatMessage message = ChatMessage(
                   sender: FirebaseAuth.instance.currentUser!.uid,
-                  receiver: customer.userid!,
+                  receiver: widget.customer.userid!,
                   message: value,
                   sentat: DateTime.now());
-              await controller.sendMessage(message,chatid );
+              await controller.sendMessage(message,widget.chatid );
             },
             actions: [
               InkWell(

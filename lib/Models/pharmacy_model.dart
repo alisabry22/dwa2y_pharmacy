@@ -12,7 +12,7 @@ class PharmacyModel {
       userid,token;
   final double lat, long;
   AddressModel? address;
-
+  String? status;
   PharmacyModel({
     this.username,
     this.phone,
@@ -23,6 +23,7 @@ class PharmacyModel {
     this.email,
     this.userid,
     this.token,
+    this.status,
     required this.lat,
     required this.long,
     this.address,
@@ -32,6 +33,8 @@ class PharmacyModel {
     return PharmacyModel(
       lat:doc.data().toString().contains("lat")? doc.get("lat"):0.0,
       long:doc.data().toString().contains("long")?doc.get("long"):0.0,
+   status:doc.data().toString().contains("status")?doc.get("status"):"",
+
       username:doc.data().toString().contains("username")? doc.get("username"):"",
       userid: doc.id,
       address:doc.data().toString().contains("address")?AddressModel.fromJson(doc.get("address")):AddressModel(),

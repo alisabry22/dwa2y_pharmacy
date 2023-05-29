@@ -154,6 +154,7 @@ class AuthController extends GetxController {
       email: emailController.value.text.trim(),
       lat: locationController.lat.value,
       long: locationController.long.value,
+      status: "online",
       createdAt: DateTime.now().toLocal().toString(),
       updatedAt: DateTime.now().toLocal().toString(),
       
