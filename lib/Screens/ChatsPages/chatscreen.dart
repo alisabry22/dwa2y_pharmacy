@@ -104,16 +104,16 @@ class _ChatScreenState extends State<ChatScreen> {
                                             .toString()
                                             .substring(11, 13)) >=
                                         12
-                                    ? "${message.sentat.toString().substring(11, 16)}PM"
-                                    : "${message.sentat.toString().substring(11, 16)}AM",
+                                    ?  "${int.parse(message.sentat.toString().substring(11, 13)) - 12}:${message.sentat.toString().substring(14, 16)}${"PM".tr}"
+                                    : "${message.sentat.toString().substring(11, 16)}${"AM".tr}",
                               );
                             } else {
                               
                               return BubbleNormalImage(
-                                delivered: message.delivered!=null ?message.delivered!:false,
-                                isSender:message.sender==FirebaseAuth.instance.currentUser!.uid?true:false,
-                                sent: true,
-                                seen: message.seen!,
+                                delivered: message.receiver==FirebaseAuth.instance.currentUser!.uid ?false:message.delivered!=null?message.delivered!:false,
+                                isSender:message.sender==FirebaseAuth.instance.currentUser!.uid?false:true,
+                                sent: message.receiver==FirebaseAuth.instance.currentUser!.uid?false:true,
+                                seen: message.receiver==FirebaseAuth.instance.currentUser!.uid?false:message.seen!,
                                 tail: true,
                                 
                                   id: message.sentat.toString(),
@@ -131,7 +131,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       return Expanded(
                         child: Center(
                           child: Text(
-                            "Start Your Chat With Him now",
+                            "Start Your Chat With Him now".tr,
                             style: TextStyle(color: Colors.grey),
                           ),
                         ),
@@ -144,7 +144,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     return Expanded(
                       child: Center(
                         child: Text(
-                          "Start Your Chat With Him now",
+                          "Start Your Chat With Him now".tr,
                           style: TextStyle(color: Colors.grey),
                         ),
                       ),
@@ -167,6 +167,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   delivered: delivered,
                   sentat: DateTime.now());
               await controller.sendMessage(message, widget.chatid);
+              controller.sendNotificationMessage(widget.customer.token!, message);
             },
             actions: [
               InkWell(
@@ -185,7 +186,59 @@ class _ChatScreenState extends State<ChatScreen> {
                     color: Colors.green,
                     size: 24,
                   ),
-                  onTap: () {},
+                  onTap: () {
+                        Get.bottomSheet(
+                                              Container(
+                                                width: MediaQuery.of(context).size.width,
+                                                color: Colors.white,
+                                                height: MediaQuery.of(context).size.height*0.15,
+                                                child: Column(
+                                                  children: [
+                                                     Text("Add Photo".tr),
+                                                    Row(
+                                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                      children: [
+                                                        InkWell(
+                                                          onTap: ()async{
+                                                            await controller.ImagePickerFromCamera(widget.chatid,widget.customer);
+                                                          },
+                                                          child: Column(
+                                                            children:  [
+                                                             Container(width: 40,height: 40,decoration:  BoxDecoration(
+                                                                  shape: BoxShape.circle,
+                                                                  border: Border.all(
+                                                                    color: Colors.grey,
+                                                                  )
+                                                                ),child: const Icon(Icons.image,color: Constants.textColor,)),
+                                                                const SizedBox(height: 10,),
+                                                               Text("Camera".tr),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        InkWell(
+                                                          onTap: ()async{
+                                                             await controller.ImagePickerFromGallery(widget.chatid,widget.customer);
+                                                          },
+                                                          child: Column(
+                                                            children:  [
+                                                                Container(width: 40,height: 40,decoration:  BoxDecoration(
+                                                                  shape: BoxShape.circle,
+                                                                  border: Border.all(
+                                                                    color: Colors.grey,
+                                                                  )
+                                                                ),child: const Icon(Icons.image,color: Constants.textColor,)),
+                                                                const SizedBox(height: 10,),
+                                                               Text("Gallery".tr),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                    );
+                  },
                 ),
               ),
             ],

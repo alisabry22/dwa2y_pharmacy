@@ -113,7 +113,7 @@ await updateUserStatus("offline");
             textStyle: const TextStyle(fontSize: 10)),
              PersistentBottomNavBarItem(
             icon: const Icon(Icons.home),
-            title: "Chats ".tr,
+            title: "Chats".tr,
             textStyle: const TextStyle(fontSize: 10)),
    
         PersistentBottomNavBarItem(

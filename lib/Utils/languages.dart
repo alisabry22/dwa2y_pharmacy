@@ -255,6 +255,14 @@ class Languages extends Translations{
           "Price :":"السعر :",
 "Set to Delivered":"تم توصيل الاوردر",
 "In Cash":"نقدا",
+//all chats page
+"PM":"م",
+"AM":"ص",
+"Chats":"محادثات",
+"Type your message...":"أكتب رساله...",
+"Type your message here":"أكتب رساله...",
+"Try To Reach Some Pharmacy":"لا يوجد محادثات حتي الأن",
+"Start Your Chat With Him now":"أبدأ المحادثه معه الأن",
 
       },
 
@@ -508,6 +516,16 @@ class Languages extends Translations{
           "Price :": "Price :",
 "Set to Delivered":"Set to Delivered",
 "In Cash":"In Cash",
+
+//all chats page
+"PM":"PM",
+"AM":"AM",
+"Chats":"Chats",
+"Type your message...":"Type your message...",
+"Try To Reach Some Pharmacy":"Try To Reach Some Pharmacy",
+"Type your message here":"Type your message here",
+"Start Your Chat With Him now":"Start Your Chat With Him now",
+
       },
   
   };

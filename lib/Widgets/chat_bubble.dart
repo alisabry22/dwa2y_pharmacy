@@ -76,7 +76,7 @@ class ChatBubble extends StatelessWidget {
                         children: [
                           icon!=null?  icon:Container(),
                           SizedBox(width: 5,),
-                          Text(sentat,style: TextStyle(color:isSender?Colors.white: Colors.black,fontSize: 12),),
+                          Text(sentat,style: TextStyle(color:isSender?Colors.white: Colors.black,fontSize: 11),),
                         ],
                       ),
                     

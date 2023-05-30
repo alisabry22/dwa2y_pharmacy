@@ -17,7 +17,7 @@ class AllChats extends GetView<ChatController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("All Chats"),
+        title: Text("Chats".tr),
       ),
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         stream: controller.getAllChats(),
@@ -43,7 +43,7 @@ class AllChats extends GetView<ChatController> {
                             child: Container(
                               width: MediaQuery.of(context).size.width,
                              
-                              height: 80,
+                              height: 50,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -89,8 +89,8 @@ class AllChats extends GetView<ChatController> {
                                                         .toString()
                                                         .substring(11, 13)) >=
                                                     12
-                                                ? "${chatModel.sentat!.toString().substring(11, 16)}PM"
-                                                : "${chatModel.sentat!.toString().substring(11, 16)}AM",
+                                                ? "${int.parse(chatModel.sentat.toString().substring(11, 13)) - 12}:${chatModel.sentat.toString().substring(14, 16)}${"PM".tr}"
+                                                : "${chatModel.sentat!.toString().substring(11, 16)}${"AM".tr}",
                                             style: TextStyle(
                                                 fontSize: 12, color: Colors.grey),
                                       ),
@@ -116,12 +116,12 @@ class AllChats extends GetView<ChatController> {
                   },
                   itemCount: snapshot.data!.docs.length);
             } else {
-              return Center(child: Text("Try To Reach Some Pharmacy"));
+              return Center(child: Text("Try To Reach Some Pharmacy".tr));
             }
           } else if (snapshot.connectionState == ConnectionState.waiting) {
             return CircularProgressIndicator();
           } else {
-            return Text("Try To Reach Some Pharmacy");
+            return Text("Try To Reach Some Pharmacy".tr);
           }
         },
       ),

@@ -17,7 +17,7 @@ class MyAccountPage extends GetView<MyAccountController> {
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
-          backgroundColor: Colors.transparent,
+          backgroundColor: Colors.white,
           appBar: AppBar(
            backgroundColor: Colors.white,
             elevation: 0,

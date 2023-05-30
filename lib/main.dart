@@ -72,8 +72,15 @@ flutterLocalNotificationsPlugin.show(message.hashCode, "Offer Accepted".tr, "${m
       channelDescription: channel.description,
       icon: '@mipmap/ic_launcher',
     ) ));
-      }else{
+      }else if(message.data["status"]=="reject"){
 flutterLocalNotificationsPlugin.show(message.hashCode, "Offer Rejected".tr, "${message.data["CustomerName"]} ${"Rejected Your Offer".tr}", NotificationDetails(android:AndroidNotificationDetails(
+      channel.id,
+      channel.name,
+      channelDescription: channel.description,
+      icon: '@mipmap/ic_launcher',
+    ) ));
+      }else{
+          flutterLocalNotificationsPlugin.show(message.hashCode, message.notification!.title, message.notification!.body, NotificationDetails(android:AndroidNotificationDetails(
       channel.id,
       channel.name,
       channelDescription: channel.description,
