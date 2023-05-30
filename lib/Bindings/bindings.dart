@@ -20,7 +20,7 @@ class Binding implements Bindings{
 
     Get.put(LocationController(),permanent: true);
         Get.put(LanguageController(),permanent: true);
-    Get.lazyPut(() => ChatController());
+    Get.lazyPut(() => ChatController(),fenix: true);
     Get.put(NotificationController());
     Get.put(DashboardController(),permanent: true);
     Get.lazyPut(() => HomeController(),fenix: true);

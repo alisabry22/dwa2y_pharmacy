@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 
 import '../../Controllers/chat_controller.dart';
 import '../../Models/allchats_model.dart';
+import 'package:badges/badges.dart' as badges;
 
 class AllChats extends GetView<ChatController> {
   AllChats({super.key});
@@ -36,21 +37,76 @@ class AllChats extends GetView<ChatController> {
                           UserModel userModel=await controller.getInitialUserDetails(chatModel.senderId!);
                          Get.to(()=>ChatScreen(customer: userModel,chatid: chatModel.chatId!,));
                         },
-                        child: Ink(
-                          child: ListTile(
-                            leading: CircleAvatar(
-                              backgroundImage:
-                                  chatModel.senderProfileImage != null &&
-                                          chatModel.senderProfileImage!.isNotEmpty
-                                      ? CachedNetworkImageProvider(
-                                          chatModel.senderProfileImage!)as ImageProvider
-                                      : AssetImage("assets/images/pharmacy.png"),
-                        
+                        child:  Ink(
+                          child: Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: Container(
+                              width: MediaQuery.of(context).size.width,
+                             
+                              height: 80,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      CircleAvatar(
+                                backgroundImage: chatModel.receiverProfileImage !=
+                                                null &&
+                                            chatModel.receiverProfileImage!.isNotEmpty
+                                        ? CachedNetworkImageProvider(
+                                                chatModel.receiverProfileImage!)
+                                            as ImageProvider
+                                        : AssetImage("assets/images/pharmacy.png"),
+                              ),
+                              SizedBox(width: 15,),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+
+                                children: [
+                                      Text(
+                                        chatModel.receivername!,
+                                        style: TextStyle(fontSize: 14),
+                                      ),
+                                       Text(chatModel.lastmessage!,
+                                          style: TextStyle(
+                                              fontSize: 12, color: Colors.grey)),
+                                       
+                                ],
+                              ),
+                                    ],
+                                  ),
+                                       Column(
+                                             mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                         children: [
+                         
+                                           Text(
+                                            int.parse(chatModel.sentat!
+                                                        .toString()
+                                                        .substring(11, 13)) >=
+                                                    12
+                                                ? "${chatModel.sentat!.toString().substring(11, 16)}PM"
+                                                : "${chatModel.sentat!.toString().substring(11, 16)}AM",
+                                            style: TextStyle(
+                                                fontSize: 12, color: Colors.grey),
+                                      ),
+                                       badges.Badge(
+                                    badgeStyle:badges.BadgeStyle(badgeColor: Color(0xff4062BB)),
+                                    badgeContent:chatModel.pharmacyTotalUnRead!=null && chatModel.pharmacyTotalUnRead!=0? Text(chatModel.pharmacyTotalUnRead.toString(),style: TextStyle(color: Colors.white),):Container(),
+                                    showBadge: chatModel.pharmacyTotalUnRead!=null && chatModel.pharmacyTotalUnRead!=0?true:false,
+                                  ),
+                                   
+                                         ],
+                                       ),
+                                ],
+                              ),
                             ),
-                            title: Text(chatModel.sendername!,style: TextStyle(fontSize:14 ),),
-                            subtitle: Text(chatModel.lastmessage!,style: TextStyle(fontSize:12,color: Colors.grey )),
-                            trailing: Text(chatModel.sentat!.toString().substring(11,16),style: TextStyle(fontSize:12,color: Colors.grey ),),
                           ),
+                     
                         ),
                       ),
                     );

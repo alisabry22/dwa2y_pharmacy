@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../Controllers/localization_controller.dart';
 
@@ -46,9 +45,9 @@ class LoginScreen extends StatelessWidget {
                               },
                               child:controller.locale.value==const Locale('ar')?   Text(
                                   "English",
-                                    style: GoogleFonts.poppins(decoration: TextDecoration.underline,fontSize: 16,fontWeight: FontWeight.bold)):          Text(
+                                    style: TextStyle(decoration: TextDecoration.underline,fontSize: 16,fontWeight: FontWeight.bold)):          Text(
                                   "العربية",
-                                    style: GoogleFonts.poppins(decoration: TextDecoration.underline,fontSize: 16,fontWeight: FontWeight.bold))
+                                    style: TextStyle(decoration: TextDecoration.underline,fontSize: 16,fontWeight: FontWeight.bold))
                                 
                                 
                                   

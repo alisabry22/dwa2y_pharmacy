@@ -16,7 +16,7 @@ class MyOrders extends GetView<OrderController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(left: 10, top: 20, right: 10),

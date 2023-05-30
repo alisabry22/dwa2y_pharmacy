@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_bubbles/chat_bubbles.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dwa2y_pharmacy/Models/user_model.dart';
@@ -11,8 +12,8 @@ import '../../Models/chatmodel.dart';
 import '../../Utils/Constants/constants.dart';
 import '../../Widgets/chat_bubble.dart';
 
-class ChatScreen extends StatefulWidget{
-  const ChatScreen({super.key, required this.customer,required this.chatid});
+class ChatScreen extends StatefulWidget {
+  const ChatScreen({super.key, required this.customer, required this.chatid});
   final UserModel customer;
   final String chatid;
 
@@ -21,17 +22,16 @@ class ChatScreen extends StatefulWidget{
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  final controller=Get.find<ChatController>();
+  final controller = Get.find<ChatController>();
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    controller.updateseenMessages();
-
+    controller.updateseenMessages(widget.chatid);
   }
+
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       appBar: AppBar(
         title: Column(
@@ -42,9 +42,13 @@ class _ChatScreenState extends State<ChatScreen> {
               widget.customer.username!,
               style: TextStyle(color: Constants.textColor, fontSize: 16),
             ),
-            Obx(()=>
-               Text(
-                controller.currentChatCustomer.value.status!=null?controller.currentChatCustomer.value.status=="online"?"online":"":"",
+            Obx(
+              () => Text(
+                controller.currentChatCustomer.value.status != null
+                    ? controller.currentChatCustomer.value.status == "online"
+                        ? "online"
+                        : ""
+                    : "",
                 style: TextStyle(color: Colors.grey, fontSize: 12),
               ),
             ),
@@ -59,43 +63,63 @@ class _ChatScreenState extends State<ChatScreen> {
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.active) {
                     if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
-                      controller.getCustomerStatusDetails(widget.customer.userid!);
-                    
+                      controller
+                          .getCustomerStatusDetails(widget.customer.userid!);
+
                       return ListView.separated(
                           shrinkWrap: true,
                           reverse: true,
                           itemBuilder: (context, index) {
-                          
                             ChatMessage message = ChatMessage.fromJson(
                                 snapshot.data!.docs[index].data());
-                                
-                                  return ChatBubble(
-                                     delivered: message.delivered!=null?message.delivered!:false,
-
-                              seen: message.seen!=null?message.seen!:false,
-                              isSender: message.sender ==
-                                      FirebaseAuth.instance.currentUser!.uid
-                                  ? false
-                                  : true,
-                              color: message.sender ==
-                                      FirebaseAuth.instance.currentUser!.uid
-                                  ? Color(0xff4062BB)
-                                  : Colors.grey.shade300,
-                              message: message.message,
+                            if (message.seen != true &&
+                                message.receiver ==
+                                    FirebaseAuth.instance.currentUser!.uid) {
+                              controller.updateMessageStatus(widget.chatid, snapshot.data!.docs[index].id);
+                            }
+                            if (message.messagetype == "text") {
+                              return ChatBubble(
+                                delivered: message.delivered != null
+                                    ? message.delivered!
+                                    : false,
+                                seen: message.seen != null
+                                    ? message.seen!
+                                    : false,
+                                isSender: message.sender ==
+                                        FirebaseAuth.instance.currentUser!.uid
+                                    ? true
+                                    : false,
+                                color: message.sender ==
+                                        FirebaseAuth.instance.currentUser!.uid
+                                    ? Color(0xff4062BB)
+                                    : Colors.grey.shade300,
+                                message: message.message,
+                                textStyle: TextStyle(
+                                    color: message.sender ==
+                                            FirebaseAuth
+                                                .instance.currentUser!.uid
+                                        ? Colors.white
+                                        : Colors.black),
+                                sentat: int.parse(message.sentat
+                                            .toString()
+                                            .substring(11, 13)) >=
+                                        12
+                                    ? "${message.sentat.toString().substring(11, 16)}PM"
+                                    : "${message.sentat.toString().substring(11, 16)}AM",
+                              );
+                            } else {
                               
-                              textStyle: TextStyle(
-                                  color: message.sender ==
-                                          FirebaseAuth.instance.currentUser!.uid
-                                      ? Colors.white
-                                      : Colors.black),
-                              sentat: int.parse(message.sentat
-                                          .toString()
-                                          .substring(11, 13)) >=
-                                      12
-                                  ? "${message.sentat.toString().substring(11, 16)}PM"
-                                  : "${message.sentat.toString().substring(11, 16)}AM",
-                                  );
-                             
+                              return BubbleNormalImage(
+                                delivered: message.delivered!=null ?message.delivered!:false,
+                                isSender:message.sender==FirebaseAuth.instance.currentUser!.uid?true:false,
+                                sent: true,
+                                seen: message.seen!,
+                                tail: true,
+                                
+                                  id: message.sentat.toString(),
+                                  image: CachedNetworkImage(
+                                      imageUrl: message.pictureMessage!));
+                            }
                           },
                           separatorBuilder: (context, index) {
                             return SizedBox(
@@ -113,7 +137,8 @@ class _ChatScreenState extends State<ChatScreen> {
                         ),
                       );
                     }
-                  } else if (snapshot.connectionState ==ConnectionState.waiting) {
+                  } else if (snapshot.connectionState ==
+                      ConnectionState.waiting) {
                     return Center(child: CircularProgressIndicator());
                   } else {
                     return Expanded(
@@ -129,12 +154,19 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
           MessageBar(
             onSend: (value) async {
+              bool delivered = false;
+              if (controller.currentChatCustomer.value.status != null &&
+                  controller.currentChatCustomer.value.status == "online") {
+                delivered = true;
+              }
               ChatMessage message = ChatMessage(
+                  messagetype: "text",
                   sender: FirebaseAuth.instance.currentUser!.uid,
                   receiver: widget.customer.userid!,
                   message: value,
+                  delivered: delivered,
                   sentat: DateTime.now());
-              await controller.sendMessage(message,widget.chatid );
+              await controller.sendMessage(message, widget.chatid);
             },
             actions: [
               InkWell(

@@ -10,7 +10,8 @@ class AllChatsModel {
   String? receiverProfileImage;
     String? senderProfileImage;
     String? chatId;
-
+int? customerTotalUnRead;
+int? pharmacyTotalUnRead;
   AllChatsModel({
     this.lastmessage,
     this.senderId,
@@ -18,6 +19,8 @@ class AllChatsModel {
     this.receivername,
     this.receiverProfileImage,
     this.sentat,
+    this.customerTotalUnRead,
+    this.pharmacyTotalUnRead,
     this.sendername,
   this.senderProfileImage,
   this.chatId,
@@ -27,6 +30,8 @@ class AllChatsModel {
     return AllChatsModel(
         senderId:doc.get("senderId")!=null?doc.get("senderId"):"",
         chatId:doc.exists?doc.id:"",
+           customerTotalUnRead: doc.data().toString().contains("customerTotalUnRead")?doc.get("customerTotalUnRead"):null,
+        pharmacyTotalUnRead:doc.data().toString().contains("pharmacyTotalUnRead")?doc.get("pharmacyTotalUnRead"):null ,
         senderProfileImage: doc.get("senderProfileImage")!=null?doc.get("senderProfileImage"):"",
         receiverId: doc.get("receiverId")!=null?doc.get("receiverId"):"",
         sendername:  doc.get("sendername")!=null?doc.get("sendername"):"",

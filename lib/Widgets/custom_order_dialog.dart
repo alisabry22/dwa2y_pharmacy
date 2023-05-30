@@ -173,7 +173,7 @@ class CustomOrderDialog extends GetView<NotificationController> {
                       child: Row(
                         children: [
                           CustomElevatedButton(
-                              width: 100,
+                              width: MediaQuery.of(context).size.width*0.32,
                               height: 50,
                               onPressed: () async {
                                 if(order.orderStatus=="Waiting For Delivery"){
@@ -211,7 +211,7 @@ class CustomOrderDialog extends GetView<NotificationController> {
                               text: "Accept".tr),
                           const Spacer(),
                           CustomElevatedButton(
-                              width: 100,
+                              width: MediaQuery.of(context).size.width*0.32,
                               height: 50,
                               onPressed: () async {
                                 await controller.sendRejectNotification(controller.orderId.value,  userCreatedOrder.token!,FirebaseAuth.instance.currentUser!.uid,controller

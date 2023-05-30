@@ -42,7 +42,7 @@ class ChatController extends GetxController{
   //start conversation between me and specific pharmacy
   Future sendMessage(ChatMessage message,String chatid)async{
  
-  await FirebaseFirestore.instance.collection("Chats").doc(chatid).update({"lastmessage":message.message , "sentat":message.sentat});
+  await FirebaseFirestore.instance.collection("Chats").doc(chatid).update({"lastmessage":message.message , "sentat":message.sentat,"customerTotalUnRead":FieldValue.increment(1)});
   await FirebaseFirestore.instance.collection("Chats").doc(chatid).collection("messages").add(message.toJson());
 }
 
@@ -72,33 +72,28 @@ class ChatController extends GetxController{
         });
   }
 
- Future updateseenMessages()async{
-List<String> chatsIamIn=[];
-//get chats first 
-  await FirebaseFirestore.instance.collection("Chats").where("receiverId",isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-  .get().then((value) {
-    if(value.docs.isNotEmpty){
-      value.docs.forEach((element) {
-        chatsIamIn.add(element.id);
-      });
-    }
-  }); 
+ Future updateseenMessages(String chatId)async{
 
-List<String>   messagesIds=[];
-//get messages 
-  for(var doc in chatsIamIn){
-      await FirebaseFirestore.instance.collection("Chats").doc(doc).collection("messages").get().then((value) {
-        if(value.docs.isNotEmpty){
-          value.docs.forEach((element) {
-            messagesIds.add(element.id);
-          });
+    QuerySnapshot<Map<String, dynamic>> query=  await FirebaseFirestore.instance.collection("Chats").doc(chatId).collection("messages").where("reciever",isEqualTo: FirebaseAuth.instance.currentUser!.uid).get();
+      query.docs.forEach((element) {
+        if(element.exists){
+           element.reference.update({"seen":true});
         }
+       
       });
-      for (var element in messagesIds){
-        await  FirebaseFirestore.instance.collection("Chats").doc(doc).collection("messages").doc(element).update({"seen":true});
-      }
+
+      await FirebaseFirestore.instance.collection("Chats").doc(chatId).update({"pharmacyTotalUnRead":0});
   }
+  
+  Future updateMessageStatus(String chatId,String messageId)async{
+    await FirebaseFirestore.instance.collection("Chats").doc(chatId).collection("messages").doc(messageId).update({"seen":true});
+    await FirebaseFirestore.instance.collection("Chats").doc(chatId).get().then((value) {
+        if(value.exists&& value.get("pharmacyTotalUnRead")!=0){
+            value.reference.update({"pharmacyTotalUnRead":FieldValue.increment(-1)});
+        }
+    });
   }
-  }
+  
+}
 
 

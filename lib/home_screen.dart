@@ -7,6 +7,7 @@ import 'package:dwa2y_pharmacy/myproducts.dart';
 import 'package:dwa2y_pharmacy/notification_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'Screens/MyAccountScreens/myaccount.dart';
 import 'Utils/Constants/constants.dart';
 
 class HomeScreen extends GetView<HomeController> {
@@ -39,22 +40,27 @@ class HomeScreen extends GetView<HomeController> {
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Material(
-                                        child: Ink(
-                                          child: CircleAvatar(
-                                            radius: 30,
-                                            backgroundImage: controller
-                                                            .currentpharmacy
-                                                            .value
-                                                            .profileImageLink !=
-                                                        null &&
-                                                    controller.currentpharmacy.value
-                                                        .profileImageLink!.isNotEmpty
-                                                ? CachedNetworkImageProvider(
-                                                    controller.currentpharmacy.value
-                                                        .profileImageLink!)
-                                                : const AssetImage(
-                                                        "assets/images/patient.png")
-                                                    as ImageProvider,
+                                        child: InkWell(
+                                          onTap: (){
+                                            Get.to(()=>MyAccountPage());
+                                          },
+                                          child: Ink(
+                                            child: CircleAvatar(
+                                              radius: 30,
+                                              backgroundImage: controller
+                                                              .currentpharmacy
+                                                              .value
+                                                              .profileImageLink !=
+                                                          null &&
+                                                      controller.currentpharmacy.value
+                                                          .profileImageLink!.isNotEmpty
+                                                  ? CachedNetworkImageProvider(
+                                                      controller.currentpharmacy.value
+                                                          .profileImageLink!)
+                                                  : const AssetImage(
+                                                          "assets/images/patient.png")
+                                                      as ImageProvider,
+                                            ),
                                           ),
                                         ),
                                       ),

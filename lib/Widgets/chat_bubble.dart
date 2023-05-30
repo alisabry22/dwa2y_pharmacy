@@ -8,7 +8,7 @@ class ChatBubble extends StatelessWidget {
       required this.sentat,
       required this.delivered,
       required this.seen,
-      this.icon=const Icon(Icons.done,size: 14,color: Colors.grey,),
+      
       this.textStyle = const TextStyle(color: Colors.white, fontSize: 14),
       this.color=Colors.white70,
       
@@ -20,25 +20,28 @@ class ChatBubble extends StatelessWidget {
   final Color color;
   final bool delivered;
   final bool seen;
-   Icon icon;
+
   @override
   Widget build(BuildContext context) {
-    if(delivered){
-      icon=Icon(Icons.done_all,color: Color(0xFF97AD8E),size: 16,);
+       Icon? icon;
+   if(isSender&&delivered){
+      icon=Icon(Icons.done_all,color: Colors.grey,size: 16,);
     }
-    if(seen){
-      icon=Icon(Icons.done_all,color: Colors.greenAccent,size: 16,);
+    if(isSender&&seen){
+      icon=Icon(Icons.done_all,color: Colors.green,size: 16,);
     }
+    if(isSender && !delivered && !seen){
+       icon=Icon(Icons.done,color: Colors.grey,size: 16,);
+    }  
     return Row(
       
       children:[
           isSender
-            ? Expanded(
+            ?Container():Expanded(
                 child: SizedBox(
                   width: 5,
                 ),
-              )
-            : Container(),
+              ),
         Container(
           color: Colors.transparent,
         constraints:
@@ -48,10 +51,10 @@ class ChatBubble extends StatelessWidget {
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
-                topLeft: isSender ? Radius.circular(0) : Radius.circular(14),
-                topRight: isSender ? Radius.circular(14) : Radius.circular(0),
-                bottomLeft:Radius.circular(14) ,
-                bottomRight: Radius.circular(14),
+                topLeft: isSender ? Radius.circular(14) : Radius.circular(0),
+                topRight: isSender ? Radius.circular(0) : Radius.circular(14),
+                bottomLeft:Radius.circular(12) ,
+                bottomRight: Radius.circular(12),
               ),
               color: color,
             ),
@@ -71,9 +74,9 @@ class ChatBubble extends StatelessWidget {
                       
                       Row(
                         children: [
-                          icon,
+                          icon!=null?  icon:Container(),
                           SizedBox(width: 5,),
-                          Text(sentat,style: TextStyle(color:isSender?Colors.black: Colors.white60,fontSize: 14),),
+                          Text(sentat,style: TextStyle(color:isSender?Colors.white: Colors.black,fontSize: 12),),
                         ],
                       ),
                     

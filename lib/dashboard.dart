@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dwa2y_pharmacy/Controllers/dashboard_controller.dart';
 import 'package:dwa2y_pharmacy/Controllers/home_controller.dart';
 import 'package:dwa2y_pharmacy/Screens/ChatsPages/allchats.dart';
-import 'package:dwa2y_pharmacy/Screens/MyAccountScreens/myaccount.dart';
 import 'package:dwa2y_pharmacy/home_screen.dart';
 import 'package:dwa2y_pharmacy/myorders.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -105,7 +104,7 @@ await updateUserStatus("offline");
         HomeScreen(),
         AllChats(),
         MyOrders(),
-        MyAccountPage(),
+    
       ],
       items: [
         PersistentBottomNavBarItem(
@@ -124,10 +123,7 @@ await updateUserStatus("offline");
 
             title: "Orders".tr,
             textStyle: const TextStyle(fontSize: 10)),
-        PersistentBottomNavBarItem(
-            icon: const Icon(FontAwesomeIcons.user),
-            textStyle: const TextStyle(fontSize: 10),
-            title: "MyAccount".tr),
+     
             
             
       ],

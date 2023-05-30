@@ -14,7 +14,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -77,7 +76,7 @@ class AuthController extends GetxController {
           onPressed: (){
           Get.off(()=>const  MyAddresses());
          
-        }, child: Text("Add Address",style: GoogleFonts.poppins(fontSize:16,color: Colors.white),)),
+        }, child: Text("Add Address",style: TextStyle(fontSize:16,color: Colors.white),)),
       );
      }
 
