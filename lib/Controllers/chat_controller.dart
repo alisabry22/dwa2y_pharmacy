@@ -158,8 +158,9 @@ pickedFile.value=imagepick.path;
   
   }
 
-  Future sendNotificationMessage(String token,ChatMessage message)async{
+  Future sendNotificationMessage(String chatID,String token,ChatMessage message)async{
      try {
+      print("${currentpharmacy.value.userid} currentpharmacy.value.userid");
       await http.post(
         Uri.parse('https://fcm.googleapis.com/fcm/send'),
         headers: <String, String>{
@@ -174,12 +175,15 @@ pickedFile.value=imagepick.path;
             'status': 'chat',
             "message":message.message,
             "sender":message.sender,
+            "pharmacy":currentpharmacy.value.pharmacyModeltoJson(),
+            "chatId":chatID,
             "receiver":message.receiver,
         
 
           },
           'notification': {
            "title":currentpharmacy.value.username,
+           "android_channel_id": 'high_importance_channel',
            "body":message.message,
           },
           'to': token,

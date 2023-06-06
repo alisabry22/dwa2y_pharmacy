@@ -13,8 +13,10 @@ class PharmacyModel {
   final double lat, long;
   AddressModel? address;
   String? status;
+  String?locale;
   PharmacyModel({
     this.username,
+    this.locale,
     this.phone,
     this.countrycode,
     this.profileImageLink,
@@ -34,10 +36,11 @@ class PharmacyModel {
       lat:doc.data().toString().contains("lat")? doc.get("lat"):0.0,
       long:doc.data().toString().contains("long")?doc.get("long"):0.0,
    status:doc.data().toString().contains("status")?doc.get("status"):"",
+          locale:       doc.data().toString().contains("locale")?doc.get("locale"):"",
 
       username:doc.data().toString().contains("username")? doc.get("username"):"",
       userid: doc.id,
-      address:doc.data().toString().contains("address")?AddressModel.fromJson(doc.get("address")):AddressModel(),
+      address:doc.data().toString().contains("address")&&doc.get("address")!=null?AddressModel.fromJson(doc.get("address")):AddressModel(),
       countrycode: doc.data().toString().contains("lat")?doc.get("countryCode"):"EG",
       phone: doc.data().toString().contains("lat")?doc.get("phone"):"",
       profileImageLink:doc.data().toString().contains("lat")? doc.get("profileImageLink"):"",
@@ -53,12 +56,14 @@ class PharmacyModel {
         "phone": phone,
         "countryCode": countrycode,
         "profileImageLink": profileImageLink,
+        "locale":locale,
         "lat":lat,
         "long":long,
+        "status":status,
+        "userid":userid,
         "createdAt": createdAt,
         "updatedAt": updatedAt,
-  
-
+        "address":address!=null?address!.toJson():null,
         "email":email
       };
 }

@@ -1,30 +1,35 @@
 
-import 'package:dwa2y_pharmacy/Controllers/address_controller.dart';
-import 'package:dwa2y_pharmacy/Controllers/googlemaps_controller.dart';
-import 'package:dwa2y_pharmacy/Widgets/custom_address_text_field.dart';
-import 'package:dwa2y_pharmacy/googlemap_page.dart';
 
+import 'package:dwa2y_pharmacy/Models/address_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'Utils/Constants/constants.dart';
-import 'Widgets/custom_elevated_button.dart';
 
-class AddAddress extends GetView<AddressController> {
+import '../Controllers/address_controller.dart';
+import '../Controllers/googlemaps_controller.dart';
+import '../Utils/Constants/constants.dart';
+import '../Widgets/custom_address_text_field.dart';
+import '../Widgets/custom_elevated_button.dart';
+import '../googlemap_page.dart';
 
-  AddAddress({super.key});
+
+class EditAddress extends GetView<AddressController> {
+
+  EditAddress({super.key,required this.address});
+  final AddressModel address;
   final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title:  Text(
+        title: Text(
           "3lagy".tr,
           style: const TextStyle(
               color: Constants.textColor,
-              fontSize: 16,
+              fontSize: 14,
               fontWeight: FontWeight.w500),
         ),
         backgroundColor: Colors.white,
@@ -49,7 +54,7 @@ class AddAddress extends GetView<AddressController> {
                           width: MediaQuery.of(context).size.width * 0.5,
                           child: Text(
                             controller.fullAddress.value,
-                            style: const TextStyle(),
+                            style: const TextStyle(  fontSize: 14,),
                           )),
                       Stack(children: [
                         SizedBox(
@@ -77,10 +82,11 @@ class AddAddress extends GetView<AddressController> {
                                   child: Ink(
                                     child: Container(
                                       color: Colors.grey,
-                                      child:  Center(
+                                      child: Center(
                                           child: Text(
                                         "Edit".tr,
                                         style: const TextStyle(
+                                            fontSize: 14,
                                             fontWeight: FontWeight.w500,
                                             color: Constants.textColor),
                                       )),
@@ -98,9 +104,10 @@ class AddAddress extends GetView<AddressController> {
               const SizedBox(
                 height: 20,
               ),
-               Text(
+              Text(
                 "Additional Address Details".tr,
                 style: const TextStyle(
+                    fontSize: 14,
                     color: Colors.grey, fontWeight: FontWeight.w300),
               ),
               const SizedBox(
@@ -111,30 +118,52 @@ class AddAddress extends GetView<AddressController> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                     CustomAddressField(controller: controller.cityController.value, hintText: "City".tr),
-                          const SizedBox(height: 15,),
-                   CustomAddressField(controller: controller.street.value, hintText: ".Street Name or no".tr),
-                   const SizedBox(height: 15,),
-
-                      CustomAddressField(controller: controller.blockNumber.value, hintText: ".Block no".tr),
-                   const SizedBox(height: 15,),
-                    CustomAddressField(controller: controller.nearby.value, hintText: "Near to".tr),
-                    
+                    CustomAddressField(controller: controller.street.value, hintText: address.street!),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      "PERSONAL INFORMATION".tr,
+                      style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey, fontWeight: FontWeight.w500),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                 
+                    CustomAddressField(controller: controller.nearby.value, hintText: address.nearby!),
+                    const SizedBox(
+                      height: 30,
+                    ),
                   ],
                 ),
               ),
-               const SizedBox(height: 20,),
-            
-              
-              
+         
+           
+              const SizedBox(
+                height: 20,
+              ),
               CustomElevatedButton(
                   width: MediaQuery.of(context).size.width,
                   height: 120,
                   onPressed: ()async {
-                    if(formKey.currentState!.validate()){
-                    await  controller.saveAddress();
+                  
+                            AddressModel address=AddressModel(
+                        street: controller.street.value.text.trim(),
+                          apartmentNumber: "",
+                          floor: "",
+                        label: "Work",
+                        nearby: controller.nearby.value.text.trim(),
+                        lat: controller.homeController.currentpharmacy.value.lat,
+                        long: controller.homeController.currentpharmacy.value.long,
+
+                      );
+                    await  controller.updateAddress(address);
                     Get.back();
-                    }
+                      
+                  
+                    
                     
                   },
                   text: "SAVE ADDRESS".tr),

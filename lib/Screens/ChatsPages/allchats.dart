@@ -53,13 +53,13 @@ class AllChats extends GetView<ChatController> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       CircleAvatar(
-                                backgroundImage: chatModel.receiverProfileImage !=
+                                backgroundImage: chatModel.senderProfileImage !=
                                                 null &&
-                                            chatModel.receiverProfileImage!.isNotEmpty
+                                            chatModel.senderProfileImage!.isNotEmpty
                                         ? CachedNetworkImageProvider(
-                                                chatModel.receiverProfileImage!)
+                                                chatModel.senderProfileImage!)
                                             as ImageProvider
-                                        : AssetImage("assets/images/pharmacy.png"),
+                                        : AssetImage("assets/images/patient.png"),
                               ),
                               SizedBox(width: 15,),
                               Column(
@@ -68,7 +68,7 @@ class AllChats extends GetView<ChatController> {
 
                                 children: [
                                       Text(
-                                        chatModel.receivername!,
+                                        chatModel.sendername!,
                                         style: TextStyle(fontSize: 14),
                                       ),
                                        Text(chatModel.lastmessage!,

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+<string name="notification_title">Order Request</string>
+<string name="notification_body">ali requests order from you</string>
+</resources>

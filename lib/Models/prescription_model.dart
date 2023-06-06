@@ -38,4 +38,16 @@ class PrescriptionOrder {
         orderStatus: documentSnapshot.get("OrderStatus")??"",
         orderType: documentSnapshot.get("OrderType") ?? "Delivery");
   }
+   Map<String, dynamic> toJson()=>{
+    "userMadeOrder":userMadeOrder,
+  "acceptedby":  acceptedby,
+
+    "pickedImages":pickedImages,
+   "amount": amount,
+    "OrderType":orderType,
+    "orderStatus":orderStatus,
+    
+    "orderid":orderid,
+    "text":text,
+  };
 }

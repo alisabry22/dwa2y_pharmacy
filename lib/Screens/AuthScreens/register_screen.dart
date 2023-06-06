@@ -25,7 +25,7 @@ class RegisterScreen extends GetView<AuthController> {
       appBar: AppBar(
         title: Text("CreateAccount".tr,
             style: const TextStyle(
-                fontSize: 18,
+                fontSize: 16,
                 fontWeight: FontWeight.w400,
                 color: Colors.black)),
   backgroundColor: Colors.white,
@@ -194,8 +194,7 @@ class RegisterScreen extends GetView<AuthController> {
                               if (formKey.currentState!.validate()) {
                                 bool locationEnabled=await controller.checkLocationNotEmpty();
                                 if(locationEnabled){
-                                  final response = await controller
-                                    .signUpWithEmailandPassword();
+                                  final response = await controller.signUpWithEmailandPassword();
                                 if (response[0] == true) {
                                   await controller.saveWholeDataInDatabase();
                                  await controller. showAddressDialog();

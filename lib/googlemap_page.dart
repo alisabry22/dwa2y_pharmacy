@@ -143,7 +143,7 @@ class GoogleMapPage extends GetView<GoogleMapServicers> {
                           },
                           child: Row(
                             children:  [
-                              Text("Locate Me".tr,style: const TextStyle(fontSize:14,fontWeight: FontWeight.w500 ),),
+                              Text("Locate Me".tr,style: const TextStyle(fontSize:14,fontWeight: FontWeight.w500 ,color: Colors.white),),
                               const Icon(FontAwesomeIcons.locationDot,color: Colors.white,),
                             ],
                           )),

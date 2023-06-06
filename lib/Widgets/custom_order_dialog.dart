@@ -181,29 +181,55 @@ class CustomOrderDialog extends GetView<NotificationController> {
                                  Get.snackbar("Too Late".tr, "Customer Accepted Another Pharmacy Offer".tr,snackPosition: SnackPosition.BOTTOM,duration: const Duration(milliseconds: 30));
                                
                                 }else{
-                                  if (controller.priceController.value.text.isNotEmpty ) {
-          
-                                      //send notification back to user with customized price
-                                  await controller.sendNotificationback(
-                                      controller.orderId.value,
-                                      userCreatedOrder.token!,
-                                      controller.priceController.value.text.trim(),
-                                      FirebaseAuth.instance.currentUser!.uid,
-                                      controller
-                                          .currentLoggedInPharmacy.value.username!,"Offer For Your Order","${controller.currentLoggedInPharmacy.value.username} offers you ${controller.priceController.value}");
-                                  await controller.addtoNotification(
-                                      controller.orderId.value,
-                                      userCreatedOrder.token!,
-                                      userCreatedOrder.userid!,
-                                      controller.priceController.value.text.trim(),
-                                      FirebaseAuth.instance.currentUser!.uid,
-                                      controller
-                                          .currentLoggedInPharmacy.value.username!);
-                                          
-                                Get.back();
-                                }else{
-                                  Get.snackbar("Offer him a price".tr, "Please Offer Him price for Prescription".tr,snackPosition: SnackPosition.BOTTOM);
-                                }
+                                  if (controller.priceController.value.text.isNotEmpty && controller.priceController.value.text!="0") {
+                                               
+                                                  Get.back();
+                                                  //send notification back to user with customized price
+                                                  var data={
+                                                        'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+                                                           'status': 'done',
+                                                           "orderid": order.orderid!,
+                                                           "price":controller.priceController.value.text.trim(),
+                                                           "pharmacyId":FirebaseAuth.instance .currentUser!.uid,
+                                                           "pharmacyName": controller.currentLoggedInPharmacy.value.username!
+
+                                                  };
+                                                  if(userCreatedOrder.locale=="ar"){
+                                                                      //send arabic notification
+                                    await controller .sendNotificationback(userCreatedOrder.token!,data,
+                                                          "عرض جديد لديك".tr, "${controller.currentLoggedInPharmacy.value.username} يعرض عليك  ${controller.priceController.value.text.trim()} للطلب الخاص بكم سارع بالرد عليه ");
+                                                  }
+                                  
+                                                  else{
+                                                    //send english notification
+        await controller .sendNotificationback(userCreatedOrder.token!,data,
+                                                          "New Offer For Your Order", "${controller.currentLoggedInPharmacy.value.username} Offers You ${controller.priceController.value.text.trim()}  Get Back Fast!!");
+                                                  }
+                                                  await controller
+                                                      .addtoNotification(
+                                                    order.orderid!,
+                                                    userCreatedOrder.token!,
+                                                    userCreatedOrder.userid!,
+                                                    controller.priceController
+                                                        .value.text
+                                                        .trim(),
+                                                    FirebaseAuth.instance
+                                                        .currentUser!.uid,
+                                                    controller
+                                                        .currentLoggedInPharmacy
+                                                        .value
+                                                        .username!,
+                                                        
+                                                  );
+                
+                                                
+                                                } else {
+                                                  Get.snackbar(
+                                                      "Offer him a price".tr,
+                                                      "Please Offer Him price for Prescription".tr,
+                                                      snackPosition:
+                                                          SnackPosition.BOTTOM);
+                                                }
                                 }
                                 
           
@@ -213,12 +239,29 @@ class CustomOrderDialog extends GetView<NotificationController> {
                           CustomElevatedButton(
                               width: MediaQuery.of(context).size.width*0.32,
                               height: 50,
-                              onPressed: () async {
-                                await controller.sendRejectNotification(controller.orderId.value,  userCreatedOrder.token!,FirebaseAuth.instance.currentUser!.uid,controller
-                                          .currentLoggedInPharmacy.value.username!,"Rejected your Order".tr,"${controller
-                                          .currentLoggedInPharmacy.value.username!}, Rejected your Order".tr);
+                              onPressed: () async { 
+                                 Get.back();
+                                  var data={
+                                    'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+                                    'status': 'reject',
+                                    'order_id':controller.orderId.value,
+                                   'pharmacyId': FirebaseAuth.instance.currentUser!.uid,
+                                    'pharmacyName':controller.currentLoggedInPharmacy.value.username
+                                  };
+                                 if(userCreatedOrder.locale=="ar"){
+                                  //send arabic notification
+                                      await controller.sendRejectNotification(userCreatedOrder.token!,data,"تم رفض طلبك",
+                                      "${controller.currentLoggedInPharmacy.value.username},  رفضت الطلب المقدم منك ");
                                 await controller.onRejectOrder(controller.orderId.value);
-                                Get.back();
+                                 }else{
+                                  //send english notification
+                                      await controller.sendRejectNotification( userCreatedOrder.token!,data,
+                                          "Rejected your Order","${controller.currentLoggedInPharmacy.value.username!}, Rejected your Order");
+                                await controller.onRejectOrder(controller.orderId.value);
+
+                                 }
+                            
+                               
                               },
                               text: "Reject".tr),
                         ],

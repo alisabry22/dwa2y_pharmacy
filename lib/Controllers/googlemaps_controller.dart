@@ -1,6 +1,5 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dwa2y_pharmacy/Controllers/location_controller.dart';
 import 'package:dwa2y_pharmacy/Models/pharmacy_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -12,44 +11,49 @@ import 'package:google_maps_webservice/places.dart';
 
 import '../Models/placeautocomplete_prediction.dart';
 import '../Widgets/custom_elevated_button.dart';
+import 'home_controller.dart';
 
 class GoogleMapServicers extends GetxController {
-  final locationController=Get.find<LocationController>();
+  final homeController=Get.find<HomeController>();
 
   Rx<TextEditingController> searchPlace = TextEditingController().obs;
-  RxDouble latitude = Get.find<LocationController>().lat;
-  RxDouble longitude =Get.find<LocationController>().long;
+  RxDouble latitude = Get.find<HomeController>().currentpharmacy.value.lat.obs;
+  RxDouble longitude =Get.find<HomeController>().currentpharmacy.value.long.obs;
   GoogleMapController? mapController;
   RxString fullAddress="".obs;
-    RxList<PlaceAutoCompletePrediction> placePredictions=RxList.empty();
-    
+   RxList<PlaceAutoCompletePrediction> placePredictions=RxList.empty();
+
 
   RxDouble zoomvalue=14.402209281921387.obs;
     late Position positionSetting;
 
 
 
-  Rx<CameraPosition> cameraPosition = const CameraPosition(
-          target: LatLng(20.42796133580664, 75.885749655962), zoom: 14.402209281921387)
+  Rx<CameraPosition> cameraPosition =  CameraPosition(
+          target: LatLng(Get.find<HomeController>().currentpharmacy.value.lat, Get.find<HomeController>().currentpharmacy.value.long), zoom: 14.402209281921387)
       .obs;
   RxList<Marker> markers = [
-   const Marker(
+    Marker(
       markerId: MarkerId("1"),
-      position: LatLng(20.42796133580664, 75.885749655962),
+      position: LatLng(Get.find<HomeController>().currentpharmacy.value.lat, Get.find<HomeController>().currentpharmacy.value.long),
       infoWindow: InfoWindow(title: "My Position"),
     ),
   ].obs;
 
-  Rx<PharmacyModel> currentUserData = PharmacyModel(lat:0.0,long:0.0).obs;
+  Rx<PharmacyModel> currentPharmacy = PharmacyModel(lat:0.0,long:0.0).obs;
 
-  RxString currentuserID = "".obs;
+  RxString currentPharmaciId = "".obs;
 
   @override
   void onInit() async {
-    currentUserData.value = await getInitialData();
-    currentUserData.bindStream(getCrruntUserData());
+    currentPharmacy.value =homeController.currentpharmacy.value ;
+    homeController.currentpharmacy.listen((p0) {
+      currentPharmacy.value=p0;
+      latitude.value=p0.lat;
+      longitude.value=p0.long;
+    },);
     
-   ever(currentUserData, _changeValues);
+   ever(currentPharmacy, _changeValues);
 
 
     cameraPosition.value = CameraPosition(target: LatLng(latitude.value,longitude.value), zoom: zoomvalue.value);
@@ -93,8 +97,11 @@ class GoogleMapServicers extends GetxController {
   updateCameraPosition() async {
     cameraPosition.value =
         CameraPosition(target: LatLng(latitude.value, longitude.value));
-    await mapController!
+        if(mapController!=null){
+          await mapController!
         .animateCamera(CameraUpdate.newCameraPosition(cameraPosition.value));
+        }
+    
   }
 
   //TODO: still not working
@@ -157,12 +164,12 @@ class GoogleMapServicers extends GetxController {
   longitude.value=positionSetting.longitude;
 } on Exception catch (e) {
           await Get.defaultDialog(
-      title: "Error",
+      title: "Error".tr,
       content: Text("$e"),
       actions: [
         CustomElevatedButton(width: 120, height: 60, onPressed: (){
           Get.back();
-        }, text: "Ok"),
+        }, text: "Ok".tr),
       ]
     );
 }
@@ -181,4 +188,5 @@ class GoogleMapServicers extends GetxController {
     String? address="  ${placemarks.first.thoroughfare!} - ${placemarks.first.locality!} - ${placemarks.first.subAdministrativeArea}";
     fullAddress.value=address;
   }
+
 }

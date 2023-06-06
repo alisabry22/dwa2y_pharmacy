@@ -142,24 +142,24 @@ class EditProduct extends GetView<ProductController> {
                                         items:  [
                                             DropdownMenuItem(
                                             value: "Capsules".tr,
-                                            child: Text("Capsules".tr,style: const TextStyle(fontSize: 16),),
+                                            child: Text("Capsules".tr,style: const TextStyle(fontSize: 14),),
 
                                           ),
                                           DropdownMenuItem(
                                 value: "Baby".tr,
-                                child: Text("Baby".tr,style: const TextStyle(fontSize: 16),),
+                                child: Text("Baby".tr,style: const TextStyle(fontSize: 14),),
                               ),
                                              DropdownMenuItem(
                                             value: "Syurp".tr,
-                                            child: Text("Syurp".tr,style: const TextStyle(fontSize: 16),),
+                                            child: Text("Syurp".tr,style: const TextStyle(fontSize: 14),),
                                           ),
                                              DropdownMenuItem(
                                 value: "Cosmatics".tr,
-                                child: Text("Cosmatics".tr,style: const TextStyle(fontSize: 16),),
+                                child: Text("Cosmatics".tr,style: const TextStyle(fontSize: 14),),
                               ),
                                            DropdownMenuItem(
                                 value: "Other".tr,
-                                child: Text("Other".tr,style: const TextStyle(fontSize: 16),),
+                                child: Text("Other".tr,style: const TextStyle(fontSize: 14),),
                               ),
                                         ],
                                         onChanged: (value) {

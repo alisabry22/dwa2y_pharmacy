@@ -179,7 +179,7 @@ class OrderDetails extends GetView<OrderController> {
                                     width:
                                         MediaQuery.of(context).size.width * 0.8,
                                     child: Text(
-                                      "${"Address".tr} : ${usercreatedOrder.addresses![usercreatedOrder.defaultAddressIndex!].street} ",
+                                      "${"Address".tr} :${usercreatedOrder.addresses![usercreatedOrder.defaultAddressIndex!].city}  ${usercreatedOrder.addresses![usercreatedOrder.defaultAddressIndex!].street} ${usercreatedOrder.addresses![usercreatedOrder.defaultAddressIndex!].blocknumber}  ${usercreatedOrder.addresses![usercreatedOrder.defaultAddressIndex!].floor}",
                                       softWrap: true,
                                       style: const TextStyle(
                                           fontWeight: FontWeight.w400,
@@ -267,27 +267,28 @@ class OrderDetails extends GetView<OrderController> {
                                                     duration: const Duration(
                                                         milliseconds: 30));
                                               } else {
-                                                if (controller.priceController
-                                                    .value.text.isNotEmpty) {
+                                                if (controller.priceController.value.text.isNotEmpty && controller.priceController.value.text!="0") {
                                                   //send notification back to user with customized price
-                                                  await notificationCont
-                                                      .sendNotificationback(
-                                                          order.orderid!,
-                                                          usercreatedOrder
-                                                              .token!,
-                                                          controller
-                                                              .priceController
-                                                              .value
-                                                              .text
-                                                              .trim(),
-                                                          FirebaseAuth.instance
-                                                              .currentUser!.uid,
-                                                          notificationCont
-                                                              .currentLoggedInPharmacy
-                                                              .value
-                                                              .username!,
-                                                          "Pharmacy Offer".tr,
-                                                          "${notificationCont.currentLoggedInPharmacy.value.username} ${"offers you".tr} ${controller.priceController.value.text.trim()} ${"New Offer For Your Order".tr}");
+                                                  var data={
+                                                        'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+                                                           'status': 'done',
+                                                           "orderid": order.orderid!,
+                                                           "price":controller.priceController.value.text.trim(),
+                                                           "pharmacyId":FirebaseAuth.instance .currentUser!.uid,
+                                                           "pharmacyName": notificationCont.currentLoggedInPharmacy.value.username!
+
+                                                  };
+                                                  if(usercreatedOrder.locale=="ar"){
+                                                                      //send arabic notification
+                                    await notificationCont .sendNotificationback(usercreatedOrder.token!,data,
+                                                          "عرض جديد لديك".tr, "${notificationCont.currentLoggedInPharmacy.value.username} يعرض عليك  ${controller.priceController.value.text.trim()} للطلب الخاص بكم سارع بالرد عليه ");
+                                                  }
+                                  
+                                                  else{
+                                                    //send english notification
+        await notificationCont .sendNotificationback(usercreatedOrder.token!,data,
+                                                          "New Offer For Your Order", "${notificationCont.currentLoggedInPharmacy.value.username} Offers You ${controller.priceController.value.text.trim()}  Get Back Fast!!");
+                                                  }
                                                   await notificationCont
                                                       .addtoNotification(
                                                     order.orderid!,
@@ -320,20 +321,26 @@ class OrderDetails extends GetView<OrderController> {
                                             width: 130,
                                             height: 50,
                                             onPressed: () async {
-                                              await notificationCont
-                                                  .sendRejectNotification(
-                                                      order.orderid!,
-                                                      usercreatedOrder.token!,
-                                                      FirebaseAuth.instance
-                                                          .currentUser!.uid,
-                                                      controller.currentPharmacy
-                                                          .value.username!,
-                                                      "Rejected your Order".tr,
-                                                      "${controller.currentPharmacy.value.username!}, ${"Rejected your Order".tr}");
-                                              await notificationCont
-                                                  .onRejectOrder(
-                                                      order.orderid!);
                                               Get.back();
+                                  var data={
+                                    'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+                                    'status': 'reject',
+                                    'order_id':orderid,
+                                   'pharmacyId': FirebaseAuth.instance.currentUser!.uid,
+                                    'pharmacyname':notificationCont.currentLoggedInPharmacy.value.username
+                                  };
+                                 if(usercreatedOrder.locale=="ar"){
+                                  //send arabic notification
+                                      await notificationCont.sendRejectNotification(usercreatedOrder.token!,data,"تم رفض طلبك",
+                                      "${notificationCont.currentLoggedInPharmacy.value.username},  رفضت الطلب المقدم منك ");
+                                await notificationCont.onRejectOrder(orderid);
+                                 }else{
+                                  //send english notification
+                                      await notificationCont.sendRejectNotification( usercreatedOrder.token!,data,
+                                          "Rejected your Order","${notificationCont.currentLoggedInPharmacy.value.username!}, Rejected your Order");
+                                await notificationCont.onRejectOrder(orderid);
+
+                                 }
                                             },
                                             text: "Reject".tr),
                                       ],

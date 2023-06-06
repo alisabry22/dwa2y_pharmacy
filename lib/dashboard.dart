@@ -1,10 +1,16 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dwa2y_pharmacy/Controllers/dashboard_controller.dart';
 import 'package:dwa2y_pharmacy/Controllers/home_controller.dart';
+import 'package:dwa2y_pharmacy/Models/user_model.dart';
 import 'package:dwa2y_pharmacy/Screens/ChatsPages/allchats.dart';
+import 'package:dwa2y_pharmacy/Screens/ChatsPages/chatscreen.dart';
 import 'package:dwa2y_pharmacy/home_screen.dart';
 import 'package:dwa2y_pharmacy/myorders.dart';
+import 'package:dwa2y_pharmacy/notification_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -27,6 +33,7 @@ class _DashboardState extends State<Dashboard> with WidgetsBindingObserver {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
   updateDeliveredmessages();
+  setupInteractionTerminate();
   }
   //once i open the app if there are any messages that is sent only change it to delviered
  Future updateDeliveredmessages()async{
@@ -52,7 +59,11 @@ List<String>   messagesIds=[];
         }
       });
       for (var element in messagesIds){
-        await  FirebaseFirestore.instance.collection("Chats").doc(doc).collection("messages").doc(element).update({"delivered":true});
+        await  FirebaseFirestore.instance.collection("Chats").doc(doc).collection("messages").doc(element).get().then((val){
+          if(val.exists &&val.get("delivered")!=true){
+            val.reference.update({"delivered":true});
+          }
+        });
       }
   }
 
@@ -79,6 +90,23 @@ await updateUserStatus("offline");
     }
   }
 
+  Future setupInteractionTerminate()async
+  {
+    RemoteMessage? initialMessage=await FirebaseMessaging.instance.getInitialMessage();
+  if(initialMessage!=null){
+      if(initialMessage.data["status"]=="chat"){
+        Get.to(()=>ChatScreen(customer:UserModel.fromJson(jsonDecode (initialMessage.data["customer"])) , chatid: initialMessage.data["chatid"]));
+       
+      } else if (initialMessage.data["status"]=="reject"){
+      Get.to(MyOrders());
+    }
+      
+      else{
+          Get.to(()=>Notifications());
+        }
+  }
+  }
+
   @override
   Widget build(BuildContext context) {
     return PersistentTabView(
@@ -96,9 +124,12 @@ await updateUserStatus("offline");
       popAllScreensOnTapOfSelectedTab: false,
       controller: Get.find<DashboardController>().persistentTabController,
       onItemSelected: (value) {
+        print(value);
         if(value==1){
           Get.find<HomeController>().badgeCounter.value=0;
+           Get.find<HomeController>().unreadMessages.value=0;
         }
+      
       },
       screens:  [
         HomeScreen(),
@@ -112,7 +143,20 @@ await updateUserStatus("offline");
             title: "Home ".tr,
             textStyle: const TextStyle(fontSize: 10)),
              PersistentBottomNavBarItem(
-            icon: const Icon(Icons.home),
+            icon:  GetX<HomeController>(
+                builder:(controller){
+              
+                  if(controller.unreadMessages.value!=0){
+                      return Badge(
+                     label: Text(controller.unreadMessages.value.toString()),
+                      child: Icon(Icons.chat)  ,
+                    );
+                  }else{
+                    return Icon(Icons.chat);
+                  }
+                },
+                 
+              ),
             title: "Chats".tr,
             textStyle: const TextStyle(fontSize: 10)),
    

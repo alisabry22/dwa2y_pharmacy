@@ -51,7 +51,6 @@ class NotificationController extends GetxController {
     FirebaseMessaging.onMessage.listen((event) async {
          orderId.value = event.data['order_id'];
       //customer requests order
-         log(event.data.toString());
 
       if(event.data["status"]=="done"){
               Get.find<HomeController>().badgeCounter.value++;
@@ -73,11 +72,14 @@ class NotificationController extends GetxController {
         contactCustomer(event.data);
          FlutterRingtonePlayer.playNotification();
       
+      }else if (event.data["status"]=="reject"){
+                Get.snackbar("Rejected your Order".tr, "${event.data["CustomerName"]} Rejected Your Offer".tr,snackPosition: SnackPosition.TOP,duration: const Duration(seconds: 2),backgroundColor: Colors.grey);
+
+      }else{
+        print(event.data["status"]);
+        Get.find<HomeController>().unreadMessages.value+=1;
       }
-      //customer rejects order
-      else {
-        Get.snackbar("Rejected your Order".tr, "${event.data["CustomerName"]} Rejected Your Offer".tr,snackPosition: SnackPosition.TOP,duration: const Duration(seconds: 2),backgroundColor: Colors.grey);
-      } 
+     
     });
   }
 
@@ -121,6 +123,7 @@ class NotificationController extends GetxController {
   }
 
   Future onRejectOrder(String orderid) async {
+    print(orderid);
     List<String> pharmaciesbefore = [];
     List<String> pharmaciesafter = [];
 
@@ -156,7 +159,7 @@ class NotificationController extends GetxController {
     }
   }
 
-  Future sendNotificationback(String orderid, String token, String? price,String pharmacyId, String pharmacyName,String title,String body) async {
+  Future sendNotificationback(String token,Map<String,dynamic>data,String title,String body) async {
     try {
       await http.post(
         Uri.parse('https://fcm.googleapis.com/fcm/send'),
@@ -167,20 +170,13 @@ class NotificationController extends GetxController {
         },
         body: jsonEncode(<String, dynamic>{
           'priority': 'high',
-          'data': {
-            'click_action': 'FLUTTER_NOTIFICATION_CLICK',
-            'status': 'done',
-            'order_id': orderid,
-            'price': price,
-            'pharmacyId': pharmacyId,
-            'pharmacyname': pharmacyName,
+          'data': data,
+          'notification':{
+            "title":title,
+            "body":body,
+            "android_channel_id": 'high_importance_channel'
           },
-          // 'notification': {
-          //   'order_id': orderid,
-          //   'price': price,
-          //   'title':title,
-          //   'body':body,
-          // },
+         
           'to': token,
         }),
       );
@@ -188,7 +184,7 @@ class NotificationController extends GetxController {
       log(e.toString());
     }
   }
-    Future sendRejectNotification(String orderid, String token,String pharmacyId, String pharmacyName,String title,String body) async {
+    Future sendRejectNotification( String token,Map<String,dynamic> data,String title,String body) async {
     try {
       await http.post(
         Uri.parse('https://fcm.googleapis.com/fcm/send'),
@@ -199,18 +195,13 @@ class NotificationController extends GetxController {
         },
         body: jsonEncode(<String, dynamic>{
           'priority': 'high',
-          'data': {
-            'click_action': 'FLUTTER_NOTIFICATION_CLICK',
-            'status': 'reject',
-            'order_id': orderid,
-            'pharmacyId': pharmacyId,
-            'pharmacyname': pharmacyName,
+          'data': data,
+          'notification':{
+            'title':title,
+            "body":body,
+         "android_channel_id": 'high_importance_channel'
           },
-          // 'notification': {
-          //   'order_id': orderid,
-          //   'title':title,
-          //   'body':body,
-          // },
+          
           'to': token,
         }),
       );

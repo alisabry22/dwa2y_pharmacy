@@ -3,7 +3,9 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dwa2y_pharmacy/Controllers/chat_controller.dart';
 import 'package:dwa2y_pharmacy/Controllers/home_controller.dart';
+import 'package:dwa2y_pharmacy/Controllers/localization_controller.dart';
 import 'package:dwa2y_pharmacy/Controllers/notification_controller.dart';
 import 'package:dwa2y_pharmacy/Models/address_model.dart';
 import 'package:dwa2y_pharmacy/Models/pharmacy_model.dart';
@@ -65,8 +67,8 @@ class AuthController extends GetxController {
    Future showAddressDialog()async{
       await Get.defaultDialog(
         barrierDismissible: false,
-        title: "Add First Address",
-        content: const Text("You Need To Add Your first Address "),
+        title: "Add First Address".tr,
+        content:  Text("You Need To Add Your first Address".tr),
         confirm: ElevatedButton(
           style: ElevatedButton.styleFrom(
              backgroundColor: Constants.btnColor,
@@ -76,7 +78,7 @@ class AuthController extends GetxController {
           onPressed: (){
           Get.off(()=>const  MyAddresses());
          
-        }, child: Text("Add Address",style: TextStyle(fontSize:16,color: Colors.white),)),
+        }, child: Text("Add Address".tr,style: TextStyle(fontSize:16,color: Colors.white),)),
       );
      }
 
@@ -106,6 +108,7 @@ class AuthController extends GetxController {
 
   //sign up pharmacy
   Future signUpWithEmailandPassword() async {
+     showLoadingDialog();
     try {
       final credential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
@@ -113,8 +116,10 @@ class AuthController extends GetxController {
               password: passwordController.value.text.trim());
 
       sharedprefs.setString("UserID", credential.user!.uid);
+     
       return [true, "login"];
     } on FirebaseAuthException catch (e) {
+       Get.back();
       return [false, e.code];
     }
   }
@@ -148,11 +153,14 @@ class AuthController extends GetxController {
       username: usernameController.value.text,
       phone: phoneController.value.text,
       countrycode: countrycode.value,
+       locale: Get.find<LanguageController>().locale.value.languageCode,
       token:"",
+      userid: FirebaseAuth.instance.currentUser!.uid,
       profileImageLink: photolink,
       email: emailController.value.text.trim(),
       lat: locationController.lat.value,
       long: locationController.long.value,
+      
       status: "online",
       createdAt: DateTime.now().toLocal().toString(),
       updatedAt: DateTime.now().toLocal().toString(),
@@ -180,7 +188,7 @@ class AuthController extends GetxController {
 
   //save in firebasefirestore
   Future saveWholeDataInDatabase() async {
-    showLoadingDialog();
+   
     String photourl = await uploadImageToDatabase();
     await saveDataInFirebase(photourl);
     Get.back();
@@ -219,6 +227,8 @@ class AuthController extends GetxController {
       await listener!.cancel();
     }
    await Get.delete<HomeController>();
+   await Get.delete<ChatController>();
+  
     await FirebaseAuth.instance.signOut();
   }
 

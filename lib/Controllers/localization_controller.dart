@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -31,5 +33,9 @@ class LanguageController extends GetxController{
   print("lnag controller write ${language.read("language")}");
 
 
+ }
+
+ Future updateLocaleDatabase(String lang)async{
+  await FirebaseFirestore.instance.collection("pharmacies").doc(FirebaseAuth.instance.currentUser!.uid).update({"locale":lang});
  }
 }

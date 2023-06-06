@@ -1,7 +1,7 @@
 import 'package:dwa2y_pharmacy/Controllers/order_controller.dart';
 import 'package:dwa2y_pharmacy/Models/user_model.dart';
 import 'package:dwa2y_pharmacy/Utils/Constants/constants.dart';
-import 'package:dwa2y_pharmacy/myorders.dart';
+import 'package:dwa2y_pharmacy/order_details.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -31,12 +31,12 @@ class CustomBottomSheet extends GetView {
             Text(
               "${"Order Number:".tr} $orderid",
               style: const TextStyle(
-                  fontSize: 16, color: Constants.textColor),
+                  fontSize: 14, color: Constants.textColor),
             ),
             Text(
                 "${"Customer Name:".tr}  ${usercreatedOrder.username} ${"accepted your offer".tr}",
                 style: const TextStyle(
-                    fontSize: 18, color: Constants.textColor)),
+                    fontSize: 14, color: Constants.textColor)),
             Center(
                 child: CustomElevatedButton(
                     width: MediaQuery.of(context).size.width * 0.6,
@@ -44,7 +44,7 @@ class CustomBottomSheet extends GetView {
                     onPressed: () async{
                       Get.find<OrderController>().getOrderDetails(orderid);
                       Get.back();
-                       Get.to(() => const MyOrders());
+                       Get.to(() =>  OrderDetails(orderid: orderid,usercreatedOrder: usercreatedOrder,));
              
                      
                       

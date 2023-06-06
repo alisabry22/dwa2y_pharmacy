@@ -167,7 +167,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   delivered: delivered,
                   sentat: DateTime.now());
               await controller.sendMessage(message, widget.chatid);
-              controller.sendNotificationMessage(widget.customer.token!, message);
+              controller.sendNotificationMessage(widget.chatid,widget.customer.token!, message);
             },
             actions: [
               InkWell(

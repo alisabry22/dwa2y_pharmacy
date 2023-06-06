@@ -39,16 +39,16 @@ class Languages extends Translations{
         "MyAccount":"حسابي",
         "Orders":"طلباتي",
         "Near Pharmacies":"الصيدليات القريبة",
-        "Home ":"الرئيسيه",
-        
+        "Home ":"الرئيسية",
+      
         "Personal Information":"معلوماتي",
         "Payment methods":"طرق الدفع",
         "Account Setting":"بيــانات الحــساب",
         "Billing Address":"عناويني",
-        "Help and Support":"طلب مساعده",
+        "Help and Support":"طلب مساعدة",
         "Logout":"تسجيل خروج",
-        "Languages":"مثل اللغه",
-        "Personal Data":"بيانات شخصيه",
+        "Languages":"مثل اللغة",
+        "Personal Data":"بيانات شخصية",
            "Name":"الأسم",
         "Gender":"النوع",
         "Birthday":"تاريخ الميلاد",
@@ -60,20 +60,22 @@ class Languages extends Translations{
         "Male":"ذكر",
         "Female":"أنثي",
         "Save":"حفظ",
-        "Default Language":"اللغه الأساسية",
+        "Default Language":"اللغه الرئيسية",
          "My Address":"عناويني",
         "Work":"العمل",
         "Delete":"حذف",
         "Edit":"تعديل",
-        "Street Name":"شارع",
+        ".Street Name or no":"أسم الشارع أو الرقم",
+        ".Block no":"رقم العقار",
+        "City":"المدينة",
         "floor":"الدور",
         "Apartment Number":"شقه رقم",
         "Add A New Address":"إضافة عنوان جديد",
-        "Default":"الأساسي",
+        "Default":"الرئيسي",
      "Long Press":"أضغط طويلا",
-        "Long Press On Address to Change Default Address":"أضغط علي العنوان لمده لكي تستطيع تغيير العنوان الأساسي ",
-        "Changed Address":"تغيير العنوان الأساسي",
-        "Changed Default Address to":"تم تغيير العنوان الأساسي الي ",
+        "Long Press On Address to Change Default Address":"أضغط علي العنوان لمده لكي تستطيع تغيير العنوان الرئيسي ",
+        "Changed Address":"تغيير العنوان الرئيسي",
+        "Changed Default Address to":"تم تغيير العنوان الرئيسي الي ",
         "Nearby Pharmacies":"الصيدليات القريبة",
         "Distance":"المسافه ",
         "KM":"كيلومتر",
@@ -145,6 +147,10 @@ class Languages extends Translations{
       "Succssefully Added Product":"تم أضافه منتج جديد",
       "fill fields":"أملأ الفراغات",
       "Please Fill All Required Fields":"من فضلك املأ الخانات الفارغة",
+      "Add First Address":"أضف عنوان لك",
+      "You Need To Add Your first Address":"يجب عليك إضافة عنوان",
+      "Add Address":"إضافة عنوان",
+
 
      //address
      "Additional Address Details":"معلومات أخري عن العنوان ",
@@ -158,7 +164,7 @@ class Languages extends Translations{
   //
   "Prescription":"روشته",
   "New Reminder":"تذكير جديد",
-  "Medicine Name":"أسم الدواء",
+  "Medicine Name":"أسم الدواء:",
    "Type":"النوع",
    " Time & Schedule ":"الوقت والتاريخ",
    "Duration":"المده",
@@ -184,7 +190,8 @@ class Languages extends Translations{
   "Turn On Gps":"قم بتشغيل ال gps",
   "Please Enable Gps And try Again...":"قم بتشغيل الجي بي أس وحاول مره أخري",
   "Ok":"موافق",
-"GPS Error":"خطأ في الجي بي أس",
+  
+     "OK":"تأكيد",
   //notification page
   "Notifications":"إشعارات",
   "Order Number:":" رقم الطلب : ",
@@ -234,7 +241,7 @@ class Languages extends Translations{
    //PharmacyProducts
   "Products":"المنتجات",
   "All":"الكل",
-  "Please Add More Products":"أضف منتجات جديده",
+  "Please Add More Products":"أضف منتجات جديدة",
   "Tap to View Details":"أضغط للتفاصيل ",
   "Try to Get Some Orders":"حاول الحصول علي طلبات من العملاء",
   
@@ -264,11 +271,23 @@ class Languages extends Translations{
 "Try To Reach Some Pharmacy":"لا يوجد محادثات حتي الأن",
 "Start Your Chat With Him now":"أبدأ المحادثه معه الأن",
 
+//home screen
+"Total Products":"عدد المنتجات",
+"Done Orders":"الطلبات المكتملة",
+"Pending Orders":"الطلبات المتعلقة",
+"Total Money":"حساب الطلبات",
+"Top Customer":"العميل الاهم",
       },
 
 
 
       'en':{
+        //home screen
+"Total Products":"Total Products",
+"Done Orders":"Done Orders",
+"Pending Orders":"Pending Orders",
+"Total Money":"Total Money",
+"Top Customer":"Top Customer",
         "3lagy":"3lagy",
         "Pharmacy App":"Deliver Medicine",
          "sign in":"Sign In To 3lagy",
@@ -329,7 +348,7 @@ class Languages extends Translations{
         "Work":"Work",
         "Delete":"Delete",
         "Edit":"Edit",
-        "Street Name":"Street Name",
+        ".Street Name or no":".Street Name or no",
         "floor":"floor",
         "Apartment Number":"Apartment Number",
         "Add A New Address":"Add A New Address",
@@ -398,7 +417,7 @@ class Languages extends Translations{
   "SAVE ADDRESS":"SAVE ADDRESS",
   "Delete Address":"Delete Address",
   "Are you sure you want to delete this address":"Are you sure you want to delete this address",
-  
+   ".Block no":".Block no",
   "Near to":"Near to",
 
   //prescriptions
@@ -456,6 +475,10 @@ class Languages extends Translations{
       "Succssefully Added Product":"Great",
       "fill fields":"fill fields",
       "Please Fill All Required Fields":"Please Fill All Required Fields",
+       "Add First Address": "Add First Address",
+      "You Need To Add Your first Address":"You Need To Add Your first Address",
+      "Add Address":"Add Address",
+
      //add reminder
        
   "New Reminder":"New Reminder",
@@ -499,6 +522,7 @@ class Languages extends Translations{
   "All":"All",
    
 
+       
   
   "Pharmacy don't have any products till yet!!":"Pharmacy don't have any products till yet!!",
     //shopping cart 

@@ -8,9 +8,9 @@ class UserModel {
 List<AddressModel>? addresses;
 int? defaultAddressIndex;
 String? status;
-
+String?locale;
   UserModel({
-
+      this.locale,
      this.username,
      this.phone,
      this.countrycode,
@@ -33,7 +33,7 @@ String? status;
       username:documentSnapshot.data().toString().contains("username")? documentSnapshot.get("username"):"",
       userid: documentSnapshot.id,
      status:documentSnapshot.data().toString().contains("status")?documentSnapshot.get("status"):"",
-
+      locale:       documentSnapshot.data().toString().contains("locale")?documentSnapshot.get("locale"):"",
       phone:documentSnapshot.data().toString().contains("phone")? documentSnapshot.get("phone"):"",
       token: documentSnapshot.data().toString().contains("token")?documentSnapshot.get("token"):"",
       createdAt:documentSnapshot.data().toString().contains("createdAt")? documentSnapshot.get("createdAt"):"",
@@ -50,9 +50,30 @@ String? status;
           );
   }
 
+ factory UserModel.fromJson(Map<String,dynamic>json){
+    return UserModel(
+      username: json["username"]!=null?json["username"]:"" ,
+      email: json["email"]!=null?json["email"]:"" ,
+      
+      birthday: json["birthday"]!=null?json["birthday"]:"" ,
+      token: json["token"]!=null?json["token"]:"" ,
+      createdAt: json["createdAt"]!=null?json["createdAt"]:"" ,
+      countrycode: json["countryCode"]!=null?json["countryCode"]:"" ,
+      gender: json["gender"]!=null?json["gender"]:"" ,
+      phone: json["phone"]!=null?json["phone"]:"" ,
+      profileImageLink: json["profileImageLink"]!=null?json["profileImageLink"]:"" ,
+      defaultAddressIndex: json["defaultAddressIndex"]!=null?json["defaultAddressIndex"]:"" ,
+      status: json["status"]!=null?json["status"]:"" ,
+      updatedAt: json["updatedAt"]!=null?json["updatedAt"]:"" ,
+      userid: json["userid"]!=null?json["userid"]:"" ,
+      lat: json["lat"]!=null?json["lat"]:"" ,
+     long: json["long"]!=null?json["long"]:"" ,);
+  }
+
   Map<String, dynamic> userModelToJson() => {
         "username": username,
         "phone": phone,
+        "userid":userid,
         "countryCode": countrycode,
         "birthday":birthday,
         "gender":gender,
@@ -60,6 +81,7 @@ String? status;
         "defaultAddressIndex":defaultAddressIndex,
         "profileImageLink": profileImageLink,
         "lat":lat,
+        "status":status,
         "long":long,
         "createdAt": createdAt,
         "updatedAt": updatedAt,

@@ -40,16 +40,19 @@ class AccountSettings extends GetView<LanguageController> {
                               width: 150,
                               height: 60,
                               onPressed: () async{
+                                Get.back();
                               await  controller.changeLanguage('en');
-                              Get.back();
+                              await controller.updateLocaleDatabase('en');
                               },
                               text: "English")
                           : CustomElevatedButton(
                               width: 100,
                               height: 60,
                               onPressed: ()async {
+                                 Get.back();
                                     await  controller.changeLanguage('ar');
-                                    Get.back();
+                                   
+                                     await controller.updateLocaleDatabase('ar');
 
                               },
                               text: "العربية"),

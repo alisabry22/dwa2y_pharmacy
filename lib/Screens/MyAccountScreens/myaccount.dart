@@ -102,97 +102,99 @@ class MyAccountPage extends GetView<MyAccountController> {
                   children: [
                     Obx(()=>    Text(controller.currentLoggedInPharmacy.value.username!=null?controller.currentLoggedInPharmacy.value.username!:"",
                         style: const TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w500,color: Constants.textColor)),),
+                            fontSize: 14, fontWeight: FontWeight.w500,color: Constants.textColor)),),
                     const SizedBox(
                       height: 5,
                     ),
                     Text("0${controller.currentLoggedInPharmacy.value.phone}",
-                        style: const TextStyle(fontSize: 16,color:Constants.textColor)),
+                        style: const TextStyle(fontSize: 14,color:Constants.textColor)),
                   ],
               
              
             ),
           ),
-          body: SizedBox(
-            width: MediaQuery.of(context).size.width,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 20, top: 40,right: 20),
-              child: Column(
-             
-                children: [
-                   Text(
-                    "MyAccount".tr,
-                    style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Constants.textColor,
-                  ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    height: MediaQuery.of(context).size.height * 0.5,
-                    
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Colors.white,
-                      boxShadow: const[ BoxShadow(blurRadius: 10,color: Colors.grey,spreadRadius: 0.5)],
+          body: SingleChildScrollView(
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 20, top: 40,right: 20),
+                child: Column(
+               
+                  children: [
+                     Text(
+                      "MyAccount".tr,
+                      style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Constants.textColor,
                     ),
-                    child:  SingleChildScrollView(
-                      child: Column(
-                        
-                        children: [
-                        
-                         CustomListTile(
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      height: MediaQuery.of(context).size.height * 0.5,
+                      
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.white,
+                        boxShadow: const[ BoxShadow(blurRadius: 10,color: Colors.grey,spreadRadius: 0.5)],
+                      ),
+                      child:  SingleChildScrollView(
+                        child: Column(
                           
-                          onTap: (){
-                          Get.to(()=>const PersonalInformation());
-                         }, leading: const Icon(Icons.person,color: Constants.textColor, ),title: "Personal Information".tr,),
-                         const Divider(
-                         thickness: 1,
-                          ),
-                        CustomListTile(onTap: (){
-                         Get.to(() => const AccountSettings());
-                        }, leading:const  Icon(Icons.settings,color: Constants.textColor, ),title: "Account Setting".tr,subtitile: "Languages".tr,),
-                         const Divider(
-                         thickness: 1,
-                          ),
-                        //  CustomListTile(onTap: (){}, leading: const Icon(Icons.payment_outlined,color: Constants.textColor, ),title:"Payment methods".tr,),
-                        // const Divider(
-                        //  thickness: 1,
-                        //   ),
-                         
+                          children: [
+                          
+                           CustomListTile(
+                            
+                            onTap: (){
+                            Get.to(()=>const PersonalInformation());
+                           }, leading: const Icon(Icons.person,color: Constants.textColor, ),title: "Personal Information".tr,),
+                           const Divider(
+                           thickness: 1,
+                            ),
+                          CustomListTile(onTap: (){
+                           Get.to(() => const AccountSettings());
+                          }, leading:const  Icon(Icons.settings,color: Constants.textColor, ),title: "Account Setting".tr,subtitile: "Languages".tr,),
+                           const Divider(
+                           thickness: 1,
+                            ),
+                          //  CustomListTile(onTap: (){}, leading: const Icon(Icons.payment_outlined,color: Constants.textColor, ),title:"Payment methods".tr,),
+                          // const Divider(
+                          //  thickness: 1,
+                          //   ),
                            
-                             CustomListTile(onTap: (){
-                              Get.to(()=>const MyAddresses());
-                            }, leading:const  Icon(Icons.home,color: Constants.textColor, ),title: "Address".tr ),
-                           
-                          
-                          
-                       const Divider(
-                         thickness: 1,
-                          ),
-                          CustomListTile(onTap: (){}, leading:const  Icon(Icons.help_center,color: Constants.textColor, ),title: "Help and Support".tr,),
-                        ],
+                             
+                               CustomListTile(onTap: (){
+                                Get.to(()=>const MyAddresses());
+                              }, leading:const  Icon(Icons.home,color: Constants.textColor, ),title: "Address".tr ),
+                             
+                            
+                            
+                         const Divider(
+                           thickness: 1,
+                            ),
+                            CustomListTile(onTap: (){}, leading:const  Icon(Icons.help_center,color: Constants.textColor, ),title: "Help and Support".tr,),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                   const SizedBox(height: 20,),
-                     Container(
-                        width: MediaQuery.of(context).size.width*0.8,
-                        height: MediaQuery.of(context).size.height*0.08,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow:const [BoxShadow(blurRadius: 10,color: Colors.grey,spreadRadius: 0.6)],
+                     const SizedBox(height: 20,),
+                       Container(
+                          width: MediaQuery.of(context).size.width*0.8,
+                          height: MediaQuery.of(context).size.height*0.08,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow:const [BoxShadow(blurRadius: 10,color: Colors.grey,spreadRadius: 0.6)],
+                      ),
+                      child: CustomListTile(title: "Logout".tr,onTap: ()async{
+                       await controller.accountController.logout();
+                      },),
                     ),
-                    child: CustomListTile(title: "Logout".tr,onTap: ()async{
-                     await controller.accountController.logout();
-                    },),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

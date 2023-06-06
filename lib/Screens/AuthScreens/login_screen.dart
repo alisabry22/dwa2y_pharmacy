@@ -41,13 +41,15 @@ class LoginScreen extends StatelessWidget {
                                  await controller.changeLanguage('en');
                                 }else{
                                   await controller.changeLanguage('ar');
+                               
+
                                 }
                               },
                               child:controller.locale.value==const Locale('ar')?   Text(
                                   "English",
-                                    style: TextStyle(decoration: TextDecoration.underline,fontSize: 16,fontWeight: FontWeight.bold)):          Text(
+                                    style: TextStyle(decoration: TextDecoration.underline,fontSize: 14,fontWeight: FontWeight.bold)):          Text(
                                   "العربية",
-                                    style: TextStyle(decoration: TextDecoration.underline,fontSize: 16,fontWeight: FontWeight.bold))
+                                    style: TextStyle(decoration: TextDecoration.underline,fontSize: 14,fontWeight: FontWeight.bold))
                                 
                                 
                                   
@@ -64,7 +66,7 @@ class LoginScreen extends StatelessWidget {
                   "Pharmacy App".tr,
                   style: const TextStyle(
                       color:Color.fromARGB(255, 3, 72, 128),
-                      fontSize: 20,
+                      fontSize: 16,
                       fontWeight: FontWeight.bold),
                 ),
                    const SizedBox(
@@ -152,7 +154,7 @@ class LoginScreen extends StatelessWidget {
                           child: Text(
                             "Forgot Password?".tr,
                             style: const TextStyle(
-                              fontSize: 16,
+                              fontSize: 14,
                               color: Constants.btnColor,
                               decoration: TextDecoration.underline,
                             ),
@@ -190,7 +192,7 @@ class LoginScreen extends StatelessWidget {
                       ),
                         const  SizedBox(
                             height: 15,
-                          ),
+                          ),  
                         
                         ],
                       )),

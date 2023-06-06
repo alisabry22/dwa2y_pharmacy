@@ -1,8 +1,11 @@
 
 
 
+import 'dart:developer';
+
 import 'package:dwa2y_pharmacy/Controllers/address_controller.dart';
 import 'package:dwa2y_pharmacy/Controllers/myaccount_controller.dart';
+import 'package:dwa2y_pharmacy/Screens/edit_address.dart';
 import 'package:dwa2y_pharmacy/Utils/Constants/constants.dart';
 import 'package:dwa2y_pharmacy/googlemap_page.dart';
 
@@ -25,7 +28,7 @@ class MyAddresses extends GetView<MyAccountController> {
           "My Address".tr,
           style: const TextStyle(
               color: Constants.textColor,
-              fontSize: 16,
+              fontSize: 14,
               fontWeight: FontWeight.w500),
         ),
         backgroundColor: Colors.white,
@@ -39,7 +42,8 @@ class MyAddresses extends GetView<MyAccountController> {
        
         child: GetX<MyAccountController>(
           builder: (controller) {
-            if(controller.currentLoggedInPharmacy.value.address!.street!=null){
+            log(controller.currentLoggedInPharmacy.value.address!.toString());
+            if(controller.currentLoggedInPharmacy.value.address!=null && controller.currentLoggedInPharmacy.value.address!.googleAddress!=null){
              return  Padding(
                                     padding: const EdgeInsets.all(15.0),
                                     child: Column(
@@ -71,8 +75,8 @@ class MyAddresses extends GetView<MyAccountController> {
                                                   width: 8,
                                                 ),
                                                Container(
-                                                        width: 60,
-                                                        height: 20,
+                                                        width: 70,
+                                                        height: 30,
                                                         decoration:
                                                             BoxDecoration(
                                                           borderRadius:
@@ -100,7 +104,9 @@ class MyAddresses extends GetView<MyAccountController> {
                                             
                                               children: [
                                                 TextButton(
-                                                    onPressed: () {},
+                                                    onPressed: () {
+                                                    Get.to(()=>EditAddress(address:controller.currentLoggedInPharmacy.value.address! ));
+                                                    },
                                                     child: Row(
                                                       children:  [
                                                         const Icon(
@@ -128,8 +134,9 @@ class MyAddresses extends GetView<MyAccountController> {
                                                             Get.back();
                                                           }, child:  Text("Cancel".tr)),
                                                           TextButton(onPressed: ()async{
+                                                               Get.back();
                                                            await Get.find<AddressController>().removeAddress();
-                                                           Get.back();
+                                                        
                                                           }, child:  Text("Confirm".tr)),
                               
                                                         ],
@@ -162,14 +169,16 @@ class MyAddresses extends GetView<MyAccountController> {
                                              Text("Name".tr,
                                                 style: const TextStyle(
                                                     color: Colors.grey,
+                                                    fontSize: 14,
                                                     fontWeight:
                                                         FontWeight.w500)),
                                             Padding(
                                               padding: const EdgeInsets.only(
-                                                  right: 150),
+                                                  right: 80),
                                               child: Text(
                                                 "${controller.currentLoggedInPharmacy.value.username} ",style: const TextStyle(
                                                     color: Colors.grey,
+                                                    fontSize: 14,
                                                     fontWeight:
                                                         FontWeight.w400),)
                                                 
@@ -186,6 +195,7 @@ class MyAddresses extends GetView<MyAccountController> {
                                           children: [
                                              Text("Address".tr,
                                                 style: const TextStyle(
+                                                  fontSize: 14,
                                                   color: Colors.grey,
                                                   fontWeight: FontWeight.w500,
                                                 )),
@@ -201,8 +211,9 @@ class MyAddresses extends GetView<MyAccountController> {
                                                   maxLines: 4,
                                                   style: const TextStyle(
                                                       color: Colors.grey,
+                                                      fontSize: 14,
                                                       fontWeight:
-                                                          FontWeight.w400),
+                                                          FontWeight.w300),
                                                 ),
                                               ),
                                             ),
@@ -218,15 +229,17 @@ class MyAddresses extends GetView<MyAccountController> {
                                              Text("Nearby".tr,
                                                 style: const TextStyle(
                                                     color: Colors.grey,
+                                                    fontSize: 14,
                                                     fontWeight:
                                                         FontWeight.w300)),
                                             Padding(
                                               padding: const EdgeInsets.only(
-                                                  right: 150),
+                                                  right: 100),
                                               child: Text(
                                                 "${controller.currentLoggedInPharmacy.value.address!.nearby} ",
                                                 style: const TextStyle(
                                                     color: Colors.grey,
+                                                    fontSize: 14,
                                                     fontWeight:
                                                         FontWeight.w500),
                                               ),
