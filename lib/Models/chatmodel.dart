@@ -7,7 +7,12 @@ class ChatMessage {
   bool? seen;
    String messagetype;
   String? pictureMessage;
-  // Add additional properties like image URL, seen status, etc.
+    String? voiceurl;
+  String?duration;
+  int? totalDurationInSec;
+  String? voiceFileName;
+    double? position;
+// Add additional properties like image URL, seen status, etc.
 
   ChatMessage({
     required this.sender,
@@ -18,28 +23,43 @@ class ChatMessage {
         this.pictureMessage,
     this.seen,
     this.delivered,
+            this.duration,
+  this.totalDurationInSec,
+          this.voiceFileName,
+        this.voiceurl,
+        this.position=0,
   });
 
   factory ChatMessage.fromJson(Map<String, dynamic> json) {
     return ChatMessage(
-        sender: json["sender"],
-        receiver: json["reciever"],
-             messagetype:json["messagetype"],
+     sender: json["sender"],
+        messagetype:json["messagetype"],
+        voiceFileName:json["voiceFileName"],
+        voiceurl:json["voice"],
       pictureMessage:json["pictureMessage"]!=null?json["pictureMessage"]:null,
-               delivered: json["delivered"]!=null?json["delivered"]:false,
+        delivered: json["delivered"]!=null?json["delivered"]:false,
         seen: json["seen"]!=null?json["seen"]:false,
+        receiver: json["reciever"],
+        
         message: json["message"],
+        totalDurationInSec:json["totalDurationInSec"],
+        duration:json["duration"],
         sentat: json["sentat"].toDate());
+        
         
   }
 
   Map<String, dynamic> toJson() => {
-        "sender": sender,
-        "reciever": receiver,
-          "delivered":delivered,
+  "sender": sender,
+        "delivered":delivered,
         "seen":seen,
-           "pictureMessage":pictureMessage,
+        "voice":voiceurl,
+        "duration":duration,
+        "totalDurationInSec":totalDurationInSec,
+        "voiceFileName":voiceFileName,
+        "pictureMessage":pictureMessage,
         "messagetype":messagetype,
+        "reciever": receiver,
         "message": message,
         "sentat": sentat,
       };

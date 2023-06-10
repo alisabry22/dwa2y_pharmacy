@@ -76,7 +76,7 @@ class NotificationController extends GetxController {
                 Get.snackbar("Rejected your Order".tr, "${event.data["CustomerName"]} Rejected Your Offer".tr,snackPosition: SnackPosition.TOP,duration: const Duration(seconds: 2),backgroundColor: Colors.grey);
 
       }else{
-        print(event.data["status"]);
+       
         Get.find<HomeController>().unreadMessages.value+=1;
       }
      

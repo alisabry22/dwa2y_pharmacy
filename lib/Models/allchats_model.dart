@@ -12,6 +12,8 @@ class AllChatsModel {
     String? chatId;
 int? customerTotalUnRead;
 int? pharmacyTotalUnRead;
+  String ? duration;
+
   AllChatsModel({
     this.lastmessage,
     this.senderId,
@@ -22,23 +24,25 @@ int? pharmacyTotalUnRead;
     this.customerTotalUnRead,
     this.pharmacyTotalUnRead,
     this.sendername,
+    this.duration,
   this.senderProfileImage,
   this.chatId,
   });
 
   factory AllChatsModel.fromsnapshot(DocumentSnapshot <Map<String,dynamic>> doc){
     return AllChatsModel(
-        senderId:doc.get("senderId")!=null?doc.get("senderId"):"",
-        chatId:doc.exists?doc.id:"",
-           customerTotalUnRead: doc.data().toString().contains("customerTotalUnRead")?doc.get("customerTotalUnRead"):null,
+     senderId:doc.get("senderId")!=null?doc.get("senderId"):"",
+        customerTotalUnRead: doc.data().toString().contains("customerTotalUnRead")?doc.get("customerTotalUnRead"):null,
         pharmacyTotalUnRead:doc.data().toString().contains("pharmacyTotalUnRead")?doc.get("pharmacyTotalUnRead"):null ,
-        senderProfileImage: doc.get("senderProfileImage")!=null?doc.get("senderProfileImage"):"",
-        receiverId: doc.get("receiverId")!=null?doc.get("receiverId"):"",
-        sendername:  doc.get("sendername")!=null?doc.get("sendername"):"",
-        receivername: doc.get("receivername")!=null?doc.get("receivername"):"",
-       receiverProfileImage: doc.get("receiverProfileImage")!=null?doc.get("receiverProfileImage"):"",
-       sentat: doc.get("sentat")!=null?doc.get("sentat").toDate():"",
-       lastmessage: doc.get("lastmessage")!=null?doc.get("lastmessage"):"",
+        chatId:doc.exists?doc.id:"",
+        duration: doc.data().toString().contains("duration")?doc.get("duration"):"",
+        senderProfileImage:doc.data().toString().contains("senderProfileImage")? doc.get("senderProfileImage"):"",
+        receiverId:doc.data().toString().contains("receiverId") ?doc.get("receiverId"):"",
+        sendername:doc.data().toString().contains("sendername")?doc.get("sendername"):"",
+        receivername: doc.data().toString().contains("receivername")?doc.get("receivername"):"",
+       receiverProfileImage:doc.data().toString().contains("receiverProfileImage")?doc.get("receiverProfileImage"):"",
+       sentat:doc.data().toString().contains("sentat")? doc.get("sentat").toDate() :"",
+       lastmessage:doc.data().toString().contains("lastmessage")?doc.get("lastmessage"):"",
 
     );
   

@@ -277,6 +277,10 @@ class Languages extends Translations{
 "Pending Orders":"الطلبات المتعلقة",
 "Total Money":"حساب الطلبات",
 "Top Customer":"العميل الاهم",
+//chat screen
+"Record Audio":"تسجيل الصوت",
+"Enable Audio Permission First":"حاول اعطاء طلب الحصول علي تسجيل الصوت",
+"Slide To Cancel":"أسحب للإلغاء",
       },
 
 
@@ -549,7 +553,10 @@ class Languages extends Translations{
 "Try To Reach Some Pharmacy":"Try To Reach Some Pharmacy",
 "Type your message here":"Type your message here",
 "Start Your Chat With Him now":"Start Your Chat With Him now",
-
+//chat screen
+"Record Audio":"Record Audio",
+"Enable Audio Permission First":"Enable Audio Permission First",
+"Slide To Cancel":"Slide To Cancel",
       },
   
   };

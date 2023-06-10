@@ -10,8 +10,11 @@ import 'package:dwa2y_pharmacy/Models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_sound/flutter_sound.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../Models/chatmodel.dart';
 import 'home_controller.dart';
@@ -19,26 +22,210 @@ import 'package:http/http.dart' as http;
 
 class ChatController extends GetxController{
   Rx<PharmacyModel> currentpharmacy=Get.find<HomeController>().currentpharmacy.value.obs;
-  Rx<TextEditingController> messageController=TextEditingController().obs;
+
     ScrollController scrollController=ScrollController();
+      Rx<TextEditingController> textEditingController = TextEditingController().obs;
+  RxBool btnSend = false.obs;
+  RxBool onLongpressed = false.obs;
     StreamSubscription? listener;
     Rx<UserModel> currentChatCustomer=UserModel(lat: 0.0, long: 0.0).obs;
    RxString pickedFile="".obs;  
+
+   //recordings variables
+     FlutterSoundRecorder _myRecorder = FlutterSoundRecorder();
+    FlutterSoundPlayer _player = FlutterSoundPlayer();
+      RxString recordingFilePath = "".obs;
+  RxInt recordingInSec = 0.obs;
+  RxInt recordingInMin = 0.obs;
+    RxInt totalDurationInSec = 0.obs;
+
+
+
   @override
+  void onInit()async {
+    super.onInit();
+    Get.find<HomeController>().currentpharmacy.listen((p0) {
+      currentpharmacy.value=p0;
+    });
+    getAllChats();
+        await _myRecorder.openRecorder();
+    await _player.openPlayer();
+    _myRecorder.setSubscriptionDuration(const Duration(milliseconds: 500));
+  }
+
+    @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    
+    
+    _myRecorder.closeRecorder();
+    _player.closePlayer();
+  }
+    @override
   void onClose() {
   
     super.onClose();
     if(listener!=null){
       listener!.cancel();
     }
+       _myRecorder.closeRecorder();
+    _player.closePlayer();
   }
-  @override
-  void onInit() {
-    super.onInit();
-    Get.find<HomeController>().currentpharmacy.listen((p0) {
-      currentpharmacy.value=p0;
+
+   Future<void> seekPlayer(double value) async {
+    await _player.seekToPlayer(Duration(seconds: value.toInt()));
+  }
+
+  Future fetchAudio(
+    String url,
+    String chatid,
+    String filename,
+  ) async {
+    try {
+    
+   
+      print("Chats/$chatid/$filename");
+      Directory tempdir = await getApplicationDocumentsDirectory();
+      String appdocumentspath = tempdir.path;
+      File file = File('$appdocumentspath/$filename');
+      if(await file.exists() && file.readAsBytes().toString().isNotEmpty){
+          print("the file is there");
+        }
+      else{
+          final voiceRef = FirebaseStorage.instance
+          .ref()
+          .child("Chats")
+          .child(chatid)
+          .child("$filename");
+      DownloadTask downtask = voiceRef
+          .writeToFile(file);
+          
+      downtask.snapshotEvents.listen((event) {
+        switch (event.state) {
+          case TaskState.paused:
+            print("paused");
+            break;
+          case TaskState.canceled:
+            print("cancelled");
+            break;
+          case TaskState.running:
+            print("running");
+            break;
+          case TaskState.success:
+            print("success");
+            break;
+          case TaskState.error:
+            print("error");
+            break;
+      }
+    
+      });
+    }
+    }
+     on FirebaseException catch (error) {
+      print(error.message);
+    }
+  }
+  
+  Future<bool> checkvoicePermission() async {
+    var audioPermission = await Permission.microphone.status;
+
+    if (audioPermission.isGranted) {
+      return true;
+    } else if (audioPermission.isPermanentlyDenied) {
+      await openAppSettings();
+    } else {
+      await Permission.microphone.request();
+    }
+    return false;
+  }
+
+  Future<bool> checkStoragePermission() async {
+    var storagePermisson = await Permission.storage.status;
+
+    if (storagePermisson.isGranted) {
+      return true;
+    } else if (storagePermisson.isPermanentlyDenied) {
+      await openAppSettings();
+    } else {
+      await Permission.storage.request();
+    }
+    return false;
+  }
+
+  /// Check permission if speech is allowed or not
+  Future<bool> isAllowedToRecord() async {
+    var speech = await checkvoicePermission();
+    var storage = await checkStoragePermission();
+    return speech && storage;
+  }
+
+//start recording
+  Future startRecording() async {
+    await _myRecorder.openRecorder();
+    await _myRecorder.startRecorder(toFile: 'audio');
+    _myRecorder.onProgress!.listen((event) {
+      print(event);
+      recordingInMin.value = event.duration.inMinutes.remainder(60);
+      recordingInSec.value = event.duration.inSeconds.remainder(60);
+      totalDurationInSec.value = event.duration.inSeconds;
     });
-    getAllChats();
+  }
+
+//stop the recorder
+  Future<void> stopRecorder() async {
+    recordingFilePath.value = (await _myRecorder.stopRecorder())!;
+  }
+
+  Future sendVoiceMessage(String chatid, int totalDurationInSec,
+      UserModel customer, String duration) async {
+    if (recordingFilePath.isNotEmpty) {
+      final chatsRef =
+          FirebaseStorage.instance.ref().child("Chats").child(chatid);
+
+      File file = File(recordingFilePath.value);
+      String path = DateTime.now().millisecondsSinceEpoch.toString()+".mp3";
+      UploadTask uploadTask = chatsRef.child(path).putFile(
+          file,
+          SettableMetadata(
+            contentType: 'audio/mp3',
+          ));
+
+      final TaskSnapshot snapshot = await uploadTask.whenComplete(() {});
+      final downloadurl = await snapshot.ref.getDownloadURL();
+
+      ChatMessage message = ChatMessage(
+        sender: FirebaseAuth.instance.currentUser!.uid,
+        receiver: customer.userid!,
+        duration: duration,
+        voiceFileName: path,
+        totalDurationInSec: totalDurationInSec,
+        delivered: currentChatCustomer.value.status != null &&
+                currentChatCustomer.value.status == "online"
+            ? true
+            : false,
+        message: "",
+        voiceurl: downloadurl,
+        sentat: DateTime.now().toLocal(),
+        messagetype: "voice",
+      );
+
+      await FirebaseFirestore.instance
+          .collection("Chats")
+          .doc(chatid)
+          .collection("messages")
+          .add(message.toJson());
+      await FirebaseFirestore.instance.collection("Chats").doc(chatid).update({
+        "voice": message.voiceurl,
+        "duration": duration,
+        "sentat": message.sentat,
+        "lastmessage": "voice",
+        "customerTotalUnRead": FieldValue.increment(1)
+      });
+
+      await sendNotificationMessage(chatid, customer.token!, message);
+    }
   }
 
  Stream<QuerySnapshot<Map<String, dynamic>>> getAllChats(){
@@ -139,7 +326,7 @@ pickedFile.value=imagepick.path;
         await FirebaseFirestore.instance.collection("Chats").doc(chatId).update({"lastmessage":"Photo","customerTotalUnRead":FieldValue.increment(1)});
 
     await FirebaseFirestore.instance.collection("Chats").doc(chatId).collection("messages").add(message.toJson());
-
+  await sendNotificationMessage(chatId, customer.token!, message);
   }
 
    Future? uploadPickedImageToStorage(String chatid)async{
@@ -185,6 +372,8 @@ pickedFile.value=imagepick.path;
            "title":currentpharmacy.value.username,
            "android_channel_id": 'high_importance_channel',
            "body":message.message,
+           "image":message.messagetype=="image"?message.pictureMessage:null,
+
           },
           'to': token,
         }),

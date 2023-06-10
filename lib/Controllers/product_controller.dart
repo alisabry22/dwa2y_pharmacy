@@ -32,9 +32,6 @@ RxString valueToUpdate="".obs;
   Stream<QuerySnapshot<Map<String, dynamic>>> getAllProducts(){
     
          return  FirebaseFirestore.instance.collection("Products").where('pharmacyId',isEqualTo: FirebaseAuth.instance.currentUser!.uid).snapshots();
-
-    
-  
     
   }
   Future addProduct( )async{
@@ -137,7 +134,7 @@ RxString valueToUpdate="".obs;
             .child(userid);
 
         File file = File(productImagePicked.value);
-        String path=file.path.split(Platform.pathSeparator).last.toString()+DateTime.now().microsecondsSinceEpoch.toString();
+        String path=DateTime.now().microsecondsSinceEpoch.toString()+file.path.split(Platform.pathSeparator).last.toString();
         UploadTask uploadTask = storage.child(path).putFile(file);
 
         final TaskSnapshot snapshot = await uploadTask.whenComplete(() {});

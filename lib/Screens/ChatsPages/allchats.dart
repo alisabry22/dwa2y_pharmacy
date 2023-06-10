@@ -29,7 +29,97 @@ class AllChats extends GetView<ChatController> {
                     AllChatsModel chatModel =
                         AllChatsModel.fromsnapshot(snapshot.data!.docs[index]);
 
-                    return Material(
+                    if(chatModel.lastmessage=="voice"){
+
+                       return Material(
+                      
+                      child: InkWell(
+                        onTap: ()async{
+                    
+                          UserModel userModel=await controller.getInitialUserDetails(chatModel.senderId!);
+                         Get.to(()=>ChatScreen(customer: userModel,chatid: chatModel.chatId!,));
+                        },
+                        child:  Ink(
+                          child: Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: Container(
+                              width: MediaQuery.of(context).size.width,
+                             
+                              height: 50,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      CircleAvatar(
+                                backgroundImage: chatModel.senderProfileImage !=
+                                                null &&
+                                            chatModel.senderProfileImage!.isNotEmpty
+                                        ? CachedNetworkImageProvider(
+                                                chatModel.senderProfileImage!)
+                                            as ImageProvider
+                                        : AssetImage("assets/images/patient.png"),
+                              ),
+                              SizedBox(width: 15,),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+
+                                children: [
+                                      Text(
+                                        chatModel.sendername!,
+                                        style: TextStyle(fontSize: 14),
+                                      ),
+                                       Row(
+                                         children: [
+                                              Icon(Icons.mic,color: Colors.grey,size: 16,),
+                                           Text(chatModel.duration!,
+                                              style: TextStyle(
+                                                overflow: TextOverflow.ellipsis,
+                                                  fontSize: 12, color: Colors.grey)),
+                                         ],
+                                       ),
+                                       
+                                ],
+                              ),
+                                    ],
+                                  ),
+                                       Column(
+                                             mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                         children: [
+                         
+                                           Text(
+                                            int.parse(chatModel.sentat!
+                                                        .toString()
+                                                        .substring(11, 13)) >=
+                                                    12
+                                                ? "${int.parse(chatModel.sentat.toString().substring(11, 13)) - 12}:${chatModel.sentat.toString().substring(14, 16)}${"PM".tr}"
+                                                : "${chatModel.sentat!.toString().substring(11, 16)}${"AM".tr}",
+                                            style: TextStyle(
+                                                fontSize: 12, color: Colors.grey),
+                                      ),
+                                       badges.Badge(
+                                    badgeStyle:badges.BadgeStyle(badgeColor: Color(0xff4062BB)),
+                                    badgeContent:chatModel.pharmacyTotalUnRead!=null && chatModel.pharmacyTotalUnRead!=0? Text(chatModel.pharmacyTotalUnRead.toString(),style: TextStyle(color: Colors.white),):Container(),
+                                    showBadge: chatModel.pharmacyTotalUnRead!=null && chatModel.pharmacyTotalUnRead!=0?true:false,
+                                  ),
+                                   
+                                         ],
+                                       ),
+                                ],
+                              ),
+                            ),
+                          ),
+                     
+                        ),
+                      ),
+                    );
+                    }else{
+                       return Material(
                       
                       child: InkWell(
                         onTap: ()async{
@@ -110,6 +200,7 @@ class AllChats extends GetView<ChatController> {
                         ),
                       ),
                     );
+                    }
                   },
                   separatorBuilder: (context, index) {
                     return SizedBox(height: 5,);
