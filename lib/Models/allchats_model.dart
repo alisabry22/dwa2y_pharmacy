@@ -13,7 +13,8 @@ class AllChatsModel {
 int? customerTotalUnRead;
 int? pharmacyTotalUnRead;
   String ? duration;
-
+  bool?seen;
+  bool?delivered;
   AllChatsModel({
     this.lastmessage,
     this.senderId,
@@ -27,6 +28,8 @@ int? pharmacyTotalUnRead;
     this.duration,
   this.senderProfileImage,
   this.chatId,
+  this.seen,
+  this.delivered,
   });
 
   factory AllChatsModel.fromsnapshot(DocumentSnapshot <Map<String,dynamic>> doc){
@@ -35,6 +38,9 @@ int? pharmacyTotalUnRead;
         customerTotalUnRead: doc.data().toString().contains("customerTotalUnRead")?doc.get("customerTotalUnRead"):null,
         pharmacyTotalUnRead:doc.data().toString().contains("pharmacyTotalUnRead")?doc.get("pharmacyTotalUnRead"):null ,
         chatId:doc.exists?doc.id:"",
+        seen: doc.data().toString().contains("seen")?doc.get("seen"):false,
+        delivered: doc.data().toString().contains("delivered")?doc.get("delivered"):false,
+
         duration: doc.data().toString().contains("duration")?doc.get("duration"):"",
         senderProfileImage:doc.data().toString().contains("senderProfileImage")? doc.get("senderProfileImage"):"",
         receiverId:doc.data().toString().contains("receiverId") ?doc.get("receiverId"):"",

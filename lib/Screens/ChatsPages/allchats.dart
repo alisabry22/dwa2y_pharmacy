@@ -80,6 +80,8 @@ class AllChats extends GetView<ChatController> {
                                               style: TextStyle(
                                                 overflow: TextOverflow.ellipsis,
                                                   fontSize: 12, color: Colors.grey)),
+
+                                                
                                          ],
                                        ),
                                        
