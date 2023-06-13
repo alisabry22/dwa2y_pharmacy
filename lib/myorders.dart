@@ -161,7 +161,7 @@ class MyOrders extends GetView<OrderController> {
                                           shadowColor: Colors.grey,
                                           child: ListTile(
                                             title: Text(
-                                              order.orderDate!,
+                                                order.orderDate!.toString().substring(0,11),
                                               style: const TextStyle(
                                                   color: Colors.black,fontSize: 14),
                                             ),
@@ -208,7 +208,7 @@ class MyOrders extends GetView<OrderController> {
                                           shadowColor: Colors.grey,
                                           child: ListTile(
                                             title: Text(
-                                              order.orderDate!,
+                                              order.orderDate!.toString().substring(0,11),
                                               style: const TextStyle(fontSize: 14)
                                             ),
                                             trailing: Text(order.orderStatus!.tr,style: const TextStyle(fontSize: 12)),

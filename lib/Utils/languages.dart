@@ -281,6 +281,7 @@ class Languages extends Translations{
 "Record Audio":"تسجيل الصوت",
 "Enable Audio Permission First":"حاول اعطاء طلب الحصول علي تسجيل الصوت",
 "Slide To Cancel":"أسحب للإلغاء",
+'this field is required':"هذا الحقل اجباري",
       },
 
 
@@ -557,6 +558,7 @@ class Languages extends Translations{
 "Record Audio":"Record Audio",
 "Enable Audio Permission First":"Enable Audio Permission First",
 "Slide To Cancel":"Slide To Cancel",
+'this field is required':'this field is required',
       },
   
   };

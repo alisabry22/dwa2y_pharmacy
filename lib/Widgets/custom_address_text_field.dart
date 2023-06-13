@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 
 class CustomAddressField extends StatelessWidget {
@@ -11,7 +12,7 @@ class CustomAddressField extends StatelessWidget {
     return  TextFormField(
                       validator: (value) {
                         if(value==null || value.isEmpty){
-                          return 'this field is required';
+                          return 'this field is required'.tr;
                         }else{
                           return null;
                         }

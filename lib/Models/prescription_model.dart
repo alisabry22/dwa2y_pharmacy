@@ -4,10 +4,11 @@ import 'package:dwa2y_pharmacy/Models/address_model.dart';
 class PrescriptionOrder {
   String? userMadeOrder;
   List<String>? pickedImages;
-  String? paymentMethod,orderDate,orderStatus,acceptedby,orderid,amount;
+  String? paymentMethod,orderStatus,acceptedby,orderid,amount;
   AddressModel? userAddress;
   String?text;
- 
+   DateTime? orderDate;
+
   String? orderType;
 
   PrescriptionOrder({
@@ -33,7 +34,7 @@ class PrescriptionOrder {
         pickedImages:documentSnapshot.data().toString().contains("Images")?(documentSnapshot.get("Images") as List).map((e) => e as String).toList():List.empty(),
         paymentMethod: documentSnapshot.get("paymentMethod") ?? "In Cash",
         acceptedby: documentSnapshot.get("Acceptedby")??"",
-        orderDate: documentSnapshot.get("OrderDate")??"",
+        orderDate: documentSnapshot.get("OrderDate").toDate()??"",
         text:documentSnapshot.data().toString().contains("text")?documentSnapshot.get("text"):"",
         orderStatus: documentSnapshot.get("OrderStatus")??"",
         orderType: documentSnapshot.get("OrderType") ?? "Delivery");

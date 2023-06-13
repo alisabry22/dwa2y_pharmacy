@@ -123,7 +123,7 @@ class OrderDetails extends GetView<OrderController> {
                                 )
                               : Container(),
                           Text(
-                            "${"Order Date".tr} : ${order.orderDate}",
+                            "${"Order Date".tr} : ${  order.orderDate!.toString().substring(0,11)}",
                             style: const TextStyle(fontSize: 14),
                           ),
                           const SizedBox(

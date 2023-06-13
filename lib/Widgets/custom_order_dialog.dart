@@ -127,7 +127,7 @@ class CustomOrderDialog extends GetView<NotificationController> {
                         ),
                         Expanded(
                           child: Text(
-                            " ${prescriptionOrder.userAddress!.street} ",
+                            " ${prescriptionOrder.userAddress!.city} ${prescriptionOrder.userAddress!.street} ${prescriptionOrder.userAddress!.blocknumber} ",
                                             softWrap: true,
                           ),
                         ),
