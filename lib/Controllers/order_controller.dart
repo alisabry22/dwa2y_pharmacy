@@ -58,7 +58,7 @@ Future changeOrderStatusToDelivered(String orderid)async{
   });
 }
 Future deleteOrders()async{
-  print(selectedOrders.value.length);
+  print(selectedOrders.length);
  
     await FirebaseFirestore.instance.collection("Orders")
     .where("userMadeOrder",isEqualTo: FirebaseAuth.instance.currentUser!.uid).get().then((value) {

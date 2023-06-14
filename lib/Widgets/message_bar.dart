@@ -21,16 +21,16 @@ class ChatMessageBar extends StatefulWidget {
    required this.textEditingController,
   });
   final void Function(String) onsend;
-  void Function(DismissDirection)? onDismissed;
-  bool onLongpressed;
-  void Function()? onLongPress;
-  void Function()? onCameraPressed;
-  Function(LongPressEndDetails)? onLongPressEnd;
-  bool micShown;
-  String? recordInSec;
-  Function(DragEndDetails)? onHorizontalDrag;
+final  void Function(DismissDirection)? onDismissed;
+ final bool onLongpressed;
+final  void Function()? onLongPress;
+ final void Function()? onCameraPressed;
+ final Function(LongPressEndDetails)? onLongPressEnd;
+ final bool micShown;
+final  String? recordInSec;
+ final Function(DragEndDetails)? onHorizontalDrag;
   final TextEditingController textEditingController;
-  void Function(String)? onTextChanged;
+ final void Function(String)? onTextChanged;
 
   @override
   State<ChatMessageBar> createState() => _ChatMessageBarState();
