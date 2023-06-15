@@ -8,7 +8,7 @@ class PrescriptionOrder {
   AddressModel? userAddress;
   String?text;
    DateTime? orderDate;
-
+ bool? hideForCustomer,hideForPharmacy;
   String? orderType;
 
   PrescriptionOrder({
@@ -22,6 +22,8 @@ class PrescriptionOrder {
      this.orderStatus,
      this.orderid,
      this.text,
+        this.hideForCustomer,
+     this.hideForPharmacy,
      this.amount,
   });
 
@@ -29,6 +31,8 @@ class PrescriptionOrder {
     return PrescriptionOrder(
         userMadeOrder:documentSnapshot.get("userMadeOrder")??"",
         orderid: documentSnapshot.id,
+                   hideForCustomer:documentSnapshot.data().toString().contains("hideForCustomer")?documentSnapshot.get("hideForCustomer"):null,
+            hideForPharmacy:documentSnapshot.data().toString().contains("hideForPharmacy")?documentSnapshot.get("hideForPharmacy"):null,
         userAddress:documentSnapshot.data().toString().contains("customerAddress")?AddressModel.fromJson(documentSnapshot.get("customerAddress")):AddressModel(),
         amount: documentSnapshot.get("amount")??"",
         pickedImages:documentSnapshot.data().toString().contains("Images")?(documentSnapshot.get("Images") as List).map((e) => e as String).toList():List.empty(),
@@ -47,7 +51,8 @@ class PrescriptionOrder {
    "amount": amount,
     "OrderType":orderType,
     "orderStatus":orderStatus,
-    
+      "hideForPharmacy":hideForPharmacy,
+  "hideForCustomer":hideForCustomer,
     "orderid":orderid,
     "text":text,
   };

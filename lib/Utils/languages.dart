@@ -282,6 +282,7 @@ class Languages extends Translations{
 "Enable Audio Permission First":"حاول اعطاء طلب الحصول علي تسجيل الصوت",
 "Slide To Cancel":"أسحب للإلغاء",
 'this field is required':"هذا الحقل اجباري",
+"Invite Customers To the App":"قم بدعوة بعض العملاء الي الأبليكيشن",
       },
 
 
@@ -559,6 +560,8 @@ class Languages extends Translations{
 "Enable Audio Permission First":"Enable Audio Permission First",
 "Slide To Cancel":"Slide To Cancel",
 'this field is required':'this field is required',
+"Invite Customers To the App":"Invite Customers To the App",
+
       },
   
   };

@@ -365,7 +365,7 @@ class OrderDetails extends GetView<OrderController> {
                                                                   
                                           onPressed: () async {
                                             await controller
-                                                .changeOrderStatusToDelivered(orderid);
+                                                .changeOrderStatusToDelivered(orderid,usercreatedOrder,"delivered");
                                                 order.orderStatus="Delivered";
                                           },
                                           text: "Set to Delivered".tr),
